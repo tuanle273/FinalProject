@@ -1,8 +1,21 @@
-POST http://localhost:5000/api/auth/register
+POST  http://localhost:5000/api/auth/register
 
 Content-Type: application/json
 
 {
-    "username": "tuanle32",
-    "passwords": "1234"
+    "username": "admin",
+    "password": "password"
+}
+
+
+###
+
+http://localhost:5000/api/posts
+Content-Type: application/json
+Authorization: Bearer wqewqweqe
+{
+	"title": "13st post",
+	"description": "abc",
+	"url": "shopee.com",
+	"status": "leaning"
 }
