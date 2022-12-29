@@ -12,10 +12,5 @@ Content-Type: application/json
 
 http://localhost:5000/api/posts
 Content-Type: application/json
-Authorization: Bearer wqewqweqe
-{
-	"title": "13st post",
-	"description": "abc",
-	"url": "shopee.com",
-	"status": "leaning"
-}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2M2E1MDFlNmUxMzYyZWVlZWEyZGE0MzciLCJpYXQiOjE2NzE3NjQyNDZ9.1M783PnGJ3B5JY-SIA2mFFIGxlrlt7Z7_KTp-xCwAjs
+

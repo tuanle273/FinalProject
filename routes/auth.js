@@ -3,9 +3,6 @@ const router = express.Router();
 const argon2 = require("argon2");
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.set("view engine", "ejs");
 router.get("/", (req, res) => res.send("USER ROUTE"));
 // route Post api/auth/register
 // desc Register user
