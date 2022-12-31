@@ -6,7 +6,6 @@ const Auth = ({ authRoute }) => {
 
   body = (
     <>
-      Auth Form
       {authRoute === "login" && <LoginForm />}
       {authRoute === "register" && <RegisterForm />}
     </>
@@ -14,10 +13,7 @@ const Auth = ({ authRoute }) => {
   return (
     <div className="landing">
       <div className="dark-overlay">
-        <div className="landing-inner">
-          <h1>Auth</h1>
-          {body}
-        </div>
+        <div className="landing-inner">{body}</div>
       </div>
     </div>
   );
