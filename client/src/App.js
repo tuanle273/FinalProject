@@ -4,6 +4,7 @@ import "./App.css";
 import Landing from "./components/layout/Landing";
 import NotFound from "./components/pages/NotFound";
 import ProtectedRoute from "./components/routing/ProtectedRoute";
+
 import AuthContextProvider from "./contexts/AuthContext";
 import Auth from "./views/Auth";
 import Home from "./views/Home";
