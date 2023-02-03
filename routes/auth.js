@@ -3,7 +3,25 @@ const router = express.Router();
 const argon2 = require("argon2");
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
-router.get("/", (req, res) => res.send("USER ROUTE"));
+const verifyToken = require("../middlewares/auth");
+// @route GET api/auth
+// @des Check if user is logged in
+//@access public
+
+router.get("/", verifyToken, async (req, res) => {
+  try {
+    const user = await User.findById(req.userId).select("-password");
+    if (!user)
+      return res
+        .status(400)
+        .json({ success: false, message: "user not found" });
+    res.json({ success: true, user });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, message: "Internal Server Error" });
+  }
+});
+
 // route Post api/auth/register
 // desc Register user
 // access Public
@@ -22,7 +40,7 @@ router.post("/register", async (req, res) => {
       return res
         .status(400)
         .json({ success: false, message: "Username already taken" });
-    //All goood
+    //All good
     const hashedPassword = await argon2.hash(password);
     const newUser = new User({ username, password: hashedPassword, email });
     await newUser.save();
@@ -58,7 +76,7 @@ router.post("/login", async (req, res) => {
     if (!user)
       return res.status(400).json({
         success: false,
-        message: "Username not found",
+        message: "Incorrect username or password",
       });
     //username Found
     const passwordValid = await argon2.verify(user.password, password);
