@@ -7,13 +7,12 @@ import ProtectedRoute from "./components/routing/ProtectedRoute";
 
 import AuthContextProvider from "./contexts/AuthContext";
 import Auth from "./views/Auth";
-import Home from "./views/Home";
 function App() {
   return (
     <AuthContextProvider>
       <Router>
         <Switch>
-          <Route exact path="/" component={Landing}></Route>
+          <ProtectedRoute exact path="/" component={Landing}></ProtectedRoute>
           <Route
             exact
             path="/login"
@@ -24,7 +23,7 @@ function App() {
             path="/register"
             render={(props) => <Auth {...props} authRoute="register" />}
           ></Route>
-          <ProtectedRoute exact path="/home" component={Home}></ProtectedRoute>
+
           <Route path="*">
             <NotFound />
           </Route>

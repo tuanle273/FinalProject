@@ -1,15 +1,13 @@
 import { useContext, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import { useHistory } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
 import AlertMessage from "../layout/AlertMessage";
 
 const LoginForm = () => {
   // COntext
   const { loginUser } = useContext(AuthContext);
-  //Router
-  const history = useHistory();
+
   //Local state
   const [loginForm, setLoginForm] = useState({
     username: "",
