@@ -1,7 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../contexts/AuthContext";
 
 const NavbarMain = () => {
+  const { logoutUser } = useContext(AuthContext);
+
+  const logout = () => logoutUser();
   return (
     <nav class="bg-white border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-900">
       <div class="container flex flex-wrap items-center justify-between mx-auto">
@@ -21,6 +25,7 @@ const NavbarMain = () => {
           <button
             type="button"
             class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            onClick={logout}
           >
             Log Out
             <svg

@@ -79,9 +79,17 @@ const AuthContextProvider = ({ children }) => {
         };
     }
   };
+  //Logout
 
+  const logoutUser = () => {
+    localStorage.removeItem(LOCAL_STORAGE_TOKEN_NAME);
+    dispatch({
+      type: "SET_AUTH",
+      payload: { isAuthenticated: false, user: null },
+    });
+  };
   //context data
-  const authContextData = { loginUser, registerUser, authState };
+  const authContextData = { loginUser, registerUser, logoutUser, authState };
   return (
     <AuthContext.Provider value={authContextData}>
       {children}
