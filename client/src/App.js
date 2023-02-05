@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
 import Landing from "./components/layout/Landing";
+import UserProfile from "./components/pages/UserProfile";
 import About from "./components/pages/About";
 import NotFound from "./components/pages/NotFound";
 import ProtectedRoute from "./components/routing/ProtectedRoute";
@@ -12,6 +13,11 @@ function App() {
     <AuthContextProvider>
       <Router>
         <Switch>
+          <ProtectedRoute
+            exact
+            path="/profile"
+            component={UserProfile}
+          ></ProtectedRoute>
           <ProtectedRoute
             exact
             path="/about"
