@@ -10,8 +10,6 @@ const UserSchema = new Schema({
   email: {
     type: String,
     required: [true, "is required"],
-    unique: true,
-    index: true,
     validate: {
       validator: function (str) {
         return /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g.test(str);
@@ -40,6 +38,11 @@ const UserSchema = new Schema({
   notifications: {
     type: Array,
     default: [],
+  },
+  avatar: {
+    type: String,
+    default:
+      "https://res.cloudinary.com/duax5havz/image/upload/v1675608212/istockphoto-1131164548-612x612_tta6jg.jpg",
   },
   createdAt: {
     type: Date,

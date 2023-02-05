@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+import { Link } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
 import AlertMessage from "../layout/AlertMessage";
 
@@ -58,6 +59,14 @@ const LoginForm = () => {
           Login
         </Button>
       </Form>
+      <div class="mx-7 my-3 flex justify-between text-sm font-semibold">
+        <div class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+          <Link to="/ForgotPass">Forget Password</Link>
+        </div>
+        <div class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+          <Link to="/register">Sign Up</Link>
+        </div>
+      </div>
     </div>
   );
 };
