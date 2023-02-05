@@ -6,10 +6,10 @@ const NavbarMain = () => {
   const {
     authState: {
       user: { username },
+      
     },
     logoutUser,
   } = useContext(AuthContext);
-  console.log("🚀 ~ file: NavbarMain.js:7 ~ NavbarMain ~ authState", username);
 
   const logout = () => logoutUser();
   return (
