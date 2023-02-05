@@ -3,7 +3,13 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
 
 const NavbarMain = () => {
-  const { logoutUser } = useContext(AuthContext);
+  const {
+    authState: {
+      user: { username },
+    },
+    logoutUser,
+  } = useContext(AuthContext);
+  console.log("🚀 ~ file: NavbarMain.js:7 ~ NavbarMain ~ authState", username);
 
   const logout = () => logoutUser();
   return (
@@ -20,7 +26,7 @@ const NavbarMain = () => {
           </span>
         </a>
         <div class="items-center md:order-2">
-          <Link>Welcome </Link>
+          <Link>Welcome {username}</Link>
 
           <button
             type="button"

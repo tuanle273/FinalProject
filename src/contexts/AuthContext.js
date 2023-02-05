@@ -9,7 +9,7 @@ const AuthContextProvider = ({ children }) => {
   const [authState, dispatch] = useReducer(authReducer, {
     authLoading: true,
     isAuthenticated: false,
-    user: null,
+    user: [],
   });
 
   //Authenticate user
