@@ -1,3 +1,11 @@
+const express = require("express");
+const { response } = require("../index");
+const router = express.Router();
+const verifyToken = require("../middlewares/auth");
+const Post = require("../models/Post");
+const User = require("../models/User");
+const postController = require("../controllers/postController");
+
 const getPost = async (req, res) => {
   try {
     const user = await User.findById(req.userId).select("-password");
@@ -47,9 +55,53 @@ const updatePost = async (req, res) => {
     res.status(500).json({ success: false, message: "Internal Server Error" });
   }
 };
+const createPost = async (req, res) => {
+  const { title, description, url, status } = req.body;
 
+  if (!title)
+    return res
+      .status(404)
+      .json({ success: false, message: "Title is required" });
+  try {
+    const newPost = new Post({
+      title,
+      description,
+      url: url.startsWith("https://") ? url : "https://" + url,
+      status: status || "TO LEARN",
+      user: "63a9aa280a35ee156c5a0f5a",
+    });
+    await newPost.save();
+
+    res.json({ success: true, message: "Happy Learning!", post: newPost });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, message: "Internal Server Error" });
+  }
+};
+
+const deletePost = async (req, res) => {
+  try {
+    const postDeleteCondition = { _id: req.params.id, user: req.userId };
+    const deletedPost = await Post.findOneAndDelete(postDeleteCondition);
+
+    if (deletedPost)
+      return res.status(401).json({
+        success: false,
+        message: "Post not found or user not authorized",
+      });
+    res.json({
+      success: true,
+      message: "Delete Successfully",
+      post: deletedPost,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, message: "Internal Server Error" });
+  }
+};
 module.exports = {
   getPost,
   updatePost,
-  verifyUser,
+  createPost,
+  deletePost,
 };
