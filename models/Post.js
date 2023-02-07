@@ -6,13 +6,47 @@ const PostSchema = new Schema({
     type: String,
     required: true,
   },
+  model: {
+    type: String,
+    default: "",
+  },
+  color: {
+    type: String,
+    default: "",
+  },
   description: {
     type: String,
+    default: "",
   },
-  url: {
+  platenumber: {
     type: String,
+    default: "",
+  },
+  model_year: {
+    type: String,
+    default: "",
+  },
+  capacity: {
+    type: Number,
+    default: "",
+  },
+  rate: {
+    type: String,
+    default: "",
+  },
+  seat: {
+    type: Number,
+    default: "",
+  },
+  transmission: {
+    type: Number,
     required: true,
   },
+  price: {
+    type: Number,
+    required: true,
+  },
+
   status: {
     type: String,
     required: true,

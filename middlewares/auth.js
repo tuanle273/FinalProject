@@ -6,7 +6,7 @@ const verifyToken = (req, res, next) => {
   if (!token)
     return res
       .status(401)
-      .json({ success: false, message: "Access token not found" });
+      .json({ success: false, message: "Access denied. No token provided." });
   try {
     const decoded = jwt.verify(token, process.env.ACCESS_TOKEN);
     req.userId = decoded.userId;
@@ -15,7 +15,7 @@ const verifyToken = (req, res, next) => {
     console.log(error);
     return res
       .status(403)
-      .json({ success: false, message: "Invalid access token" });
+      .json({ success: false, message: "Invalid access token." });
   }
 };
 
