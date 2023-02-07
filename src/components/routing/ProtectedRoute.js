@@ -6,12 +6,7 @@ const ProtectedRoute = ({ component: Component, ...rest }) => {
   const {
     authState: { authLoading, isAuthenticated },
   } = useContext(AuthContext);
-  if (authLoading)
-    return (
-      <div className="spinner-container">
-        <div className="loading-spinner"></div>
-      </div>
-    );
+  if (authLoading) return <div className="spinner-container"></div>;
   return (
     <Route
       {...rest}
