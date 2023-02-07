@@ -1,5 +1,5 @@
 import axios from "axios";
-import { createContext, useEffect, useReducer } from "react";
+import { createContext, useEffect, useReducer, useState } from "react";
 import { authReducer } from "../reducers/authReducer";
 import setAuthToken from "../utils/setAuthToken";
 import { apiUrl, LOCAL_STORAGE_TOKEN_NAME } from "./constants";
@@ -11,7 +11,19 @@ const AuthContextProvider = ({ children }) => {
     isAuthenticated: false,
     user: [],
   });
+  //Check user admin or user
+  const [isAdmin, setIsAdmin] = useState(false);
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await axios.get("/api/user");
+      setIsAdmin(response.data.isAdmin);
+    };
 
+    fetchData();
+  }, []);
+
+
+  
   //Authenticate user
 
   const loadUser = async () => {

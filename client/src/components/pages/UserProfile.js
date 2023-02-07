@@ -3,19 +3,10 @@ import { AuthContext } from "../../contexts/AuthContext";
 
 const UserProfile = () => {
   const {
-    authState: {
-      user: { username, avatar, email, createdAt },
-    },
+    authState: { user },
   } = useContext(AuthContext);
-
-  return (
-    <div>
-      {username}
-      {email}
-      {createdAt}
-      <img src={avatar} />
-    </div>
-  );
+  console.log("🚀 ~ file: UserProfile.js:8 ~ UserProfile ~ user", user);
+  return <div></div>;
 };
 
 export default UserProfile;

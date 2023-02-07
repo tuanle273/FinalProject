@@ -57,10 +57,12 @@ const UserSchema = new Schema({
     default: "18",
   },
   phone: {
-    type: "number",
+    type: Number,
+    default: "123",
   },
   address: {
     type: String,
+    default: "123",
   },
 });
 

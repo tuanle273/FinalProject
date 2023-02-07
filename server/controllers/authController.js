@@ -4,23 +4,34 @@ const argon2 = require("argon2");
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 
+const getUser = async (req, res) => {
+  try {
+    const userDetail = await User.find({ user: req.userId });
+    res.json({ success: true, userDetail });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, message: "Internal Server Error" });
+  }
+};
+
 const verifyUser = async (req, res) => {
   try {
     const user = await User.findById(req.userId).select("-password");
     if (!user)
       return res
         .status(400)
-        .json({ success: false, message: "user not found" });
+        .json({ success: false, message: "User not found." });
     res.json({ success: true, user });
   } catch (error) {
     console.log(error);
     res.status(500).json({ success: false, message: "Internal Server Error" });
   }
 };
+
 const register = async (req, res) => {
   const { username, password, email } = req.body;
 
-  if (!username || !password || !email)
+  if (!email || !username || !password)
     return res.status(400).json({
       success: false,
       message: "Missing username or password",
@@ -82,7 +93,7 @@ const login = async (req, res) => {
     //All good
     //return Token
     const accessToken = jwt.sign(
-      { userId: user._id },
+      { userId: user._id, role: user.role },
       process.env.ACCESS_TOKEN,
       { expiresIn: "1h" }
     );
@@ -96,4 +107,5 @@ module.exports = {
   register,
   login,
   verifyUser,
+  getUser,
 };

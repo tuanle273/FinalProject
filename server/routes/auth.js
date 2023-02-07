@@ -5,6 +5,13 @@ const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 const verifyToken = require("../middlewares/auth");
 const authController = require("../controllers/authController");
+
+// @route GET api/auth/getUser
+// @des Check user details
+//@access public
+
+router.get("/profile", authController.getUser);
+
 // @route GET api/auth
 // @des Check if user is logged in
 //@access public
