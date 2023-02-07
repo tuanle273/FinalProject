@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { createContext, useReducer } from "react";
 import { postReducer } from "../reducers/postReducer";
-import { apiUrl } from "./constants";
+import { apiUrl, POSTS_LOADED_FAIL, POSTS_LOADED_SUCCESS } from "./constants";
 
 export const PostContext = createContext();
 
@@ -10,19 +10,19 @@ const PostContextProvider = ({ children }) => {
 
   const [postState, dispatch] = useReducer(postReducer, {
     posts: [],
-    postLoading: true,
+    postsLoading: true,
   });
 
   //get all posts
 
   const getPosts = async () => {
     try {
-      const respone = await axios.get(apiUrl + "/posts");
-      if (respone.data.success) {
-        dispatch({ type: "POSTS_LOADED_SUCCESS", payload: respone.data.posts });
+      const response = await axios.get(apiUrl + "/posts");
+      if (response.data.success) {
+        dispatch({ type: POSTS_LOADED_SUCCESS, payload: response.data.posts });
       }
     } catch (error) {
-      dispatch({ type: "POSTS_LOADED_FAIL" });
+      dispatch({ type: POSTS_LOADED_FAIL });
     }
   };
 
