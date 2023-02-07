@@ -68,7 +68,7 @@ const createPost = async (req, res) => {
       description,
       url: url.startsWith("https://") ? url : "https://" + url,
       status: status || "TO LEARN",
-      user: "63a9aa280a35ee156c5a0f5a",
+      user: req.userId,
     });
     await newPost.save();
 

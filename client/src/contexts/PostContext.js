@@ -19,15 +19,10 @@ const PostContextProvider = ({ children }) => {
     try {
       const respone = await axios.get(apiUrl + "/posts");
       if (respone.data.success) {
-        dispatch({ type: "POST_LOADED_SUCCESS", payload: respone.data.posts });
+        dispatch({ type: "POSTS_LOADED_SUCCESS", payload: respone.data.posts });
       }
     } catch (error) {
-      return error.respone.data
-        ? error.respone.data
-        : {
-            success: false,
-            message: "server error",
-          };
+      dispatch({ type: "POSTS_LOADED_FAIL" });
     }
   };
 
