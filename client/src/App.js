@@ -15,6 +15,7 @@ function App() {
       <PostContextProvider>
         <Router>
           <Switch>
+            
             <ProtectedRoute
               exact
               path="/profile"

@@ -28,10 +28,16 @@ const register = async (req, res) => {
 
   try {
     const user = await User.findOne({ username });
+    const emailCheck = await User.findOne({ email });
+
+    if (emailCheck)
+      return res
+        .status(400)
+        .json({ success: false, message: "email already taken" });
     if (user)
       return res
         .status(400)
-        .json({ success: false, message: "Username already taken" });
+        .json({ success: false, message: "username already taken" });
     //All good
     const hashedPassword = await argon2.hash(password);
     const newUser = new User({ username, password: hashedPassword, email });
@@ -91,4 +97,3 @@ module.exports = {
   login,
   verifyUser,
 };
-  

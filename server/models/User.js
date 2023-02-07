@@ -48,6 +48,20 @@ const UserSchema = new Schema({
     type: Date,
     default: Date.now,
   },
+  gender: {
+    type: String,
+    default: "Male",
+  },
+  age: {
+    type: String,
+    default: "18",
+  },
+  phone: {
+    type: "number",
+  },
+  address: {
+    type: String,
+  },
 });
 
 module.exports = mongoose.model("users", UserSchema);
