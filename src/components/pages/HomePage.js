@@ -6,7 +6,7 @@ import Row from "react-bootstrap/Row";
 import { AuthContext } from "../../contexts/AuthContext";
 import { PostContext } from "../../contexts/PostContext";
 import SinglePost from "../posts/SinglePost";
-const Body = () => {
+const HomePage = () => {
   const {
     authState: {
       user: { username },
@@ -51,4 +51,4 @@ const Body = () => {
   return <>{body}</>;
 };
 
-export default Body;
+export default HomePage;
