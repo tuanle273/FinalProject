@@ -4,16 +4,6 @@ const argon2 = require("argon2");
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 
-const getUser = async (req, res) => {
-  try {
-    const userDetail = await User.find({ user: req.userId });
-    res.json({ success: true, userDetail });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ success: false, message: "Internal Server Error" });
-  }
-};
-
 const verifyUser = async (req, res) => {
   try {
     const user = await User.findById(req.userId).select("-password");
@@ -103,9 +93,11 @@ const login = async (req, res) => {
     res.status(500).json({ success: false, message: "Internal Server Error" });
   }
 };
+
+
 module.exports = {
   register,
   login,
   verifyUser,
-  getUser,
+
 };
