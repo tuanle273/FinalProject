@@ -6,7 +6,7 @@ const ProtectedRoute = ({ component: Component, ...rest }) => {
   const {
     authState: { authLoading, isAuthenticated },
   } = useContext(AuthContext);
-  if (authLoading) return <div className="spinner-container"></div>;
+  // if (authLoading) return <div></div>; //add spinner for auth
   return (
     <Route
       {...rest}

@@ -3,9 +3,9 @@ import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
-import Spinner from "react-bootstrap/Spinner";
 import { AuthContext } from "../../contexts/AuthContext";
 import { PostContext } from "../../contexts/PostContext";
+import SinglePost from "../posts/SinglePost";
 const Body = () => {
   const {
     authState: {
@@ -21,14 +21,7 @@ const Body = () => {
   useEffect(() => getPosts(), []);
 
   let body = null;
-
-  if (postsLoading) {
-    body = (
-      <div className="spinner-container">
-        <Spinner animation="border" variant="info" />
-      </div>
-    );
-  } else if (posts.length === 0) {
+  if (posts.length === 0) {
     body = (
       <>
         <Card className="text-center mx-5 my-5">
@@ -55,7 +48,7 @@ const Body = () => {
     );
   }
 
-  return <h1>Home</h1>;
+  return <>{body}</>;
 };
 
 export default Body;
