@@ -110,7 +110,7 @@ const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
     user: "tuandev27@gmail.com",
-    pass: "tsqtbcccnuxotlwn",
+    pass: "tnqayvcgrtmowokc",
   },
 });
 //forgot password
@@ -132,7 +132,7 @@ const forgotPass = async (req, res) => {
         from: "tuanle2731@gmail.com",
         to: email,
         subject: "Forgot Password",
-        text: `Please click on the following link to reset your password: http://your-app.com/reset-password/${resetToken}`,
+        text: `Please click on the following link to reset your password: http://localhost:5000/reset-password/${resetToken}`,
       };
 
       // Send the email
