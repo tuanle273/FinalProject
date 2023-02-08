@@ -11,25 +11,11 @@ const userController = require("../controllers/userController");
 //@access public
 
 router.get("/profile", verifyToken, userController.getUser);
+router.get("/admin", userController.authenticateRole(["admin"]), (req, res) => {
+  res.send({ success: "Admin zone." });
+});
 
-router.get(
-  "/admin",
-  verifyToken,
-  userController.verifyRole("Admin"),
-  userController.checkUser
-);
-
-router.get(
-  "/owner",
-  verifyToken,
-  userController.verifyRole("Owner"),
-  userController.checkUser
-);
-router.get(
-  "/guest",
-  verifyToken,
-  userController.verifyRole("Guest"),
-  userController.checkUser
-);
-
+router.get("/owner", userController.authenticateRole(["owner"]), (req, res) => {
+  res.send({ success: "Owner zone." });
+});
 module.exports = router;
