@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const PostSchema = new Schema({
+const VehicleSchema = new Schema({
   title: {
     type: String,
     required: true,
@@ -55,10 +55,6 @@ const PostSchema = new Schema({
     default:
       "https://res.cloudinary.com/duax5havz/image/upload/v1675608212/istockphoto-1131164548-612x612_tta6jg.jpg",
   },
-  user: {
-    type: Schema.Types.ObjectId,
-    ref: "users",
-  },
 });
 
-module.exports = mongoose.model("posts", PostSchema);
+module.exports = mongoose.model("Vehicle", VehicleSchema);
