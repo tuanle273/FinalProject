@@ -22,8 +22,8 @@ const PostSchema = new Schema({
     type: String,
     default: "",
   },
-  model_year: {
-    type: String,
+  year: {
+    type: Number,
     default: "",
   },
   capacity: {
@@ -31,7 +31,7 @@ const PostSchema = new Schema({
     default: "",
   },
   rate: {
-    type: String,
+    type: Number,
     default: "",
   },
   seat: {
@@ -47,10 +47,10 @@ const PostSchema = new Schema({
     required: true,
   },
 
-  status: {
-    type: String,
+  availability: {
+    type: Boolean,
     required: true,
-    enum: ["to learn", "leaning", "complete"],
+    default: true,
   },
   user: {
     type: Schema.Types.ObjectId,

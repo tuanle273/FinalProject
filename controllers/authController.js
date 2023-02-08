@@ -46,10 +46,16 @@ const register = async (req, res) => {
 
     //return Token
     const accessToken = jwt.sign(
-      { userId: newUser._id },
+      {
+        userId: newUser._id,
+        userEmail: newUser.email,
+        userRole: newUser.role,
+        userName: newUser.username,
+      },
       process.env.ACCESS_TOKEN,
-      { expiresIn: "1h" }
+      { expiresIn: "1d" }
     );
+
     res.json({ success: true, message: "Created token", accessToken });
   } catch (error) {
     console.log(error);
@@ -94,10 +100,8 @@ const login = async (req, res) => {
   }
 };
 
-
 module.exports = {
   register,
   login,
   verifyUser,
-
 };

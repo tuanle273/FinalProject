@@ -8,6 +8,7 @@ const UserSchema = new Schema({
     unique: true,
   },
   email: {
+    unique: true,
     type: String,
     required: [true, "is required"],
     validate: {
@@ -22,9 +23,10 @@ const UserSchema = new Schema({
     type: String,
     required: [true, "is required"],
   },
-  isAdmin: {
-    type: Boolean,
-    default: false,
+  role: {
+    type: String,
+    enum: ["Admin", "Owner", "Guest"],
+    default: "Guest",
   },
 
   cart: {
