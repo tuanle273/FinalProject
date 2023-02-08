@@ -11,17 +11,6 @@ const AuthContextProvider = ({ children }) => {
     isAuthenticated: false,
     user: [],
   });
-  //Check user admin or user
-  const [isAdmin, setIsAdmin] = useState(false);
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await axios.get("/api/user");
-      setIsAdmin(response.data.isAdmin);
-    };
-
-    fetchData();
-  }, []);
-
 
   
   //Authenticate user
