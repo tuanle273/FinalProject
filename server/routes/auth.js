@@ -23,4 +23,7 @@ router.post("/register", authController.register);
 
 router.post("/login", authController.login);
 
+//
+router.post("/forgotpass", verifyToken, authController.forgotPass);
+
 module.exports = router;
