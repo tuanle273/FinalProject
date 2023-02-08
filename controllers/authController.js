@@ -1,9 +1,10 @@
 const express = require("express");
-
+const nodemailer = require("nodemailer");
 const argon2 = require("argon2");
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 
+const users = require("../models/User");
 const verifyUser = async (req, res) => {
   try {
     const user = await User.findById(req.userId).select("-password");
@@ -89,7 +90,12 @@ const login = async (req, res) => {
     //All good
     //return Token
     const accessToken = jwt.sign(
-      { userId: user._id, role: user.role },
+      {
+        userId: user._id,
+        email: user.email,
+        userRole: user.role,
+        userName: user.username,
+      },
       process.env.ACCESS_TOKEN,
       { expiresIn: "1h" }
     );
@@ -100,8 +106,54 @@ const login = async (req, res) => {
   }
 };
 
+//forgot password
+const forgotPass = async (req, res) => {
+  const { email } = req.body;
+
+  // Verify the email exists in the database
+  const user = await User.findOne(email);
+  if (!user) return res.status(404).send("User not found.");
+
+  // Generate a JWT token
+  const token = jwt.sign({ email }, process.env.ACCESS_TOKEN, {
+    expiresIn: "1h",
+  });
+
+  // Send the reset password link via email
+  const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: "tuanle2731@gmail.com",
+      pass: "Anhtuan1",
+    },
+  });
+
+  const resetPasswordLink = `https://example.com/reset-password/${token}`;
+
+  const mailOptions = {
+    from: "tuanle2731@gmail.com",
+    to: "tuanle273@gmail.com",
+    subject: "Reset your password",
+    html: `
+      <p>
+        You are receiving this email because you requested a password reset.
+      </p>
+      <p>
+        Please click on the following link to reset your password:
+      </p>
+      <a href="${resetPasswordLink}">${resetPasswordLink}</a>
+    `,
+  };
+
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) return res.status(500).send("Error sending email.");
+    res.send("Reset password link sent to email.");
+  });
+};
+
 module.exports = {
   register,
   login,
   verifyUser,
+  forgotPass,
 };
