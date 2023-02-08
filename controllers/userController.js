@@ -1,4 +1,6 @@
 const User = require("../models/User");
+const jwt = require("jsonwebtoken");
+const { response } = require("../index");
 
 const getUser = async (req, res) => {
   try {
@@ -9,21 +11,25 @@ const getUser = async (req, res) => {
   }
 };
 
-const verifyRole = () => async(req, res, next) => {
-  const userDetail2 = await User.findById(req.role);
-  if (req.role !== roleUser) return res.status(401).send("Unauthorized.");
-  next();
+const authenticateRole = (requiredRoles) => {
+  return (req, res, next) => {
+    try {
+      const token = req.headers.authorization.split(" ")[1];
+      const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN);
+      const userRole = decodedToken.userRole;
+
+      if (!requiredRoles.includes(userRole)) {
+        return res.status(401).send("Unauthorized");
+      }
+
+      next();
+    } catch (error) {
+      return res.status(401).send("Unauthorized");
+    }
+  };
 };
 
-const checkUser = async (req, res) => {
-  try {
-    res.send("Hello, admin!");
-  } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
-  }
-};
 module.exports = {
   getUser,
-  verifyRole,
-  checkUser,
+  authenticateRole,
 };
