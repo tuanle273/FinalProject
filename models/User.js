@@ -29,14 +29,6 @@ const UserSchema = new Schema({
     default: "guest",
   },
 
-  cart: {
-    type: Object,
-    default: {
-      total: 0,
-      count: 0,
-    },
-  },
-
   notifications: {
     type: Array,
     default: [],

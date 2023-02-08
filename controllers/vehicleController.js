@@ -2,57 +2,59 @@ const express = require("express");
 const { response } = require("../index");
 const router = express.Router();
 const verifyToken = require("../middlewares/auth");
-const Post = require("../models/Post");
-const postController = require("../controllers/postController");
+const Vehicle = require("../models/Vehicle");
+const VehicleController = require("./VehicleController");
 
-const getPost = async (req, res) => {
+const getVehicle = async (req, res) => {
   try {
-    const posts = await Post.find({ user: req.userId }).populate("user", [
-      "username",
-    ]);
-    res.json({ success: true, posts });
+    const Vehicles = await Vehicle.find({ Vehicle });
+    res.json({ success: true, Vehicles });
   } catch (error) {
     console.log(error);
     res.status(500).json({ success: false, message: "Internal Server Error" });
   }
 };
 
-const updatePost = async (req, res) => {
+const updateVehicle = async (req, res) => {
   const { title, description, url, status } = req.body;
   if (!title)
     return res
       .status(404)
       .json({ success: false, message: "Title is required" });
   try {
-    let updatedPost = {
+    let updatedVehicle = {
       title,
       description: description || "",
       url: url.startsWith("https://") ? url : "https://" + url,
       status: status || "TO LEARN",
     };
-    const postUpdateCondition = {
+    const VehicleUpdateCondition = {
       _id: req.params.id,
       user: req.userId,
     };
 
-    updatedPost = await Post.findOneAndUpdate(
-      postUpdateCondition,
-      updatedPost,
+    updatedVehicle = await Vehicle.findOneAndUpdate(
+      VehicleUpdateCondition,
+      updatedVehicle,
       { new: true }
     );
 
     // user not authorized to update
-    if (!updatedPost)
+    if (!updatedVehicle)
       return res
         .status(403)
         .json({ success: false, message: "User is not authorized to update" });
-    res.json({ success: true, message: "Happy Learning!", post: updatedPost });
+    res.json({
+      success: true,
+      message: "Happy Learning!",
+      Vehicle: updatedVehicle,
+    });
   } catch (error) {
     console.log(error);
     res.status(500).json({ success: false, message: "Internal Server Error" });
   }
 };
-const createPost = async (req, res) => {
+const createVehicle = async (req, res) => {
   const { title, description, url, status } = req.body;
 
   if (!title)
@@ -60,36 +62,42 @@ const createPost = async (req, res) => {
       .status(404)
       .json({ success: false, message: "Title is required" });
   try {
-    const newPost = new Post({
+    const newVehicle = new Vehicle({
       title,
       description,
       url: url.startsWith("https://") ? url : "https://" + url,
       status: status || "TO LEARN",
       user: req.userId,
     });
-    await newPost.save();
+    await newVehicle.save();
 
-    res.json({ success: true, message: "Happy Learning!", post: newPost });
+    res.json({
+      success: true,
+      message: "Happy Learning!",
+      vehicle: newVehicle,
+    });
   } catch (error) {
     console.log(error);
     res.status(500).json({ success: false, message: "Internal Server Error" });
   }
 };
 
-const deletePost = async (req, res) => {
+const deleteVehicle = async (req, res) => {
   try {
-    const postDeleteCondition = { _id: req.params.id, user: req.userId };
-    const deletedPost = await Post.findOneAndDelete(postDeleteCondition);
+    const VehicleDeleteCondition = { _id: req.params.id, user: req.userId };
+    const deletedVehicle = await Vehicle.findOneAndDelete(
+      VehicleDeleteCondition
+    );
 
-    if (deletedPost)
+    if (deletedVehicle)
       return res.status(401).json({
         success: false,
-        message: "Post not found or user not authorized",
+        message: "Vehicle not found or user not authorized",
       });
     res.json({
       success: true,
       message: "Delete Successfully",
-      post: deletedPost,
+      Vehicle: deletedVehicle,
     });
   } catch (error) {
     console.log(error);
@@ -97,8 +105,8 @@ const deletePost = async (req, res) => {
   }
 };
 module.exports = {
-  getPost,
-  updatePost,
-  createPost,
-  deletePost,
+  getVehicle,
+  updateVehicle,
+  createVehicle,
+  deleteVehicle,
 };
