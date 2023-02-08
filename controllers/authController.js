@@ -4,7 +4,6 @@ const argon2 = require("argon2");
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 
-const users = require("../models/User");
 const verifyUser = async (req, res) => {
   try {
     const user = await User.findById(req.userId).select("-password");
@@ -106,49 +105,51 @@ const login = async (req, res) => {
   }
 };
 
+// Create a transporter using Gmail as the email provider
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: "tuandev27@gmail.com",
+    pass: "tsqtbcccnuxotlwn",
+  },
+});
 //forgot password
 const forgotPass = async (req, res) => {
-  const { email } = req.body;
+  const email = "tuanle273@gmail.com";
 
-  // Verify the email exists in the database
-  const user = await User.findOne(email);
-  if (!user) return res.status(404).send("User not found.");
+  User.findOne({ email })
+    .then((user) => {
+      if (!user) {
+        return res.status(404).send({ error: "Email not found." });
+      }
 
-  // Generate a JWT token
-  const token = jwt.sign({ email }, process.env.ACCESS_TOKEN, {
-    expiresIn: "1h",
-  });
+      const resetToken = jwt.sign({ _id: user._id }, process.env.ACCESS_TOKEN, {
+        expiresIn: "1h",
+      });
 
-  // Send the reset password link via email
-  const transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-      user: "tuanle2731@gmail.com",
-      pass: "Anhtuan1",
-    },
-  });
+      // Define the email options
+      const mailOptions = {
+        from: "tuanle2731@gmail.com",
+        to: email,
+        subject: "Forgot Password",
+        text: `Please click on the following link to reset your password: http://your-app.com/reset-password/${resetToken}`,
+      };
 
-  const resetPasswordLink = `https://example.com/reset-password/${token}`;
-
-  const mailOptions = {
-    from: "tuanle2731@gmail.com",
-    to: "tuanle273@gmail.com",
-    subject: "Reset your password",
-    html: `
-      <p>
-        You are receiving this email because you requested a password reset.
-      </p>
-      <p>
-        Please click on the following link to reset your password:
-      </p>
-      <a href="${resetPasswordLink}">${resetPasswordLink}</a>
-    `,
-  };
-
-  transporter.sendMail(mailOptions, (error, info) => {
-    if (error) return res.status(500).send("Error sending email.");
-    res.send("Reset password link sent to email.");
-  });
+      // Send the email
+      transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          console.log(error);
+          return res.status(500).send({ error: "Failed to send email." });
+        } else {
+          console.log("Email sent: " + info.response);
+          return res.send({ success: "Password reset email sent." });
+        }
+      });
+    })
+    .catch((error) => {
+      console.log(error);
+      return res.status(500).send({ error: "Server error." });
+    });
 };
 
 module.exports = {
