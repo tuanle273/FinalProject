@@ -10,9 +10,8 @@ const AuthContextProvider = ({ children }) => {
     authLoading: true,
     isAuthenticated: false,
     user: [],
-  });
+  }); 
 
-  
   //Authenticate user
 
   const loadUser = async () => {
@@ -36,7 +35,17 @@ const AuthContextProvider = ({ children }) => {
       });
     }
   };
-  useEffect(() => loadUser(), []);
+  const [reload, setReload] = useState(false);
+
+  useEffect(() => {
+    loadUser();
+    setReload(false);
+  }, [reload]);
+
+  const handleButtonClick = () => {
+    setReload(true);
+  };
+
   //Login
   const loginUser = async (userForm) => {
     try {

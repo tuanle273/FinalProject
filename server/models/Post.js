@@ -40,17 +40,20 @@ const PostSchema = new Schema({
   },
   transmission: {
     type: Number,
-    required: true,
   },
   price: {
     type: Number,
-    required: true,
   },
 
   availability: {
     type: Boolean,
-    required: true,
+
     default: true,
+  },
+  image: {
+    type: String,
+    default:
+      "https://res.cloudinary.com/duax5havz/image/upload/v1675608212/istockphoto-1131164548-612x612_tta6jg.jpg",
   },
   user: {
     type: Schema.Types.ObjectId,
