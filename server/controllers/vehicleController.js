@@ -8,7 +8,11 @@ const VehicleController = require("./VehicleController");
 const getVehicle = async (req, res) => {
   try {
     const Vehicles = await Vehicle.find({ Vehicle });
-    res.json({ success: true, Vehicles });
+    res.json({
+      success: true,
+      message: "Vehicle found",
+      Vehicles,
+    });
   } catch (error) {
     console.log(error);
     res.status(500).json({ success: false, message: "Internal Server Error" });
@@ -16,64 +20,39 @@ const getVehicle = async (req, res) => {
 };
 
 const updateVehicle = async (req, res) => {
-  const { title, description, url, status } = req.body;
-  if (!title)
-    return res
-      .status(404)
-      .json({ success: false, message: "Title is required" });
-  try {
-    let updatedVehicle = {
-      title,
-      description: description || "",
-      url: url.startsWith("https://") ? url : "https://" + url,
-      status: status || "TO LEARN",
-    };
-    const VehicleUpdateCondition = {
-      _id: req.params.id,
-      user: req.userId,
-    };
-
-    updatedVehicle = await Vehicle.findOneAndUpdate(
-      VehicleUpdateCondition,
-      updatedVehicle,
-      { new: true }
-    );
-
-    // user not authorized to update
-    if (!updatedVehicle)
-      return res
-        .status(403)
-        .json({ success: false, message: "User is not authorized to update" });
-    res.json({
-      success: true,
-      message: "Happy Learning!",
-      Vehicle: updatedVehicle,
-    });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ success: false, message: "Internal Server Error" });
-  }
+  Vehicle.findByIdAndUpdate(
+    req.params.id,
+    req.body,
+    { new: true },
+    (err, updatedVehicle) => {
+      if (err) {
+        res.status(500).send(err);
+      } else {
+        res.json({
+          success: true,
+          message: "Update Vehicle Success!",
+          vehicle: updatedVehicle,
+        });
+      }
+    }
+  );
 };
-const createVehicle = async (req, res) => {
-  const { title, description, url, status } = req.body;
 
-  if (!title)
-    return res
-      .status(404)
-      .json({ success: false, message: "Title is required" });
+const createVehicle = async (req, res) => {
+  const newVehicle = new Vehicle(req.body);
+
   try {
-    const newVehicle = new Vehicle({
-      title,
-      description,
-      url: url.startsWith("https://") ? url : "https://" + url,
-      status: status || "TO LEARN",
-      user: req.userId,
+    newVehicle.save((err, savedVehicle) => {
+      if (err) {
+        res.status(500).send(err);
+      } else {
+        res.send(savedVehicle);
+      }
     });
-    await newVehicle.save();
 
     res.json({
       success: true,
-      message: "Happy Learning!",
+      message: "Add Vehicle Success!",
       vehicle: newVehicle,
     });
   } catch (error) {
@@ -84,20 +63,17 @@ const createVehicle = async (req, res) => {
 
 const deleteVehicle = async (req, res) => {
   try {
-    const VehicleDeleteCondition = { _id: req.params.id, user: req.userId };
-    const deletedVehicle = await Vehicle.findOneAndDelete(
-      VehicleDeleteCondition
-    );
+    Vehicle.findByIdAndRemove(req.params.id, (err, deletedVehicle) => {
+      if (err) {
+        res.status(500).send(err);
+      } else {
+        res.send(deletedVehicle);
+      }
+    });
 
-    if (deletedVehicle)
-      return res.status(401).json({
-        success: false,
-        message: "Vehicle not found or user not authorized",
-      });
     res.json({
       success: true,
       message: "Delete Successfully",
-      Vehicle: deletedVehicle,
     });
   } catch (error) {
     console.log(error);
