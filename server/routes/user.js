@@ -11,6 +11,7 @@ const userController = require("../controllers/userController");
 //@access public
 
 router.get("/profile", verifyToken, userController.getUser);
+router.get("/history", verifyToken, userController.getHistory);
 router.get("/admin", userController.authenticateRole(["admin"]), (req, res) => {
   res.send({ success: "Admin zone." });
 });

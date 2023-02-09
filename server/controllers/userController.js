@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 const { response } = require("../index");
+const Booking = require("../models/Booking");
 
 const getUser = async (req, res) => {
   try {
@@ -11,6 +12,14 @@ const getUser = async (req, res) => {
   }
 };
 
+const getHistory = async (req, res) => {
+  try {
+    const bookingDetail = await Booking.find({ userId: req.userId });
+    res.json({ success: true, bookingDetail });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
 const authenticateRole = (requiredRoles) => {
   return (req, res, next) => {
     try {
@@ -31,5 +40,6 @@ const authenticateRole = (requiredRoles) => {
 
 module.exports = {
   getUser,
+  getHistory,
   authenticateRole,
 };
