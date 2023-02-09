@@ -58,3 +58,4 @@ const VehicleSchema = new Schema({
 });
 
 module.exports = mongoose.model("Vehicle", VehicleSchema);
+ 

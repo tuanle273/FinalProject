@@ -4,6 +4,8 @@ dotenv.config();
 const cors = require("cors");
 const authRouter = require("./routes/auth");
 const vehicleRouter = require("./routes/vehicle");
+const bookingRouter = require("./routes/booking");
+
 const userRouter = require("./routes/user");
 const app = express();
 const db = require("./config/db");
@@ -14,6 +16,7 @@ app.use(cors());
 app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/vehicle", vehicleRouter);
+app.use("/api/booking", bookingRouter);
 
 const PORT = process.env.PORT || 5000;
 

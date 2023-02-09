@@ -1,4 +1,6 @@
-const RentalSchema = new mongoose.Schema({
+const mongoose = require("mongoose");
+
+const bookingSchema = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
@@ -21,6 +23,9 @@ const RentalSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  created_at: {
+    type: Date,
+    default: Date.now,
+  },
 });
-
-const Rental = mongoose.model("Rental", RentalSchema);
+module.exports = mongoose.model("Booking", bookingSchema);
