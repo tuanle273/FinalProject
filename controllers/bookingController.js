@@ -10,7 +10,7 @@ const getBooking = async (req, res) => {
     // .populate("BookingId")
     .exec((err, bookings) => {
       if (err) {
-        res.status(500).send(err);
+        res.status(500).send({ error: err });
       } else {
         res.send(bookings);
       }
@@ -24,7 +24,7 @@ const updateBooking = async (req, res) => {
     { new: true },
     (err, updatedBooking) => {
       if (err) {
-        res.status(500).send(err);
+        res.status(500).send({ error: err });
       } else {
         res.json({
           success: true,
@@ -40,36 +40,28 @@ const createBooking = async (req, res) => {
   const newBooking = new Booking(req.body);
   newBooking.save((err, savedBooking) => {
     if (err) {
-      res.status(500).send(err);
+      res.status(500).send({ error: err });
     } else {
-      res.send(savedBooking);
       res.json({
         success: true,
         message: "Add Booking Success!",
-        Booking: newBooking,
+        Booking: savedBooking,
       });
     }
   });
 };
 
 const deleteBooking = async (req, res) => {
-  try {
-    Booking.findByIdAndRemove(req.params.id, (err, deletedBooking) => {
-      if (err) {
-        res.status(500).send(err);
-      } else {
-        res.send(deletedBooking);
-      }
-    });
-
-    res.json({
-      success: true,
-      message: "Delete Successfully",
-    });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ success: false, message: "Internal Server Error" });
-  }
+  Booking.findByIdAndRemove(req.params.id, (err, deletedBooking) => {
+    if (err) {
+      res.status(500).send({ error: err });
+    } else {
+      res.json({
+        success: true,
+        message: "Delete Successfully",
+      });
+    }
+  });
 };
 module.exports = {
   getBooking,
