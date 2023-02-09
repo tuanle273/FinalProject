@@ -5,7 +5,7 @@ const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 const verifyToken = require("../middlewares/auth");
 const authController = require("../controllers/authController");
-
+const emailResetPass = require("../utils/emailResetPass");
 // @route GET api/auth
 // @des Check if user is logged in
 //@access public
@@ -24,23 +24,7 @@ router.post("/register", authController.register);
 router.post("/login", authController.login);
 
 //
-router.post("/forgotpass", verifyToken, authController.forgotPass);
+router.post("/forgotpass", verifyToken, emailResetPass.emailPass);
 
-router.post("/reset-password/:resetToken", async (req, res) => {
-  const { token } = req.params;
-  const { password } = req.body;
-
-  try {
-    const decoded = jwt.verify(token, process.env.ACCESS_TOKEN);
-    const user = await User.findById(decoded._id);
-    if (!user) return res.status(404).send({ error: "User not found." });
-
-    user.password = password;
-    await user.save();
-
-    return res.status(200).send({ message: "Password reset successful." });
-  } catch (error) {
-    return res.status(400).send({ error: "Invalid password reset token." });
-  }
-});
+router.post("/reset-password/:token", emailResetPass.tokenPass);
 module.exports = router;
