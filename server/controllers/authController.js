@@ -105,56 +105,8 @@ const login = async (req, res) => {
   }
 };
 
-// Create a transporter using Gmail as the email provider
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: "tuandev27@gmail.com",
-    pass: "tnqayvcgrtmowokc",
-  },
-});
-//forgot password
-const forgotPass = async (req, res) => {
-  const email = "tuanle273@gmail.com";
-
-  User.findOne({ email })
-    .then((user) => {
-      if (!user) {
-        return res.status(404).send({ error: "Email not found." });
-      }
-
-      const resetToken = jwt.sign({ _id: user._id }, process.env.ACCESS_TOKEN, {
-        expiresIn: "1h",
-      });
-
-      // Define the email options
-      const mailOptions = {
-        from: "tuanle2731@gmail.com",
-        to: email,
-        subject: "Forgot Password",
-        text: `Please click on the following link to reset your password: http://localhost:5000/reset-password/${resetToken}`,
-      };
-
-      // Send the email
-      transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-          console.log(error);
-          return res.status(500).send({ error: "Failed to send email." });
-        } else {
-          console.log("Email sent: " + info.response);
-          return res.send({ success: "Password reset email sent." });
-        }
-      });
-    })
-    .catch((error) => {
-      console.log(error);
-      return res.status(500).send({ error: "Server error." });
-    });
-};
-
 module.exports = {
   register,
   login,
   verifyUser,
-  forgotPass,
 };
