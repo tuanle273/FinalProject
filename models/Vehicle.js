@@ -44,10 +44,11 @@ const VehicleSchema = new Schema({
   price: {
     type: Number,
   },
-
+  type: {
+    type: String,
+  },
   availability: {
     type: Boolean,
-
     default: true,
   },
   image: {
@@ -58,4 +59,3 @@ const VehicleSchema = new Schema({
 });
 
 module.exports = mongoose.model("Vehicle", VehicleSchema);
- 
