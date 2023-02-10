@@ -4,7 +4,7 @@ const argon2 = require("argon2");
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 const verifyToken = require("../middlewares/auth");
-
+const session = require("express-session");
 const app = express();
 const userController = require("../controllers/userController");
 const passport = require("passport");
@@ -31,9 +31,11 @@ passport.use(
       clientID: keys.googleClientID,
       clientSecret: keys.googleClientSecret,
       callbackURL: "http://localhost:5000/api/user/auth/google/callback",
+      scope: ["email"],
     },
-    (profile, done) => {
+    (accessToken, refreshToken, email, profile, done) => {
       // Check if google profile exist.
+      console.log(profile);
       if (profile.id) {
         User.findOne({ googleId: profile.id }).then((existingUser) => {
           if (existingUser) {
@@ -41,8 +43,8 @@ passport.use(
           } else {
             new User({
               googleId: profile.id,
-              email: profile.emails[0].value,
-              name: profile.name.familyName + " " + profile.name.givenName,
+
+              username: profile.name.familyName + " " + profile.name.givenName,
             })
               .save()
               .then((user) => done(null, user));
@@ -53,19 +55,18 @@ passport.use(
   )
 );
 
-passport.serializeUser((user, done) => {
-  done(null, user.id);
+passport.serializeUser(function (user, cb) {
+  cb(null, user);
 });
 
-passport.deserializeUser((id, done) => {
-  User.findById(id).then((user) => {
-    done(null, user);
-  });
+passport.deserializeUser(function (obj, cb) {
+  cb(null, obj);
 });
 app.use(
-  cookieSession({
-    maxAge: 30 * 24 * 60 * 60 * 1000,
-    keys: [keys.cookieKey],
+  session({
+    secret: "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",
+    resave: false,
+    saveUninitialized: false,
   })
 );
 app.use(passport.initialize());
@@ -74,19 +75,19 @@ app.use(passport.session());
 // Define the authentication routes
 router.get(
   "/auth/google",
-  passport.authenticate("google", { scope: ["profile"] })
+  passport.authenticate("google", { scope: ["profile"], scope: ["email"] })
 );
-app.get("/api/current_user", (req, res) => {
-  res.send(req.user);
-});
+
 router.get(
   "/auth/google/callback",
-  passport.authenticate("google", {
-    failureRedirect: "http://localhost:3000/login",
-  }),
+  passport.authenticate("google", { failureRedirect: "/login" }),
   function (req, res) {
     // Successful authentication, redirect to the dashboard
     res.redirect("/dashboard");
   }
 );
+router.get("/api/current_user", (req, res) => {
+  res.send(req.user);
+});
+
 module.exports = router;
