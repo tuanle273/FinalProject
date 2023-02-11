@@ -12,6 +12,24 @@ const getUser = async (req, res) => {
   }
 };
 
+const updateUser = async (req, res) => {
+  User.findByIdAndUpdate(
+    req.params.id,
+    req.body,
+    { new: true },
+    (err, updatedUser) => {
+      if (err) {
+        res.status(500).send({ error: err });
+      } else {
+        res.json({
+          success: true,
+          message: "Update user Success!",
+          vehicle: updatedUser,
+        });
+      }
+    }
+  );
+};
 const getHistory = async (req, res) => {
   try {
     const bookingDetail = await Booking.find({ userId: req.userId });
@@ -42,4 +60,5 @@ module.exports = {
   getUser,
   getHistory,
   authenticateRole,
+  updateUser,
 };
