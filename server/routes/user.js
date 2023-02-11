@@ -6,6 +6,7 @@ const jwt = require("jsonwebtoken");
 const verifyToken = require("../middlewares/auth");
 const session = require("express-session");
 const app = express();
+
 const userController = require("../controllers/userController");
 const passport = require("passport");
 const cookieSession = require("cookie-session");
@@ -14,6 +15,8 @@ const cookieSession = require("cookie-session");
 //@access public
 
 router.get("/profile", verifyToken, userController.getUser);
+router.put("/profile/:id", verifyToken, userController.updateUser);
+
 router.get("/history", verifyToken, userController.getHistory);
 router.get("/admin", userController.authenticateRole(["admin"]), (req, res) => {
   res.send({ success: "Admin zone." });
@@ -43,8 +46,9 @@ passport.use(
           } else {
             new User({
               googleId: profile.id,
-
-              username: profile.name.familyName + " " + profile.name.givenName,
+              email: profile.emails[0].value,
+              username: profile.emails[0].value,
+              avatar: profile.photos[0].value,
             })
               .save()
               .then((user) => done(null, user));

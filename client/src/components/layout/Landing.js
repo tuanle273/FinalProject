@@ -1,3 +1,8 @@
+import HomePage from "../pages/HomePage";
 export default function Landing() {
-  return <div>Home</div>;
+  return (
+    <div>
+      <HomePage />
+    </div>
+  );
 }
