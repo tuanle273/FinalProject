@@ -7,11 +7,9 @@ const VehicleController = require("./VehicleController");
 
 const getVehicle = async (req, res) => {
   try {
-    const Vehicles = await Vehicle.find({ Vehicle });
+    const vehicles = await Vehicle.find({ Vehicle });
     res.json({
-      success: true,
-      message: "Vehicle found",
-      Vehicles,
+      vehicles,
     });
   } catch (error) {
     console.log(error);
