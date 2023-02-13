@@ -5,7 +5,7 @@ const UserProfile = () => {
   const {
     authState: { user },
   } = useContext(AuthContext);
-
+  console.log("🚀 ~ file: UserProfile.js:7 ~ UserProfile ~ user", user);
   return (
     <div>
       <div class="flex flex-col items-center -mt-2 ">
