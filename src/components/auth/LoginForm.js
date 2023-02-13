@@ -21,6 +21,7 @@ const LoginForm = () => {
     event.preventDefault();
     try {
       const loginData = await loginUser(loginForm);
+
       if (loginData.success) {
         // history.push("/home");
       } else {
