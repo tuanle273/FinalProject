@@ -8,9 +8,7 @@ const UserSchema = new Schema({
     required: true,
   },
   email: {
-    unique: true,
     type: String,
-
     validate: {
       validator: function (str) {
         return /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g.test(str);
