@@ -8,10 +8,10 @@ const UserProfile = () => {
 
   return (
     <div>
-      <div class="flex flex-col items-center -mt-4">
+      <div class="flex flex-col items-center -mt-2 ">
         <img
           src={user.avatar}
-          class="w-40 border-4 border-white rounded-full"
+          class="w-20 border-4 border-white rounded-full"
         />
         <div class="flex items-center space-x-2 mt-2">
           <p class="text-2xl ">{user.username}</p>
@@ -32,6 +32,7 @@ const UserProfile = () => {
             </svg>
           </span>
         </div>
+
         <p class="text-gray-700">{user.gender}</p>
         <p class="text-sm text-gray-500">{user.address}</p>
       </div>
@@ -49,42 +50,37 @@ const UserProfile = () => {
             ></input>
           </li>
           <li class="flex border-b py-2">
-            <span class="font-bold w-24">Age:</span>
-            <input
-              type="text"
-              id="first_name"
-              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              placeholder={user.age}
-              required
-            ></input>
-          </li>
-          <li class="flex border-b py-2">
-            <span class="font-bold w-24">Joined:</span>
-
-            <span class="font-thin w-24">
-              <FormattedDate date={user.createdAt} />
-            </span>
-          </li>
-          <li class="flex border-b py-2">
-            <span class="font-bold w-24">Mobile:</span>
-            <input
-              type="text"
-              id="first_name"
-              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              placeholder={user.phone}
-              required
-            ></input>
-          </li>
-          <li class="flex border-b py-2">
             <span class="font-bold w-24">Email:</span>
             <input
-              type="text"
+              type="email"
               id="first_name"
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder={user.email}
               required
             ></input>
           </li>
+          <li class="flex border-b py-2">
+            <span class="font-bold w-24">Age:</span>
+            <input
+              type="number"
+              id="first_name"
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder={user.age}
+              required
+            ></input>
+          </li>
+
+          <li class="flex border-b py-2">
+            <span class="font-bold w-24">Mobile:</span>
+            <input
+              type="number"
+              id="first_name"
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder={user.phone}
+              required
+            ></input>
+          </li>
+
           <li class="flex border-b py-2">
             <span class="font-bold w-24">Location:</span>
             <input
@@ -95,7 +91,13 @@ const UserProfile = () => {
               required
             ></input>
           </li>
+          <li class="flex border-b py-2">
+            <span class="font-bold w-24">Joined:</span>
 
+            <span class="font-thin w-24">
+              <FormattedDate date={user.createdAt} />
+            </span>
+          </li>
           <li class="flex items-center border-b py-2 space-x-2">
             <span class="font-bold w-24">Elsewhere:</span>
 
@@ -150,6 +152,12 @@ const UserProfile = () => {
               </svg>
             </a>
           </li>
+          <button
+            type="submit"
+            class="block w-full bg-indigo-600 mt-2 py-2 rounded-2xl text-white font-semibold mb-2"
+          >
+            Update Profile
+          </button>
         </ul>
       </div>
     </div>
