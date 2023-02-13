@@ -1,19 +1,37 @@
-import React from "react";
-import Button from "react-bootstrap/Button";
-import Card from "react-bootstrap/Card";
-const HomePage = () => {
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+
+function HomePage() {
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/api/vehicle")
+      .then((res) => {
+        console.log(res);
+        setPosts(res.data);
+      })
+      .catch((err) => console.log(err));
+  }, []);
   return (
     <div>
-      <Card className="text-center mx-4 my-2 bg-slate-50">
-        <Card.Header as="h1">Hi </Card.Header>
-        <Card.Body>
-          <Card.Title>Welcome to ConnyCar</Card.Title>
-          <Card.Text>Click to track</Card.Text>
-          <Button variant="primary">Rent</Button>
-        </Card.Body>
-      </Card>
+      <h1>Vehicle</h1>
+      {posts ? (
+        <>
+          {posts.map((post) => {
+            return (
+              <div>
+                <h4>{posts.title}</h4>
+                <p>{posts.description}</p>
+              </div>
+            );
+          })}
+        </>
+      ) : (
+        ""
+      )}
     </div>
   );
-};
+}
 
 export default HomePage;
