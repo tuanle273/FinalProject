@@ -2,8 +2,11 @@ import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
 import Landing from "./components/layout/Landing";
+import NotFound from "./components/pages/404/NotFound";
 import About from "./components/pages/About";
-import NotFound from "./components/pages/NotFound";
+import DashBoard from "./components/pages/Dashboard/DashBoard";
+import CheckOut from "./components/pages/Logged/CheckOut";
+
 import UserProfile from "./components/pages/UserProfile";
 import ProtectedRoute from "./components/routing/ProtectedRoute";
 import AuthContextProvider from "./contexts/AuthContext";
@@ -20,9 +23,20 @@ function App() {
           ></ProtectedRoute>
           <ProtectedRoute
             exact
-            path="/about" 
+            path="/about"
             component={About}
           ></ProtectedRoute>
+          <ProtectedRoute
+            exact
+            path="/admin"
+            component={DashBoard}
+          ></ProtectedRoute>
+          <ProtectedRoute
+            exact
+            path="/checkout"
+            component={CheckOut}
+          ></ProtectedRoute>
+
           <ProtectedRoute exact path="/" component={Landing}></ProtectedRoute>
           <Route
             exact
@@ -36,6 +50,7 @@ function App() {
           ></Route>
 
           <Route path="*">
+            
             <NotFound />
           </Route>
         </Switch>

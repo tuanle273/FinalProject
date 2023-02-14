@@ -4,6 +4,16 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
 
 const LoginForm = () => {
+  const fetchUsers = () => {
+    // Where we're fetching data from
+    return (
+      fetch("http://localhost:5000/api/user/auth/google")
+        // We get the API response and receive data in JSON format
+        .then((response) => response.json())
+        .then((data) => console.log(data))
+        .catch((error) => console.error(error))
+    );
+  };
   // COntext
   const { loginUser } = useContext(AuthContext);
 
@@ -16,7 +26,12 @@ const LoginForm = () => {
   const { username, password } = loginForm;
   const onChangeLoginForm = (event) =>
     setLoginForm({ ...loginForm, [event.target.name]: event.target.value });
-
+  const responseMessage = (response) => {
+    console.log(response);
+  };
+  const errorMessage = (error) => {
+    console.log(error);
+  };
   const login = async (event) => {
     event.preventDefault();
     try {
@@ -110,7 +125,10 @@ const LoginForm = () => {
               Login
             </button>
             <div class="mb-3">
-              <button class="flex flex-wrap justify-center w-full border border-gray-300 hover:border-gray-500 px-2 py-1.5 rounded-md">
+              <button
+                onClick={fetchUsers}
+                class="flex flex-wrap justify-center w-full border border-gray-300 hover:border-gray-500 px-2 py-1.5 rounded-md"
+              >
                 <img
                   class="w-5 mr-2"
                   src="https://lh3.googleusercontent.com/COxitqgJr1sJnIDe8-jiKhxDx1FrYbtRHKJ9z_hELisAlapwE9LUPh6fcXIfb5vwpbMl4xl9H9TRFPc5NOO8Sb3VSgIBrfRYvW6cUA"
@@ -118,6 +136,7 @@ const LoginForm = () => {
                 Sign in with Google
               </button>
             </div>
+
             <span class="text-sm ml-2 hover:text-blue-500 cursor-pointer">
               <Link to="/ForgotPass">Forget Password</Link>
             </span>

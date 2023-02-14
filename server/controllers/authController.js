@@ -3,6 +3,7 @@ const nodemailer = require("nodemailer");
 const argon2 = require("argon2");
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
+const passport = require("passport");
 
 const verifyUser = async (req, res) => {
   try {
@@ -105,8 +106,63 @@ const login = async (req, res) => {
   }
 };
 
+const loginByGoogle = async (req, res) => {
+  const GoogleStrategy = require("passport-google-oauth20").Strategy;
+  const keys = require("./../utils/key");
+  passport.use(
+    new GoogleStrategy(
+      {
+        clientID: keys.googleClientID,
+        clientSecret: keys.googleClientSecret,
+        callbackURL: "http://localhost:5000/api/user/auth/google/callback",
+        scope: ["email"],
+      },
+      (accessToken, refreshToken, email, profile, done) => {
+        console.log("🚀 ~ file: user.js:40 ~ accessToken", accessToken);
+        accessToken = jwt.sign(
+          {
+            googleId: profile.id,
+            userEmail: profile.email,
+            userRole: profile.role,
+            userName: profile.username,
+          },
+          process.env.ACCESS_TOKEN,
+          { expiresIn: "1h" }
+        );
+
+        // Check if google profile exist.
+        console.log(profile);
+        if (profile.id) {
+          User.findOne({ googleId: profile.id }).then((existingUser) => {
+            if (existingUser) {
+              done(null, existingUser);
+            } else {
+              new User({
+                googleId: profile.id,
+                email: profile.emails[0].value,
+                username: profile.emails[0].value,
+                avatar: profile.photos[0].value,
+              })
+                .save()
+                .then((user) => done(null, user));
+            }
+          });
+        }
+      }
+    )
+  );
+
+  passport.serializeUser(function (user, cb) {
+    cb(null, user);
+  });
+
+  passport.deserializeUser(function (obj, cb) {
+    cb(null, obj);
+  });
+};
 module.exports = {
   register,
   login,
   verifyUser,
+  loginByGoogle,
 };
