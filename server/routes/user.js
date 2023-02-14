@@ -4,7 +4,7 @@ const argon2 = require("argon2");
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 const verifyToken = require("../middlewares/auth");
-const session = require("express-session");
+// const session = require("express-session");
 const app = express();
 
 const userController = require("../controllers/userController");
@@ -66,15 +66,15 @@ passport.serializeUser(function (user, cb) {
 passport.deserializeUser(function (obj, cb) {
   cb(null, obj);
 });
-app.use(
-  session({
-    secret: "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",
-    resave: false,
-    saveUninitialized: false,
-  })
-);
-app.use(passport.initialize());
-app.use(passport.session());
+// app.use(
+//   session({
+//     secret: "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",
+//     resave: false,
+//     saveUninitialized: false,
+//   })
+// );
+// app.use(passport.initialize());
+// app.use(passport.session());
 
 // Define the authentication routes
 router.get(
@@ -87,7 +87,7 @@ router.get(
   passport.authenticate("google", { failureRedirect: "/login" }),
   function (req, res) {
     // Successful authentication, redirect to the dashboard
-    res.redirect("/dashboard");
+    res.redirect("http://localhost:3000");
   }
 );
 router.get("/api/current_user", (req, res) => {

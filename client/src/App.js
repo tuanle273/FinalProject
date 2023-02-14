@@ -20,7 +20,7 @@ function App() {
           ></ProtectedRoute>
           <ProtectedRoute
             exact
-            path="/about"
+            path="/about" 
             component={About}
           ></ProtectedRoute>
           <ProtectedRoute exact path="/" component={Landing}></ProtectedRoute>

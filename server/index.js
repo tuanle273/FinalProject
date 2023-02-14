@@ -5,6 +5,8 @@ const cors = require("cors");
 const authRouter = require("./routes/auth");
 const vehicleRouter = require("./routes/vehicle");
 const bookingRouter = require("./routes/booking");
+const session = require("express-session");
+const passport = require("passport");
 
 const userRouter = require("./routes/user");
 const app = express();
@@ -17,6 +19,16 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
+
+app.use(
+  session({
+    secret: "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",
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Router
 app.use("/api/user", userRouter);
