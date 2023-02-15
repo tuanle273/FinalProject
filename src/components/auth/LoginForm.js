@@ -1,19 +1,9 @@
 import { useContext, useState } from "react";
-import Alert from "react-bootstrap/Alert";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
+import AlertMessage from "../layout/AlertMessage";
 
 const LoginForm = () => {
-  const fetchUsers = () => {
-    // Where we're fetching data from
-    return (
-      fetch("http://localhost:5000/api/user/auth/google")
-        // We get the API response and receive data in JSON format
-        .then((response) => response.json())
-        .then((data) => console.log(data))
-        .catch((error) => console.error(error))
-    );
-  };
   // COntext
   const { loginUser } = useContext(AuthContext);
 
@@ -40,12 +30,16 @@ const LoginForm = () => {
       if (loginData.success) {
         // history.push("/home");
       } else {
-        setAlert({ type: "danger", message: loginData.message });
+        setAlert({ type: "success", message: loginData.message });
         setTimeout(() => setAlert(null), 5000);
       }
     } catch (error) {
       console.log(error);
     }
+    const alert = {
+      type: "danger",
+      message: "An error occurred.",
+    };
   };
   return (
     <div onSubmit={login}>
@@ -72,7 +66,7 @@ const LoginForm = () => {
           <form class="bg-white">
             <h1 class="text-gray-800 font-bold text-2xl mb-1">Hello Again!</h1>
             <p class="text-sm font-normal text-gray-600 mb-7">Welcome Back</p>
-            <Alert info={alert}></Alert>
+            <AlertMessage info={alert}></AlertMessage>
             <div class="flex items-center border-2 py-2 px-3 rounded-2xl mb-4">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -126,7 +120,7 @@ const LoginForm = () => {
             </button>
             <div class="mb-3">
               <button
-                onClick={fetchUsers}
+                onClick=""
                 class="flex flex-wrap justify-center w-full border border-gray-300 hover:border-gray-500 px-2 py-1.5 rounded-md"
               >
                 <img
