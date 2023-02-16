@@ -1,28 +1,8 @@
-import axios from "axios";
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useContext } from "react";
+import { VehicleContext } from "../../../contexts/VehicleContext";
 const DashBoard = () => {
-  const [data, setdata] = useState([]);
-  const [isLoading, setisLoading] = useState(false);
-  const [isError, setisError] = useState(false);
+  const { data, isLoading, isError } = useContext(VehicleContext);
 
-  useEffect(() => {
-    setisLoading(true);
-    axios
-      .get("http://localhost:5000/api/vehicle")
-      .then((response) => {
-        setdata(response.data.vehicles);
-        console.log(
-          "🚀 ~ file: HomePage.js:19 ~ .then ~ response.data",
-          response.data.vehicles
-        );
-        setisLoading(false);
-      })
-
-      .catch((err) => {
-        setisError(true);
-        setisLoading(false);
-      });
-  }, []);
   if (isLoading) return <h1>Loading data</h1>;
   else if (data && !isError)
     return (
