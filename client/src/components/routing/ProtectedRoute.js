@@ -3,7 +3,6 @@ import { Redirect, Route } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
 import NavbarMain from "../layout/NavbarMain";
 
-import Footer from "../pages/Landing/Footer";
 const ProtectedRoute = ({ component: Component, ...rest }) => {
   const {
     authState: { authLoading, isAuthenticated },
@@ -17,7 +16,6 @@ const ProtectedRoute = ({ component: Component, ...rest }) => {
           <>
             <NavbarMain />
             <Component {...rest} {...props} />
-            <Footer />
           </>
         ) : (
           <Redirect to="/login" />

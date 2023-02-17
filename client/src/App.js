@@ -1,3 +1,4 @@
+import "bootstrap/dist/css/bootstrap.min.css";
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
@@ -6,7 +7,6 @@ import NotFound from "./components/pages/404/NotFound";
 import About from "./components/pages/About";
 import DashBoard from "./components/pages/Dashboard/DashBoard";
 import CheckOut from "./components/pages/Logged/CheckOut";
-
 import UserProfile from "./components/pages/UserProfile";
 import ProtectedRoute from "./components/routing/ProtectedRoute";
 import AuthContextProvider from "./contexts/AuthContext";
