@@ -1,55 +1,66 @@
 import axios from "axios";
-import React, { createContext, useEffect, useState } from "react";
-import { apiUrl } from "./constants";
+import React, { createContext, useEffect, useReducer, useState } from "react";
+import { vehicleReducer } from "../reducers/vehicleReducer";
+import {
+  apiUrl,
+  VEHICLE_CREATE_FAIL,
+  VEHICLE_CREATE_SUCCESS,
+  VEHICLE_FETCH_FAIL,
+  VEHICLE_FETCH_SUCCESS,
+} from "./constants";
 
 export const VehicleContext = createContext();
 
 export function VehicleProvider({ children }) {
-  const [data, setData] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isError, setIsError] = useState(false);
+  const [vehicleState, dispatch] = useReducer(vehicleReducer, {
+    vehicles: [],
+    vehicleLoading: true,
+    vehicleError: false,
+  });
+  const [show, setShow] = useState(false);
 
-  //get all vehicle
-  const getVehicles = () => {
-    setIsLoading(true);
-    axios
-      .get(apiUrl + "/vehicle")
-      .then((response) => {
-        setData(response.data.vehicles);
-        setIsLoading(false);
-      })
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  // Load vehicles
+  const loadVehicles = async () => {
+    try {
+      const response = await axios.get(apiUrl + "/vehicle");
 
-      .catch((err) => {
-        setIsError(true);
-        setIsLoading(false);
-      });
+      if (response.status >= 200 && response.status < 300) {
+        dispatch({
+          type: VEHICLE_FETCH_SUCCESS,
+          payload: response.data.vehicles,
+        });
+      }
+    } catch (error) {
+      dispatch({ type: VEHICLE_FETCH_FAIL });
+    }
   };
-  useEffect(() => {
-    getVehicles();
-  }, []);
+  useEffect(() => loadVehicles(), []);
 
-  //get all vehicle
-  const deletePost = () => {
-    setIsLoading(true);
-    axios
-      .delete(apiUrl + "/vehicle/")
-      .then((response) => {
-        setData(response.data.vehicles);
-        setIsLoading(false);
-      })
-
-      .catch((err) => {
-        setIsError(true);
-        setIsLoading(false);
-      });
+  // Create vehicle
+  const createVehicle = async (newVehicle) => {
+    try {
+      const response = await axios.post(apiUrl + "/vehicle", newVehicle);
+      if (response.status >= 200 && response.status < 300) {
+        dispatch({
+          type: VEHICLE_CREATE_SUCCESS,
+          payload: response.data.vehicle,
+        });
+        setShow(false); // Hide the modal
+        loadVehicles(); // Reload the vehicles data
+        return { success: true, message: "Vehicle added successfully" };
+      }
+    } catch (error) {
+      dispatch({ type: VEHICLE_CREATE_FAIL });
+      return { success: false, message: error.message };
+    }
   };
-  useEffect(() => {
-    getVehicles();
-  }, []);
+
   const value = {
-    data,
-    isLoading,
-    isError,
+    vehicleState,
+    loadVehicles,
+    createVehicle,
   };
 
   return (
