@@ -2,15 +2,17 @@ import React, { Fragment, useContext } from "react";
 import { VehicleContext } from "../../contexts/VehicleContext";
 
 export default function HomePage() {
-  const { data, isLoading, isError } = useContext(VehicleContext);
+  const {
+    vehicleState: { vehicles, vehicleLoading, vehicleError },
+  } = useContext(VehicleContext);
 
-  if (isLoading) return <h1>Loading data</h1>;
-  else if (data && !isError)
+  if (vehicleLoading) return <h1>Loading data</h1>;
+  else if (vehicles && !vehicleError)
     return (
       <Fragment>
         <div className="grid grid-cols-4 gap-4" style={{ marginLeft: "5em" }}>
-          {data &&
-            data.map((item) => (
+          {vehicles &&
+            vehicles.map((item) => (
               <div>
                 <div class="bg-gray-800 w-60 shadow-lg rounded p-2">
                   <div class="py-2 px-4 text-center tracking-wide grid grid-cols-3 gap-6">
