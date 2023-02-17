@@ -2,34 +2,52 @@ import React, { Fragment, useContext, useState } from "react";
 import Button from "react-bootstrap/Button";
 import { VehicleContext } from "../../../contexts/VehicleContext";
 import CreateVehicleModal from "./Modal/CreateVehicleModal";
+import DeleteModal from "./Modal/DeleteModal";
 import EditVehicleModal from "./Modal/EditVehicleModal";
 
 const DashBoard = () => {
-  const [show, setShow] = useState(false);
-  const loadVehicles = useContext(VehicleContext);
+  //Modal Create
+  const [showCreate, setShowCreate] = useState(false);
+  const handleCloseCreate = () => setShowCreate(false);
+  const handleShowCreate = () => setShowCreate(true);
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  //Modal Edit
+  const [showEdit, setShowEdit] = useState(false);
+  const handleCloseEdit = () => setShowEdit(false);
+  const handleShowEdit = () => setShowEdit(true);
+
+  //Modal Delete
+  const [showDelete, setShowDelete] = useState(false);
+  const handleCloseDelete = () => setShowDelete(false);
+  const handleShowDelete = () => setShowDelete(true);
+
   const {
     vehicleState: { vehicles, vehicleLoading, vehicleError },
   } = useContext(VehicleContext);
   const [alert, setAlert] = useState(null);
-  const { createVehicle } = useContext(VehicleContext);
 
   if (vehicleLoading) return <h1>Loading data</h1>;
   else if (vehicles && !vehicleError)
     return (
       <div>
         <Fragment>
-          <section class="antialiased bg-gray-100 text-gray-600 h-screen px-4">
+          <section class="antialiased bg-gray-100 text-gray-600 h-screen px-4 ">
             <div class="flex flex-col justify-center ">
               <div class="w-full max-w-5xl mx-auto bg-white shadow-lg rounded-sm border border-gray-200">
-                <header class="px-5 py-4 border-b border-gray-100">
+                <header class="px-5 py-3  border-b border-gray-100">
                   <h2 class="font-semibold text-gray-800">Vehicles</h2>
-                  <Button variant="primary" onClick={handleShow}>
+                  <button
+                    type="button"
+                    onClick={handleShowCreate}
+                    class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                  >
                     Add new vehicle
-                  </Button>
-                  <CreateVehicleModal show={show} handleClose={handleClose} />
+                  </button>
+
+                  <CreateVehicleModal
+                    show={showCreate}
+                    handleClose={handleCloseCreate}
+                  />
                 </header>
                 <div class="p-3">
                   <div class="overflow-x-auto">
@@ -147,16 +165,31 @@ const DashBoard = () => {
                             </td>
                             <td class="p-2 whitespace-nowrap">
                               <div class="text-lg text-center">
-                                <Button variant="primary" onClick={handleShow}>
-                                  Add new vehicle
+                                <Button
+                                  variant="primary"
+                                  onClick={handleShowEdit}
+                                >
+                                  edit
                                 </Button>
                                 <EditVehicleModal
-                                  show={show}
-                                  handleClose={handleClose}
+                                  show={showEdit}
+                                  handleClose={handleCloseEdit}
                                 />
-                                <Button variant="danger" onClick={handleShow}>
-                                  Deltele
-                                </Button>
+                                <div>
+                                  {" "}
+                                  <Button
+                                    variant="danger"
+                                    data-target="#deleteModal"
+                                    onClick={handleShowDelete}
+                                  >
+                                    delete vehicle
+                                  </Button>
+                                  <DeleteModal
+                                    show={showDelete}
+                                    id="deleteModal"
+                                    handleClose={handleCloseDelete}
+                                  />
+                                </div>
                               </div>
                             </td>
                           </tr>
