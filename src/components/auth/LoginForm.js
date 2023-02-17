@@ -16,12 +16,7 @@ const LoginForm = () => {
   const { username, password } = loginForm;
   const onChangeLoginForm = (event) =>
     setLoginForm({ ...loginForm, [event.target.name]: event.target.value });
-  const responseMessage = (response) => {
-    console.log(response);
-  };
-  const errorMessage = (error) => {
-    console.log(error);
-  };
+
   const login = async (event) => {
     event.preventDefault();
     try {
@@ -30,16 +25,12 @@ const LoginForm = () => {
       if (loginData.success) {
         // history.push("/home");
       } else {
-        setAlert({ type: "success", message: loginData.message });
+        setAlert({ type: "danger", message: loginData.message });
         setTimeout(() => setAlert(null), 5000);
       }
     } catch (error) {
       console.log(error);
     }
-    const alert = {
-      type: "danger",
-      message: "An error occurred.",
-    };
   };
   return (
     <div onSubmit={login}>

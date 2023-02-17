@@ -12,8 +12,6 @@ const AuthContextProvider = ({ children }) => {
     user: [],
   });
 
-  //Authenticate user
-
   const loadUser = async () => {
     if (localStorage[LOCAL_STORAGE_TOKEN_NAME]) {
       setAuthToken(localStorage[LOCAL_STORAGE_TOKEN_NAME]);
@@ -42,10 +40,6 @@ const AuthContextProvider = ({ children }) => {
     setReload(false);
   }, [reload]);
 
-  const handleButtonClick = () => {
-    setReload(true);
-  };
-
   //Login
   const loginUser = async (userForm) => {
     try {
@@ -56,7 +50,6 @@ const AuthContextProvider = ({ children }) => {
           LOCAL_STORAGE_TOKEN_NAME,
           response.data.accessToken
         );
-
       await loadUser();
       return response.data;
     } catch (error) {

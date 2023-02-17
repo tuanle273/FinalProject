@@ -46,11 +46,11 @@ const EditVehicleModal = (props) => {
         show={props.show}
         onHide={props.handleClose}
         keyboard={true}
-        size="lg"
+        size="sm"
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >
-        <h2>Create New Vehicle</h2>{" "}
+        <h2>edit Vehicle</h2>{" "}
         <Modal.Header closeButton>
           <Modal.Title>Create Vehicle</Modal.Title>
           <Button onClick={props.handleClose}>Close</Button>
@@ -182,10 +182,13 @@ const EditVehicleModal = (props) => {
                 onChange={handleChange}
                 required
               />
-              <Button variant="primary" type="submit">
-                Create
-              </Button>
             </Form.Group>
+            <button
+              type="submit"
+              class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            >
+              Add new vehicle
+            </button>
           </Form>
         </Modal.Body>{" "}
       </Modal>

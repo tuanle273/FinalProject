@@ -5,6 +5,8 @@ import {
   apiUrl,
   VEHICLE_CREATE_FAIL,
   VEHICLE_CREATE_SUCCESS,
+  VEHICLE_DELETE_FAIL,
+  VEHICLE_DELETE_SUCCESS,
   VEHICLE_FETCH_FAIL,
   VEHICLE_FETCH_SUCCESS,
 } from "./constants";
@@ -57,10 +59,23 @@ export function VehicleProvider({ children }) {
     }
   };
 
+  // Delete vehicle
+  const deleteVehicle = async (id) => {
+    try {
+      const response = await axios.delete(`${apiUrl}/vehicle/${id}`);
+      if (response.data.success) {
+        dispatch({ type: VEHICLE_DELETE_SUCCESS, payload: id });
+      }
+    } catch (error) {
+      dispatch({ type: VEHICLE_DELETE_FAIL });
+      return { success: false, message: error.message };
+    }
+  };
   const value = {
     vehicleState,
     loadVehicles,
     createVehicle,
+    deleteVehicle,
   };
 
   return (

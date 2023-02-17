@@ -3,7 +3,7 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import { VehicleContext } from "../../../../contexts/VehicleContext";
-
+import "./Modal.css";
 const CreateVehicleModal = (props) => {
   const [alert, setAlert] = useState(null);
   const { createVehicle } = useContext(VehicleContext);
@@ -46,14 +46,16 @@ const CreateVehicleModal = (props) => {
         show={props.show}
         onHide={props.handleClose}
         keyboard={true}
-        size="lg"
+        size="sm"
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >
         <h2>Create New Vehicle</h2>{" "}
-        <Modal.Header closeButton>
+        <Modal.Header closeButton="true" closeVariant="dark">
           <Modal.Title>Create Vehicle</Modal.Title>
-          <Button onClick={props.handleClose}>Close</Button>
+          <Button variant="primary" onClick={props.handleClose}>
+            Close
+          </Button>
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={handleSubmit}>
@@ -182,10 +184,13 @@ const CreateVehicleModal = (props) => {
                 onChange={handleChange}
                 required
               />
-              <Button variant="primary" type="submit">
-                Create
-              </Button>
             </Form.Group>
+            <button
+              type="submit"
+              class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            >
+              add
+            </button>
           </Form>
         </Modal.Body>{" "}
       </Modal>
