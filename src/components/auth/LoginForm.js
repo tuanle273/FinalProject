@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
+import { toast, Toaster } from "react-hot-toast";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
-import AlertMessage from "../layout/AlertMessage";
 
 const LoginForm = () => {
   // COntext
@@ -16,7 +16,7 @@ const LoginForm = () => {
   const { username, password } = loginForm;
   const onChangeLoginForm = (event) =>
     setLoginForm({ ...loginForm, [event.target.name]: event.target.value });
-
+  const [show, setShow] = useState(false);
   const login = async (event) => {
     event.preventDefault();
     try {
@@ -25,6 +25,7 @@ const LoginForm = () => {
       if (loginData.success) {
         // history.push("/home");
       } else {
+        toast.error(loginData.message);
         setAlert({ type: "danger", message: loginData.message });
         setTimeout(() => setAlert(null), 5000);
       }
@@ -34,6 +35,7 @@ const LoginForm = () => {
   };
   return (
     <div onSubmit={login}>
+      <Toaster />
       <div class="h-screen md:flex">
         <div class="relative overflow-hidden md:flex w-1/2 bg-gradient-to-tr from-blue-800 to-purple-700 i justify-around items-center hidden">
           <div>
@@ -57,7 +59,7 @@ const LoginForm = () => {
           <form class="bg-white">
             <h1 class="text-gray-800 font-bold text-2xl mb-1">Hello Again!</h1>
             <p class="text-sm font-normal text-gray-600 mb-7">Welcome Back</p>
-            <AlertMessage info={alert}></AlertMessage>
+
             <div class="flex items-center border-2 py-2 px-3 rounded-2xl mb-4">
               <svg
                 xmlns="http://www.w3.org/2000/svg"

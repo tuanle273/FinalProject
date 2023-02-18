@@ -1,10 +1,9 @@
 import React, { Fragment, useContext, useState } from "react";
 import Button from "react-bootstrap/Button";
+import Spinner from "react-bootstrap/Spinner";
 import { VehicleContext } from "../../../contexts/VehicleContext";
 import CreateVehicleModal from "./Modal/CreateVehicleModal";
-import DeleteModal from "./Modal/DeleteModal";
 import EditVehicleModal from "./Modal/EditVehicleModal";
-
 const DashBoard = () => {
   //Modal Create
   const [showCreate, setShowCreate] = useState(false);
@@ -15,18 +14,28 @@ const DashBoard = () => {
   const [showEdit, setShowEdit] = useState(false);
   const handleCloseEdit = () => setShowEdit(false);
   const handleShowEdit = () => setShowEdit(true);
+  const [currentVehicle, setCurrentVehicle] = useState(null);
 
-  //Modal Delete
-  const [showDelete, setShowDelete] = useState(false);
-  const handleCloseDelete = () => setShowDelete(false);
-  const handleShowDelete = () => setShowDelete(true);
+  const handleEdit = (vehicle) => {
+    handleShowEdit();
+    setCurrentVehicle(vehicle);
+  };
 
+  const handleEditModalClose = () => {
+    handleCloseEdit(false);
+    setCurrentVehicle(null);
+  };
   const {
-    vehicleState: { vehicles, vehicleLoading, vehicleError },
+    vehicleState: { vehicles, vehicleLoading, vehicleError, deleteVehicle },
   } = useContext(VehicleContext);
   const [alert, setAlert] = useState(null);
 
-  if (vehicleLoading) return <h1>Loading data</h1>;
+  if (vehicleLoading)
+    return (
+      <h1>
+        <Spinner animation="border" />
+      </h1>
+    );
   else if (vehicles && !vehicleError)
     return (
       <div>
@@ -167,29 +176,18 @@ const DashBoard = () => {
                               <div class="text-lg text-center">
                                 <Button
                                   variant="primary"
-                                  onClick={handleShowEdit}
+                                  onClick={() => handleEdit(item)}
                                 >
                                   edit
                                 </Button>
                                 <EditVehicleModal
                                   show={showEdit}
-                                  handleClose={handleCloseEdit}
-                                />
-                                <div>
-                                  {" "}
-                                  <Button
-                                    variant="danger"
-                                    data-target="#deleteModal"
-                                    onClick={handleShowDelete}
-                                  >
-                                    delete vehicle
-                                  </Button>
-                                  <DeleteModal
-                                    show={showDelete}
-                                    id="deleteModal"
-                                    handleClose={handleCloseDelete}
-                                  />
-                                </div>
+                                  handleClose={handleEditModalClose}
+                                  vehicle={currentVehicle}
+                                />{" "}
+                                <button onClick={() => deleteVehicle(item.id)}>
+                                  Delete Vehicle
+                                </button>
                               </div>
                             </td>
                           </tr>
