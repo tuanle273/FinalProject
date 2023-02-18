@@ -2,12 +2,14 @@ import React, { useContext } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { VehicleContext } from "../../../../contexts/VehicleContext";
-import "./Modal.css";
+
 const DeleteModal = (props) => {
   const { vehicleState, deleteVehicle } = useContext(VehicleContext);
+
   const {
     vehicleState: { vehicles, vehicleLoading, vehicleError },
   } = useContext(VehicleContext);
+
   return (
     <div>
       {" "}
@@ -24,7 +26,8 @@ const DeleteModal = (props) => {
           <Button variant="primary" onClick={props.handleClose}>
             Close
           </Button>
-          <button onClick={() => deleteVehicle(vehicles._id)}>
+
+          <button onClick={() => deleteVehicle(props.vehicleId)}>
             Delete Vehicle
           </button>
         </Modal.Header>

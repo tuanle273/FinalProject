@@ -2,8 +2,8 @@ import React, { useContext, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
+import toast, { Toaster } from "react-hot-toast";
 import { VehicleContext } from "../../../../contexts/VehicleContext";
-import "./Modal.css";
 const CreateVehicleModal = (props) => {
   const [alert, setAlert] = useState(null);
   const { createVehicle } = useContext(VehicleContext);
@@ -33,7 +33,9 @@ const CreateVehicleModal = (props) => {
     event.preventDefault();
     const response = await createVehicle(formData);
     if (response.success) {
-      console.log(response.message);
+      console.log();
+     
+      props.handleClose();
     } else {
       setAlert({ type: "danger", message: response.message });
       setTimeout(() => setAlert(null), 5000);
@@ -50,6 +52,7 @@ const CreateVehicleModal = (props) => {
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >
+        <Toaster />
         <h2>Create New Vehicle</h2>{" "}
         <Modal.Header closeButton="true" closeVariant="dark">
           <Modal.Title>Create Vehicle</Modal.Title>

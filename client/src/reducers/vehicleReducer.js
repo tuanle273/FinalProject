@@ -1,4 +1,4 @@
-import { VEHICLE_CREATE_FAIL, VEHICLE_CREATE_SUCCESS, VEHICLE_DELETE_SUCCESS, VEHICLE_FETCH_FAIL, VEHICLE_FETCH_SUCCESS } from "../contexts/constants";
+import { VEHICLE_CREATE_FAIL, VEHICLE_CREATE_SUCCESS, VEHICLE_DELETE_SUCCESS, VEHICLE_FETCH_FAIL, VEHICLE_FETCH_SUCCESS, VEHICLE_UPDATE_FAIL, VEHICLE_UPDATE_REQUEST, VEHICLE_UPDATE_SUCCESS } from "../contexts/constants";
 
 export const vehicleReducer = (state, action) => {
   switch (action.type) {
@@ -15,6 +15,7 @@ export const vehicleReducer = (state, action) => {
         vehicleLoading: false,
         vehicleError: true,
       };
+
     case VEHICLE_CREATE_SUCCESS:
       return {
         ...state,
@@ -25,6 +26,27 @@ export const vehicleReducer = (state, action) => {
         ...state,
         vehicleError: true,
       };
+    case VEHICLE_UPDATE_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case VEHICLE_UPDATE_SUCCESS:
+      const updatedVehicle = action.payload;
+      return {
+        ...state,
+        loading: false,
+        vehicles: state.vehicles.map((vehicle) =>
+          vehicle._id === updatedVehicle._id ? updatedVehicle : vehicle
+        ),
+      };
+    case VEHICLE_UPDATE_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+
     case VEHICLE_DELETE_SUCCESS:
       return {
         ...state,

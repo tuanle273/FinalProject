@@ -9,6 +9,9 @@ import {
   VEHICLE_DELETE_SUCCESS,
   VEHICLE_FETCH_FAIL,
   VEHICLE_FETCH_SUCCESS,
+  VEHICLE_UPDATE_FAIL,
+  VEHICLE_UPDATE_REQUEST,
+  VEHICLE_UPDATE_SUCCESS,
 } from "./constants";
 
 export const VehicleContext = createContext();
@@ -19,10 +22,22 @@ export function VehicleProvider({ children }) {
     vehicleLoading: true,
     vehicleError: false,
   });
-  const [show, setShow] = useState(false);
+  //Modal Create
+  const [showCreate, setShowCreate] = useState(false);
+  const handleCloseCreate = () => setShowCreate(false);
+  const handleShowCreate = () => setShowCreate(true);
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  //Modal Edit
+  const [showEdit, setShowEdit] = useState(false);
+  const handleCloseEdit = () => setShowEdit(false);
+  const handleShowEdit = () => setShowEdit(true);
+
+  //Modal Delete
+  const [showDelete, setShowDelete] = useState(false);
+  const handleCloseDelete = () => setShowDelete(false);
+  const handleShowDelete = () => setShowDelete(true);
+  const [selectedVehicleId, setSelectedVehicleId] = useState(null);
+
   // Load vehicles
   const loadVehicles = async () => {
     try {
@@ -49,12 +64,36 @@ export function VehicleProvider({ children }) {
           type: VEHICLE_CREATE_SUCCESS,
           payload: response.data.vehicle,
         });
-        setShow(false); // Hide the modal
-        loadVehicles(); // Reload the vehicles data
         return { success: true, message: "Vehicle added successfully" };
       }
     } catch (error) {
       dispatch({ type: VEHICLE_CREATE_FAIL });
+      return { success: false, message: error.message };
+    }
+  };
+
+  //update vehicle
+  const updateVehicle = (id, updatedVehicle) => async (dispatch) => {
+    try {
+      dispatch({ type: VEHICLE_UPDATE_REQUEST });
+
+      const response = await axios.put(
+        `${apiUrl}/vehicle/${id}`,
+        updatedVehicle
+      );
+
+      if (response.data.success) {
+        dispatch({
+          type: VEHICLE_UPDATE_SUCCESS,
+          payload: response.data.vehicle,
+        });
+        return { success: true, message: "Vehicle updated successfully" };
+      } else {
+        dispatch({ type: VEHICLE_UPDATE_FAIL, payload: response.data.error });
+        return { success: false, message: response.data.error };
+      }
+    } catch (error) {
+      dispatch({ type: VEHICLE_UPDATE_FAIL, payload: error.message });
       return { success: false, message: error.message };
     }
   };
@@ -75,6 +114,7 @@ export function VehicleProvider({ children }) {
     vehicleState,
     loadVehicles,
     createVehicle,
+    updateVehicle,
     deleteVehicle,
   };
 

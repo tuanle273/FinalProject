@@ -4,9 +4,9 @@ import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import { VehicleContext } from "../../../../contexts/VehicleContext";
 
-const EditVehicleModal = (props) => {
+const EditVehicleModal = (props, item) => {
   const [alert, setAlert] = useState(null);
-  const { createVehicle } = useContext(VehicleContext);
+  const { updateVehicle } = useContext(VehicleContext);
   const [formData, setFormData] = useState({
     title: "",
     model: "",
@@ -31,7 +31,7 @@ const EditVehicleModal = (props) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const response = await createVehicle(formData);
+    const response = await updateVehicle(formData);
     if (response.success) {
       console.log(response.message);
     } else {
@@ -176,6 +176,7 @@ const EditVehicleModal = (props) => {
             <Form.Group controlId="image">
               <Form.Label>Image</Form.Label>
               <Form.Control
+                placeholder={item.image}
                 type="text"
                 name="image"
                 value={formData.image}
@@ -187,7 +188,7 @@ const EditVehicleModal = (props) => {
               type="submit"
               class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             >
-              Add new vehicle
+              Update
             </button>
           </Form>
         </Modal.Body>{" "}

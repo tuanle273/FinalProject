@@ -53,8 +53,8 @@ const register = async (req, res) => {
         userRole: newUser.role,
         userName: newUser.username,
       },
-      process.env.ACCESS_TOKEN,
-      { expiresIn: "1d" }
+      process.env.ACCESS_TOKEN
+      // { expiresIn: "1d" }
     );
 
     res.json({ success: true, message: "Created token", accessToken });
