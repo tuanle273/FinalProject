@@ -97,7 +97,7 @@ const login = async (req, res) => {
         userName: user.username,
       },
       process.env.ACCESS_TOKEN,
-      { expiresIn: "1h" }
+      // { expiresIn: "1h" }
     );
     res.json({ success: true, message: "Login Successfully", accessToken });
   } catch (error) {

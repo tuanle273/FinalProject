@@ -2,7 +2,11 @@ import axios from "axios";
 import { createContext, useEffect, useReducer, useState } from "react";
 import { authReducer } from "../reducers/authReducer";
 import setAuthToken from "../utils/setAuthToken";
-import { apiUrl, LOCAL_STORAGE_TOKEN_NAME } from "./constants";
+import {
+  apiUrl,
+  LOCAL_STORAGE_TOKEN_NAME,
+  UPDATE_USER_PROFILE,
+} from "./constants";
 export const AuthContext = createContext();
 
 const AuthContextProvider = ({ children }) => {
@@ -92,8 +96,42 @@ const AuthContextProvider = ({ children }) => {
       payload: { isAuthenticated: false, user: null },
     });
   };
+
+  const updateUserProfile = async (id, userData) => {
+    try {
+      const response = await axios.put(
+        `${apiUrl}/user/profile/${id}`,
+        userData
+      );
+      console.log(
+        "🚀 ~ file: AuthContext.js:106 ~ updateUserProfile ~ response",
+        response
+      );
+      if (response.status >= 200 && response.status < 300) {
+        dispatch({
+          type: UPDATE_USER_PROFILE,
+          payload: response.data.userDetail,
+        });
+      }
+      return response.data;
+    } catch (error) {
+      if (error.response.data) return error.response.data;
+      else
+        return {
+          success: false,
+          message: error.message,
+        };
+    }
+  };
+
   //context data
-  const authContextData = { loginUser, registerUser, logoutUser, authState };
+  const authContextData = {
+    loginUser,
+    registerUser,
+    logoutUser,
+    updateUserProfile,
+    authState,
+  };
   return (
     <AuthContext.Provider value={authContextData}>
       {children}

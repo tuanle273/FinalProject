@@ -24,12 +24,14 @@ const updateUser = async (req, res) => {
         res.json({
           success: true,
           message: "Update user Success!",
-          vehicle: updatedUser,
+          userDetail: updatedUser,
         });
       }
     }
   );
 };
+
+
 const getHistory = async (req, res) => {
   try {
     const bookingDetail = await Booking.find({ userId: req.userId });
