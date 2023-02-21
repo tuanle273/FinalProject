@@ -12,22 +12,20 @@ const LoginForm = () => {
     username: "",
     password: "",
   });
-  const [alert, setAlert] = useState(null);
+
   const { username, password } = loginForm;
   const onChangeLoginForm = (event) =>
     setLoginForm({ ...loginForm, [event.target.name]: event.target.value });
-  const [show, setShow] = useState(false);
+
   const login = async (event) => {
     event.preventDefault();
     try {
       const loginData = await loginUser(loginForm);
 
       if (loginData.success) {
-        // history.push("/home");
+        toast.success(loginData.message);
       } else {
         toast.error(loginData.message);
-        setAlert({ type: "danger", message: loginData.message });
-        setTimeout(() => setAlert(null), 5000);
       }
     } catch (error) {
       console.log(error);

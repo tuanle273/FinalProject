@@ -4,6 +4,8 @@ export const apiUrl =
     : "somedeployURL";
 export const LOCAL_STORAGE_TOKEN_NAME = "connycar";
 
+export const UPDATE_USER_PROFILE = "UPDATE_USER_PROFILE";
+
 export const VEHICLE_FETCH_REQUEST = "VEHICLE_FETCH_REQUEST";
 export const VEHICLE_FETCH_SUCCESS = "VEHICLE_FETCH_SUCCESS";
 export const VEHICLE_FETCH_FAIL = "VEHICLE_FETCH_FAIL";

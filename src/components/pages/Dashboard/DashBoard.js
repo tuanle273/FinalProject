@@ -26,7 +26,8 @@ const DashBoard = () => {
     setCurrentVehicle(null);
   };
   const {
-    vehicleState: { vehicles, vehicleLoading, vehicleError, deleteVehicle },
+    vehicleState: { vehicles, vehicleLoading, vehicleError },
+    deleteVehicle,
   } = useContext(VehicleContext);
   const [alert, setAlert] = useState(null);
 
@@ -185,7 +186,7 @@ const DashBoard = () => {
                                   handleClose={handleEditModalClose}
                                   vehicle={currentVehicle}
                                 />{" "}
-                                <button onClick={() => deleteVehicle(item.id)}>
+                                <button onClick={() => deleteVehicle(item._id)}>
                                   Delete Vehicle
                                 </button>
                               </div>

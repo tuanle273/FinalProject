@@ -1,4 +1,5 @@
 import React, { useContext, useState } from "react";
+import { toast, Toaster } from "react-hot-toast";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
 import AlertMessage from "../layout/AlertMessage";
@@ -24,17 +25,15 @@ const RegisterForm = () => {
   const register = async (event) => {
     event.preventDefault();
     if (password !== confirmPassword) {
-      setAlert({ type: "danger", message: "Password do not match" });
-      setTimeout(() => setAlert(null), 5000);
+      toast.error("Password do not match");
       return;
     }
     try {
       const registerData = await registerUser(registerForm);
       if (registerData.success) {
-        // thanh cong
+        toast.success(registerData.message);
       } else {
-        setAlert({ type: "danger", message: registerData.message });
-        setTimeout(() => setAlert(null), 5000);
+        toast.error(registerData.message);
       }
     } catch (error) {
       console.log(error);
@@ -42,6 +41,7 @@ const RegisterForm = () => {
   };
   return (
     <div onSubmit={register}>
+      <Toaster />
       <div class="h-screen md:flex">
         <div class="relative overflow-hidden md:flex w-1/2 bg-gradient-to-tr from-blue-800 to-purple-700 i justify-around items-center hidden">
           <div>

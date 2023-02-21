@@ -39,16 +39,6 @@ const UserProfile = () => {
       <div class="flex flex-col items-center  -mt-1">
         <h4 class="text-xl text-gray-900 font-bold">Personal Info</h4>
         <ul class="mt-2 text-gray-700">
-          <li class="flex border-y py-3">
-            <span class="font-bold w-24">User name:</span>
-            <input
-              type="text"
-              id="first_name"
-              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              placeholder={user.username}
-              required
-            ></input>
-          </li>
           <li class="flex border-b py-2">
             <span class="font-bold w-24">Email:</span>
             <input
