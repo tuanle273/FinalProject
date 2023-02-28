@@ -31,7 +31,6 @@ const updateUser = async (req, res) => {
   );
 };
 
-
 const getHistory = async (req, res) => {
   try {
     const bookingDetail = await Booking.find({ userId: req.userId });
@@ -40,6 +39,7 @@ const getHistory = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
+
 const authenticateRole = (requiredRoles) => {
   return (req, res, next) => {
     try {
