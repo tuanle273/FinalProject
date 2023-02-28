@@ -103,10 +103,7 @@ const AuthContextProvider = ({ children }) => {
         `${apiUrl}/user/profile/${id}`,
         userData
       );
-      console.log(
-        "🚀 ~ file: AuthContext.js:106 ~ updateUserProfile ~ response",
-        response
-      );
+   
       if (response.status >= 200 && response.status < 300) {
         dispatch({
           type: UPDATE_USER_PROFILE,

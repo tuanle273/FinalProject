@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
-import toast, { Toaster } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 import { VehicleContext } from "../../../../contexts/VehicleContext";
 const CreateVehicleModal = (props) => {
   const [alert, setAlert] = useState(null);
@@ -34,7 +34,7 @@ const CreateVehicleModal = (props) => {
     const response = await createVehicle(formData);
     if (response.success) {
       console.log();
-     
+
       props.handleClose();
     } else {
       setAlert({ type: "danger", message: response.message });
@@ -159,6 +159,16 @@ const CreateVehicleModal = (props) => {
                 type="number"
                 name="price"
                 value={formData.price}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
+            <Form.Group controlId="type">
+              <Form.Label>Type</Form.Label>
+              <Form.Control
+                type="text"
+                name="type"
+                value={formData.type}
                 onChange={handleChange}
                 required
               />

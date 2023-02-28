@@ -1,14 +1,17 @@
+import "bootstrap/dist/css/bootstrap.min.css";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
+import { UserProvider } from "./contexts/UserContext";
 import { VehicleProvider } from "./contexts/VehicleContext";
-
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <VehicleProvider>
-    <App />
+    <UserProvider>
+      <App />
+    </UserProvider>
   </VehicleProvider>
 );
 

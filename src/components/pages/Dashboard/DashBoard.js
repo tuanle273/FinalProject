@@ -1,3 +1,4 @@
+import { Modal } from "antd";
 import React, { Fragment, useContext, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Spinner from "react-bootstrap/Spinner";
@@ -25,11 +26,23 @@ const DashBoard = () => {
     handleCloseEdit(false);
     setCurrentVehicle(null);
   };
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
   const {
     vehicleState: { vehicles, vehicleLoading, vehicleError },
     deleteVehicle,
   } = useContext(VehicleContext);
-  const [alert, setAlert] = useState(null);
 
   if (vehicleLoading)
     return (
@@ -61,7 +74,7 @@ const DashBoard = () => {
                 </header>
                 <div class="p-3">
                   <div class="overflow-x-auto">
-                    <table class="table-auto w-full">
+                    <table class="table-auto">
                       <thead class="text-xs font-semibold uppercase text-gray-400 bg-gray-50">
                         <tr>
                           <th class="p-2 whitespace-nowrap">
@@ -93,6 +106,9 @@ const DashBoard = () => {
                             <div class="font-semibold text-center">
                               Transmission
                             </div>
+                          </th>
+                          <th class="p-2 whitespace-nowrap">
+                            <div class="font-semibold text-center">Type</div>
                           </th>
                           <th class="p-2 whitespace-nowrap">
                             <div class="font-semibold text-center">
@@ -164,6 +180,9 @@ const DashBoard = () => {
                               </div>
                             </td>
                             <td class="p-2 whitespace-nowrap">
+                              <div class="text-lg text-center">{item.type}</div>
+                            </td>
+                            <td class="p-2 whitespace-nowrap">
                               <div class="text-lg text-center">
                                 {String(item.availability)}
                               </div>
@@ -186,9 +205,20 @@ const DashBoard = () => {
                                   handleClose={handleEditModalClose}
                                   vehicle={currentVehicle}
                                 />{" "}
-                                <button onClick={() => deleteVehicle(item._id)}>
-                                  Delete Vehicle
-                                </button>
+                                <Button type="primary" onClick={showModal}>
+                                  Open Modal
+                                </Button>
+                                <Modal
+                                  id="modalBackground"
+                                  title="Basic Modal"
+                                  open={isModalOpen}
+                                  onOk={handleOk}
+                                  onCancel={handleCancel}
+                                >
+                                  <p>Some contents...</p>
+                                  <p>Some contents...</p>
+                                  <p>Some contents...</p>
+                                </Modal>
                               </div>
                             </td>
                           </tr>
