@@ -45,6 +45,7 @@ const VehicleSchema = new Schema({
   },
   type: {
     type: String,
+    default: "car",
   },
   availability: {
     type: Boolean,

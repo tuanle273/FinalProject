@@ -36,7 +36,7 @@ router.get(
 
   passport.authenticate("google", { session: false }),
   function (req, res) {
-    history.push("/home");
+    res.redirect("http://localhost:3000");
   }
 );
 

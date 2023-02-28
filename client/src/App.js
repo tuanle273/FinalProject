@@ -6,37 +6,56 @@ import NotFound from "./components/pages/404/NotFound";
 import About from "./components/pages/About";
 import DashBoard from "./components/pages/Dashboard/DashBoard";
 import CheckOut from "./components/pages/Logged/CheckOut";
-import UserProfile from "./components/pages/UserProfile";
+
 import ProtectedRoute from "./components/routing/ProtectedRoute";
 import AuthContextProvider from "./contexts/AuthContext";
 import Auth from "./views/Auth";
+
+import { BubblyContainer, BubblyLink } from "react-bubbly-transitions";
+import History from "./components/pages/Logged/History";
+import UserProfile from "./components/pages/Logged/UserProfile";
+import AdminRoute from "./components/routing/AdminRoute";
 function App() {
   return (
     <AuthContextProvider>
       <Router>
+        {" "}
+        <BubblyContainer />
         <Switch>
+          {" "}
           <ProtectedRoute
             exact
             path="/profile"
             component={UserProfile}
+          ></ProtectedRoute>{" "}
+          <ProtectedRoute
+            exact
+            path="/history"
+            component={History}
           ></ProtectedRoute>
           <ProtectedRoute
             exact
             path="/about"
             component={About}
           ></ProtectedRoute>
-          <ProtectedRoute
-            exact
-            path="/admin"
-            component={DashBoard}
-          ></ProtectedRoute>
+          <AdminRoute exact path="/admin" component={DashBoard}></AdminRoute>
           <ProtectedRoute
             exact
             path="/checkout"
             component={CheckOut}
           ></ProtectedRoute>
-
-          <ProtectedRoute exact path="/" component={Landing}></ProtectedRoute>
+          <ProtectedRoute
+            exact
+            path="/"
+            component={Landing}
+            element={
+              <>
+                <BubblyLink to="/">Home</BubblyLink>
+                <BubblyLink to="/about">About</BubblyLink>
+                <BubblyLink to="/contact">Contact</BubblyLink>
+              </>
+            }
+          ></ProtectedRoute>
           <Route
             exact
             path="/login"
@@ -47,7 +66,6 @@ function App() {
             path="/register"
             render={(props) => <Auth {...props} authRoute="register" />}
           ></Route>
-
           <Route path="*">
             <NotFound />
           </Route>
