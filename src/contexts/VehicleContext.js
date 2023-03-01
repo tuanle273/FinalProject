@@ -57,6 +57,7 @@ export function VehicleProvider({ children }) {
 
   // Create vehicle
   const createVehicle = async (newVehicle) => {
+  
     try {
       const response = await axios.post(apiUrl + "/vehicle", newVehicle);
       if (response.status >= 200 && response.status < 300) {
