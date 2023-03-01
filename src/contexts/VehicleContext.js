@@ -22,22 +22,7 @@ export function VehicleProvider({ children }) {
     vehicleLoading: true,
     vehicleError: false,
   });
-  //Modal Create
-  const [showCreate, setShowCreate] = useState(false);
-  const handleCloseCreate = () => setShowCreate(false);
-  const handleShowCreate = () => setShowCreate(true);
-
-  //Modal Edit
-  const [showEdit, setShowEdit] = useState(false);
-  const handleCloseEdit = () => setShowEdit(false);
-  const handleShowEdit = () => setShowEdit(true);
-
-  //Modal Delete
-  const [showDelete, setShowDelete] = useState(false);
-  const handleCloseDelete = () => setShowDelete(false);
-  const handleShowDelete = () => setShowDelete(true);
-  const [selectedVehicleId, setSelectedVehicleId] = useState(null);
-
+ 
   // Load vehicles
   const loadVehicles = async () => {
     try {
@@ -74,27 +59,23 @@ export function VehicleProvider({ children }) {
   };
 
   //update vehicle
-  const updateVehicle = (id, updatedVehicle) => async (dispatch) => {
+  const updateVehicle = async (id, updatedVehicle) => { 
     try {
-      dispatch({ type: VEHICLE_UPDATE_REQUEST });
-
+   
       const response = await axios.put(
         `${apiUrl}/vehicle/${id}`,
         updatedVehicle
       );
 
-      if (response.data.success) {
+      if (response.status >= 200 && response.status < 300) {
         dispatch({
           type: VEHICLE_UPDATE_SUCCESS,
           payload: response.data.vehicle,
         });
-        return { success: true, message: "Vehicle updated successfully" };
-      } else {
-        dispatch({ type: VEHICLE_UPDATE_FAIL, payload: response.data.error });
-        return { success: false, message: response.data.error };
+        return { success: true, message: "Vehicle Updated successfully" };
       }
     } catch (error) {
-      dispatch({ type: VEHICLE_UPDATE_FAIL, payload: error.message });
+      dispatch({ type: VEHICLE_UPDATE_FAIL });
       return { success: false, message: error.message };
     }
   };
@@ -105,6 +86,7 @@ export function VehicleProvider({ children }) {
       const response = await axios.delete(`${apiUrl}/vehicle/${id}`);
       if (response.data.success) {
         dispatch({ type: VEHICLE_DELETE_SUCCESS, payload: id });
+        return { success: true, message: "Vehicle Delete successfully" };
       }
     } catch (error) {
       dispatch({ type: VEHICLE_DELETE_FAIL });

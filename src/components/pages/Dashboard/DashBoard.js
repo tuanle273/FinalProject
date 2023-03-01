@@ -3,6 +3,7 @@ import Button from "react-bootstrap/Button";
 import Spinner from "react-bootstrap/Spinner";
 import { VehicleContext } from "../../../contexts/VehicleContext";
 import CreateVehicleModal from "./Modal/CreateVehicleModal";
+import DeleteModal from "./Modal/DeleteModal";
 import EditVehicleModal from "./Modal/EditVehicleModal";
 const DashBoard = () => {
   //Modal Create
@@ -11,24 +12,28 @@ const DashBoard = () => {
   const handleShowCreate = () => setShowCreate(true);
 
   //Modal Edit
+  const [itemIdToUpdate, setItemIdToUpdate] = useState(null);
+  console.log("🚀 ~ file: DashBoard.js:16 ~ DashBoard ~ itemIdToUpdate:", itemIdToUpdate)
   const [showEdit, setShowEdit] = useState(false);
   const handleCloseEdit = () => setShowEdit(false);
-  const handleShowEdit = () => setShowEdit(true);
-  const [currentVehicle, setCurrentVehicle] = useState(null);
+  const handleShowEdit = (itemId) => {
+    setItemIdToUpdate(itemId);
+    setShowEdit(true)};
 
-  const handleEdit = (vehicle) => {
-    handleShowEdit();
-    setCurrentVehicle(vehicle);
+   //Modal Delete
+   const [itemIdToDelete, setItemIdToDelete] = useState(null);
+   const [showDelete, setShowDelete] = useState(false);
+   const handleCloseDelete = () => setShowDelete(false);
+   const handleShowDelete = (itemId) => {
+    setItemIdToDelete(itemId);
+    setShowDelete(true);
   };
 
-  const handleEditModalClose = () => {
-    handleCloseEdit(false);
-    setCurrentVehicle(null);
-  };
+
 
   const {
     vehicleState: { vehicles, vehicleLoading, vehicleError },
-    deleteVehicle,
+    
   } = useContext(VehicleContext);
 
   if (vehicleLoading)
@@ -179,17 +184,32 @@ const DashBoard = () => {
                             </td>
                             <td class="p-2 whitespace-nowrap">
                               <div class="text-lg text-center">
-                                <Button
+                                <button
+                                 class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded"
                                   type="primary"
-                                  onClick={() => handleEdit(item)}
+                                  onClick={() => handleShowEdit(item._id)}
                                 >
                                   edit
-                                </Button>
+                                </button>
                                 <EditVehicleModal
                                   show={showEdit}
-                                  handleClose={handleEditModalClose}
-                                  vehicle={currentVehicle}
+                                  handleClose={handleCloseEdit}
+                                  itemId={itemIdToUpdate}
                                 />{" "}
+                                
+                                <button 
+                                class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded"
+                                  type="primary"
+                                  onClick={() => handleShowDelete(item._id)}
+                                >
+                                  Delete
+                                </button>
+                                <DeleteModal
+                                  show={showDelete}
+                                  handleClose={handleCloseDelete}
+                                  itemId={itemIdToDelete}
+                                />{" "}
+                                
                               </div>
                             </td>
                           </tr>

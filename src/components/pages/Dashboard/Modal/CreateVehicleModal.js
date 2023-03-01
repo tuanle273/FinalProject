@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import Form from "react-bootstrap/Form";
-import { Toaster } from "react-hot-toast";
+import { toast, Toaster } from "react-hot-toast";
 import { VehicleContext } from "../../../../contexts/VehicleContext";
 const CreateVehicleModal = (props) => {
   const { createVehicle } = useContext(VehicleContext);
@@ -30,14 +30,19 @@ const CreateVehicleModal = (props) => {
     event.preventDefault();
     const response = await createVehicle(formData);
     if (response.success) {
-      console.log();
-
+      
+        toast.success(response.message);
+      
+       
       props.handleClose();
-    } else {
+    } else { 
+      toast.error(response.message);
+    
     }
   };
   return (
     <div>
+      <Toaster/>
       {" "}
       {props.show ? (
         <>
@@ -62,7 +67,7 @@ const CreateVehicleModal = (props) => {
                   <Form onSubmit={handleSubmit}>
                     {" "}
                     <Form.Group controlId="title">
-                      <Form.Label>title</Form.Label>
+                      <Form.Label>Title</Form.Label>
                       <Form.Control
                         type="text"
                         name="title"
@@ -82,7 +87,7 @@ const CreateVehicleModal = (props) => {
                       />
                     </Form.Group>
                     <Form.Group controlId="color">
-                      <Form.Label>color</Form.Label>
+                      <Form.Label>Color</Form.Label>
                       <Form.Control
                         type="text"
                         name="color"
@@ -92,7 +97,7 @@ const CreateVehicleModal = (props) => {
                       />
                     </Form.Group>
                     <Form.Group controlId="description">
-                      <Form.Label>description</Form.Label>
+                      <Form.Label>Description</Form.Label>
                       <Form.Control
                         type="text"
                         name="description"
@@ -102,7 +107,7 @@ const CreateVehicleModal = (props) => {
                       />
                     </Form.Group>
                     <Form.Group controlId="platenumber">
-                      <Form.Label>platenumber</Form.Label>
+                      <Form.Label>Platenumber</Form.Label>
                       <Form.Control
                         type="text"
                         name="platenumber"
@@ -122,7 +127,7 @@ const CreateVehicleModal = (props) => {
                       />
                     </Form.Group>
                     <Form.Group controlId="capacity">
-                      <Form.Label>capacity</Form.Label>
+                      <Form.Label>Capacity</Form.Label>
                       <Form.Control
                         type="number"
                         name="capacity"
@@ -132,7 +137,7 @@ const CreateVehicleModal = (props) => {
                       />
                     </Form.Group>
                     <Form.Group controlId="seat">
-                      <Form.Label>seat</Form.Label>
+                      <Form.Label>Seat</Form.Label>
                       <Form.Control
                         type="number"
                         name="seat"
@@ -142,7 +147,7 @@ const CreateVehicleModal = (props) => {
                       />
                     </Form.Group>
                     <Form.Group controlId="transmission">
-                      <Form.Label>transmission</Form.Label>
+                      <Form.Label>Transmission</Form.Label>
                       <Form.Select
                         type="text"
                         name="transmission"
@@ -150,7 +155,7 @@ const CreateVehicleModal = (props) => {
                         onChange={handleChange}
                         required
                         aria-label="Default select example"
-                      >
+                      >      <option>Select transmission</option>
                         <option value="Automatic">Automatic</option>
                         <option value="Manual">Manual</option>
                       </Form.Select>
@@ -177,7 +182,7 @@ const CreateVehicleModal = (props) => {
                     </Form.Group>
                     <Form.Group controlId="availability">
                       {" "}
-                      <Form.Label>availability</Form.Label>
+                      <Form.Label>Availability</Form.Label>
                       <Form.Select
                         type="text"
                         name="availability"
@@ -186,6 +191,7 @@ const CreateVehicleModal = (props) => {
                         required
                         aria-label="Default select example"
                       >
+                        <option>Select availability</option>
                         <option value="true">true</option>
                         <option value="false">false</option>
                       </Form.Select>
@@ -200,12 +206,7 @@ const CreateVehicleModal = (props) => {
                         required
                       />
                     </Form.Group>
-                    <button
-                      type="submit"
-                      class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                    >
-                      add
-                    </button>
+                  
                     {/*footer*/}
                     <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
                       <button
@@ -217,8 +218,8 @@ const CreateVehicleModal = (props) => {
                       </button>
                       <button
                         className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                        type="button"
-                        onClick={props.handleClose}
+                        type="submit"
+                      
                       >
                         Save Changes
                       </button>
@@ -231,7 +232,7 @@ const CreateVehicleModal = (props) => {
           <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
         </>
       ) : null}
-      <Toaster />
+   
     </div>
   );
 };

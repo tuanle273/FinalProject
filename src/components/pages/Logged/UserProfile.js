@@ -23,7 +23,7 @@ const UserProfile = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await updateUserProfile(user._id, { userData });
+    const response = await updateUserProfile(user._id, userData );
     if (response.success) {
       toast.success(response.message);
     } else {
