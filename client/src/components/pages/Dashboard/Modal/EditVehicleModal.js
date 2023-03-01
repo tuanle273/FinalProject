@@ -46,14 +46,15 @@ const EditVehicleModal = (props, item) => {
         show={props.show}
         onHide={props.handleClose}
         keyboard={true}
-        size="sm"
+        size="lg"
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >
-        <h2>edit Vehicle</h2>{" "}
         <Modal.Header closeButton>
-          <Modal.Title>Create Vehicle</Modal.Title>
-          <Button onClick={props.handleClose}>Close</Button>
+          <Modal.Title>Edit Vehicle</Modal.Title>
+          <Button type="primary" onClick={props.handleClose}>
+            Close
+          </Button>
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={handleSubmit}>
@@ -167,10 +168,9 @@ const EditVehicleModal = (props, item) => {
                 required
                 aria-label="Default select example"
               >
-                <option>Open this select menu</option>
+                <option>Availability</option>
                 <option value="true">true</option>
                 <option value="false">false</option>
-                <option value="3">Three</option>
               </Form.Select>
             </Form.Group>
             <Form.Group controlId="image">
@@ -184,14 +184,16 @@ const EditVehicleModal = (props, item) => {
                 required
               />
             </Form.Group>
-            <button
-              type="submit"
-              class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-            >
-              Update
-            </button>
           </Form>
         </Modal.Body>{" "}
+        <Modal.Footer>
+          <button
+            type="submit"
+            class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          >
+            Update
+          </button>
+        </Modal.Footer>
       </Modal>
     </div>
   );
