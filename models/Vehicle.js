@@ -38,14 +38,14 @@ const VehicleSchema = new Schema({
     default: "",
   },
   transmission: {
-    type: Number,
+    type: String,
   },
   price: {
     type: Number,
   },
   type: {
     type: String,
-    default: "car",
+    default: "Car",
   },
   availability: {
     type: Boolean,
