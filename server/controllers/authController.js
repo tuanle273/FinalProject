@@ -1,5 +1,3 @@
-const express = require("express");
-const nodemailer = require("nodemailer");
 const argon2 = require("argon2");
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
@@ -96,9 +94,10 @@ const login = async (req, res) => {
         userRole: user.role,
         userName: user.username,
       },
-      process.env.ACCESS_TOKEN,
+      process.env.ACCESS_TOKEN
       // { expiresIn: "1h" }
     );
+
     res.json({ success: true, message: "Login Successfully", accessToken });
   } catch (error) {
     console.log(error);

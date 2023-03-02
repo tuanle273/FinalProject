@@ -43,15 +43,15 @@ const DashBoard = () => {
     return (
       <div>
         <Fragment>
-          <section class="antialiased bg-gray-100 text-gray-600 h-screen px-4 ">
-            <div class="flex flex-col justify-center ">
-              <div class="w-full max-w-6xl mx-auto bg-white shadow-lg rounded-sm border border-gray-200">
-                <header class="px-5 py-3  border-b border-gray-100">
-                  <h2 class="font-semibold text-gray-800">Vehicles</h2>
+          <section className="antialiased bg-gray-100 text-gray-600 h-screen px-4 ">
+            <div className="flex flex-col justify-center ">
+              <div className="w-full max-w-6xl mx-auto bg-white shadow-lg rounded-sm border border-gray-200">
+                <header className="px-5 py-3  border-b border-gray-100">
+                  <h2 className="font-semibold text-gray-800">Vehicles</h2>
                   <button
                     type="button"
                     onClick={handleShowCreate}
-                    class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                    className="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                   >
                     Add new vehicle
                   </button>
@@ -61,128 +61,146 @@ const DashBoard = () => {
                     handleClose={handleCloseCreate}
                   />
                 </header>
-                <div class="p-3">
-                  <div class="overflow-x-auto">
-                    <table class="table-auto">
-                      <thead class="text-xs font-semibold uppercase text-gray-400 bg-gray-50">
+                <div className="p-3">
+                  <div className="overflow-x-auto">
+                    <table className="table-auto">
+                      <thead className="text-xs font-semibold uppercase text-gray-400 bg-gray-50">
                         <tr>
-                          <th class="p-2 whitespace-nowrap">
-                            <div class="font-semibold text-left">Car</div>
+                          <th className="p-2 whitespace-nowrap">
+                            <div className="font-semibold text-left">Car</div>
                           </th>
-                          <th class="p-2 whitespace-nowrap">
-                            <div class="font-semibold text-left">
+                          <th className="p-2 whitespace-nowrap">
+                            <div className="font-semibold text-left">
                               Description
                             </div>
                           </th>
-                          <th class="p-2 whitespace-nowrap">
-                            <div class="font-semibold text-left">Model</div>
+                          <th className="p-2 whitespace-nowrap">
+                            <div className="font-semibold text-left">Model</div>
                           </th>
-                          <th class="p-2 whitespace-nowrap">
-                            <div class="font-semibold text-center">Color</div>
+                          <th className="p-2 whitespace-nowrap">
+                            <div className="font-semibold text-center">
+                              Color
+                            </div>
                           </th>
-                          <th class="p-2 whitespace-nowrap">
-                            <div class="font-semibold text-center">
+                          <th className="p-2 whitespace-nowrap">
+                            <div className="font-semibold text-center">
                               Plate Number
                             </div>
                           </th>
-                          <th class="p-2 whitespace-nowrap">
-                            <div class="font-semibold text-center">Year</div>
+                          <th className="p-2 whitespace-nowrap">
+                            <div className="font-semibold text-center">
+                              Year
+                            </div>
                           </th>
-                          <th class="p-2 whitespace-nowrap">
-                            <div class="font-semibold text-center">Seat</div>
+                          <th className="p-2 whitespace-nowrap">
+                            <div className="font-semibold text-center">
+                              Seat
+                            </div>
                           </th>
-                          <th class="p-2 whitespace-nowrap">
-                            <div class="font-semibold text-center">
+                          <th className="p-2 whitespace-nowrap">
+                            <div className="font-semibold text-center">
                               Transmission
                             </div>
                           </th>
-                          <th class="p-2 whitespace-nowrap">
-                            <div class="font-semibold text-center">Type</div>
+                          <th className="p-2 whitespace-nowrap">
+                            <div className="font-semibold text-center">
+                              Type
+                            </div>
                           </th>
-                          <th class="p-2 whitespace-nowrap">
-                            <div class="font-semibold text-center">
+                          <th className="p-2 whitespace-nowrap">
+                            <div className="font-semibold text-center">
                               Availability
                             </div>
                           </th>
-                          <th class="p-2 whitespace-nowrap">
-                            <div class="font-semibold text-center">Price</div>
+                          <th className="p-2 whitespace-nowrap">
+                            <div className="font-semibold text-center">
+                              Price
+                            </div>
                           </th>
-                          <th class="p-2 whitespace-nowrap">
-                            <div class="font-semibold text-center">Action</div>
+                          <th className="p-2 whitespace-nowrap">
+                            <div className="font-semibold text-center">
+                              Action
+                            </div>
                           </th>
                         </tr>
                       </thead>
 
-                      <tbody class="text-sm divide-y divide-gray-100">
+                      <tbody className="text-sm divide-y divide-gray-100">
                         {vehicles.map((item) => (
                           <tr key={item._id}>
-                            <td class="p-2 whitespace-nowrap">
-                              <div class="flex items-center">
-                                <div class="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3">
+                            <td className="p-2 whitespace-nowrap">
+                              <div className="flex items-center">
+                                <div className="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3">
                                   <img
-                                    class="rounded-full"
+                                    className="rounded-full"
                                     src={item.image}
                                     width="30"
                                     height="30"
                                     alt="Alex Shatov"
                                   />
                                 </div>
-                                <div class="font-medium text-gray-800">
+                                <div className="font-medium text-gray-800">
                                   {item.title}
                                 </div>
                               </div>
                             </td>
-                            <td class="p-2 whitespace-nowrap">
-                              <div class="text-left">{item.description}</div>
+                            <td className="p-2 whitespace-nowrap">
+                              <div className="text-left">
+                                {item.description}
+                              </div>
                             </td>
-                            <td class="p-2 whitespace-nowrap">
-                              <div class="text-left font-medium text-green-500  ">
+                            <td className="p-2 whitespace-nowrap">
+                              <div className="text-left font-medium text-green-500  ">
                                 {item.model}
                               </div>
                             </td>
-                            <td class="p-2 whitespace-nowrap">
-                              <div class="text-lg text-center">
+                            <td className="p-2 whitespace-nowrap">
+                              <div className="text-lg text-center">
                                 {item.color}
                               </div>
                             </td>
-                            <td class="p-2 whitespace-nowrap">
-                              <div class="text-lg text-center badge bg-primary text-wrap">
+                            <td className="p-2 whitespace-nowrap">
+                              <div className="text-lg text-center badge bg-primary text-wrap">
                                 {item.platenumber}
                               </div>
                             </td>
-                            <td class="p-2 whitespace-nowrap">
+                            <td className="p-2 whitespace-nowrap">
                               {" "}
-                              <div class="text-lg text-center">
-                                <span class="bg-green-100 text-green-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">
+                              <div className="text-lg text-center">
+                                <span className="bg-green-100 text-green-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">
                                   {item.year}
                                 </span>
                               </div>
                             </td>
-                            <td class="p-2 whitespace-nowrap">
-                              <div class="text-lg text-center">{item.seat}</div>
+                            <td className="p-2 whitespace-nowrap">
+                              <div className="text-lg text-center">
+                                {item.seat}
+                              </div>
                             </td>
-                            <td class="p-2 whitespace-nowrap">
-                              <div class="text-lg text-center">
+                            <td className="p-2 whitespace-nowrap">
+                              <div className="text-lg text-center">
                                 {item.transmission}
                               </div>
                             </td>
-                            <td class="p-2 whitespace-nowrap">
-                              <div class="text-lg text-center">{item.type}</div>
+                            <td className="p-2 whitespace-nowrap">
+                              <div className="text-lg text-center">
+                                {item.type}
+                              </div>
                             </td>
-                            <td class="p-2 whitespace-nowrap">
-                              <div class="text-lg text-center">
+                            <td className="p-2 whitespace-nowrap">
+                              <div className="text-lg text-center">
                                 {String(item.availability)}
                               </div>
                             </td>
-                            <td class="p-2 whitespace-nowrap">
-                              <div class="text-lg text-center">
+                            <td className="p-2 whitespace-nowrap">
+                              <div className="text-lg text-center">
                                 {item.price}
                               </div>
                             </td>
-                            <td class="p-2 whitespace-nowrap">
-                              <div class="text-lg text-center">
+                            <td className="p-2 whitespace-nowrap">
+                              <div className="text-lg text-center">
                                 <button
-                                  class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded"
+                                  className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded"
                                   type="primary"
                                   onClick={() => handleShowEdit(item._id)}
                                 >
@@ -194,7 +212,7 @@ const DashBoard = () => {
                                   itemId={itemIdToUpdate}
                                 />{" "}
                                 <button
-                                  class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded"
+                                  className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded"
                                   type="primary"
                                   onClick={() => handleShowDelete(item._id)}
                                 >

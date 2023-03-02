@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
-import Spinner from "react-bootstrap/Spinner";
 import { Redirect } from "react-router-dom";
+import PacmanLoader from "react-spinners/PacmanLoader";
 import LoginForm from "../components/auth/LoginForm";
 import RegisterForm from "../components/auth/RegisterForm";
 import { AuthContext } from "../contexts/AuthContext";
@@ -10,12 +10,16 @@ const Auth = ({ authRoute }) => {
     authState: { authLoading, isAuthenticated },
   } = useContext(AuthContext);
 
-  let body;
 
+  let body;
+ 
   if (authLoading)
     body = (
-      <div className="d-flex justify-content-center mt-2">
-        <Spinner animation="border" variant="info" />
+      <div class="flex items-center h-screen">
+        <div class="m-auto">
+          {" "}
+          <PacmanLoader color="#36d7b7" />
+        </div>
       </div>
     );
   else if (isAuthenticated) return <Redirect to="/" />;
