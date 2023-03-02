@@ -17,6 +17,18 @@ const getVehicle = async (req, res) => {
   }
 };
 
+const getVehicleDetails = async (req, res) => {
+  try {
+    const vehicles = await Vehicle.findById(req.params.id);
+    res.json({
+      vehicles,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, message: "Internal Server Error" });
+  }
+};
+
 const updateVehicle = async (req, res) => {
   Vehicle.findByIdAndUpdate(
     req.params.id,
@@ -70,4 +82,5 @@ module.exports = {
   updateVehicle,
   createVehicle,
   deleteVehicle,
+  getVehicleDetails,
 };
