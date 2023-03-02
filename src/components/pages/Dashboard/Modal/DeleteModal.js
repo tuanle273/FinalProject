@@ -9,7 +9,7 @@ const DeleteModal = (props) => {
   const handleDelete = async (event) => {
     event.preventDefault();
     const response = await deleteVehicle(props.itemId);
-    console.log("🚀 ~ file: DeleteModal.js:12 ~ handleDelete ~ response:", response)
+ 
     if (response.success) {
       toast.success(response.message);
       props.handleClose();

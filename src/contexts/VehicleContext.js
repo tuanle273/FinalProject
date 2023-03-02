@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { createContext, useEffect, useReducer, useState } from "react";
+import React, { createContext, useEffect, useReducer } from "react";
 import { vehicleReducer } from "../reducers/vehicleReducer";
 import {
   apiUrl,
@@ -10,7 +10,6 @@ import {
   VEHICLE_FETCH_FAIL,
   VEHICLE_FETCH_SUCCESS,
   VEHICLE_UPDATE_FAIL,
-  VEHICLE_UPDATE_REQUEST,
   VEHICLE_UPDATE_SUCCESS,
 } from "./constants";
 
@@ -22,7 +21,7 @@ export function VehicleProvider({ children }) {
     vehicleLoading: true,
     vehicleError: false,
   });
- 
+
   // Load vehicles
   const loadVehicles = async () => {
     try {
@@ -38,11 +37,27 @@ export function VehicleProvider({ children }) {
       dispatch({ type: VEHICLE_FETCH_FAIL });
     }
   };
+
   useEffect(() => loadVehicles(), []);
+
+  //get Detail vehicle
+
+  const getDetailVehicle = async (id) => {
+    try {
+      const response = await axios.get(`${apiUrl}/vehicle/${id}`);
+      if (response.status >= 200 && response.status < 300) {
+        dispatch({
+          type: VEHICLE_FETCH_SUCCESS,
+          payload: response.data.vehicles,
+        });
+      }
+    } catch (error) {
+      dispatch({ type: VEHICLE_FETCH_FAIL });
+    }
+  };
 
   // Create vehicle
   const createVehicle = async (newVehicle) => {
-  
     try {
       const response = await axios.post(apiUrl + "/vehicle", newVehicle);
       if (response.status >= 200 && response.status < 300) {
@@ -59,9 +74,8 @@ export function VehicleProvider({ children }) {
   };
 
   //update vehicle
-  const updateVehicle = async (id, updatedVehicle) => { 
+  const updateVehicle = async (id, updatedVehicle) => {
     try {
-   
       const response = await axios.put(
         `${apiUrl}/vehicle/${id}`,
         updatedVehicle
@@ -99,6 +113,7 @@ export function VehicleProvider({ children }) {
     createVehicle,
     updateVehicle,
     deleteVehicle,
+    getDetailVehicle,
   };
 
   return (

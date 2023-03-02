@@ -1,5 +1,4 @@
 import React, { Fragment, useContext, useState } from "react";
-import Button from "react-bootstrap/Button";
 import Spinner from "react-bootstrap/Spinner";
 import { VehicleContext } from "../../../contexts/VehicleContext";
 import CreateVehicleModal from "./Modal/CreateVehicleModal";
@@ -13,27 +12,25 @@ const DashBoard = () => {
 
   //Modal Edit
   const [itemIdToUpdate, setItemIdToUpdate] = useState(null);
-  console.log("🚀 ~ file: DashBoard.js:16 ~ DashBoard ~ itemIdToUpdate:", itemIdToUpdate)
+
   const [showEdit, setShowEdit] = useState(false);
   const handleCloseEdit = () => setShowEdit(false);
   const handleShowEdit = (itemId) => {
     setItemIdToUpdate(itemId);
-    setShowEdit(true)};
+    setShowEdit(true);
+  };
 
-   //Modal Delete
-   const [itemIdToDelete, setItemIdToDelete] = useState(null);
-   const [showDelete, setShowDelete] = useState(false);
-   const handleCloseDelete = () => setShowDelete(false);
-   const handleShowDelete = (itemId) => {
+  //Modal Delete
+  const [itemIdToDelete, setItemIdToDelete] = useState(null);
+  const [showDelete, setShowDelete] = useState(false);
+  const handleCloseDelete = () => setShowDelete(false);
+  const handleShowDelete = (itemId) => {
     setItemIdToDelete(itemId);
     setShowDelete(true);
   };
 
-
-
   const {
     vehicleState: { vehicles, vehicleLoading, vehicleError },
-    
   } = useContext(VehicleContext);
 
   if (vehicleLoading)
@@ -185,7 +182,7 @@ const DashBoard = () => {
                             <td class="p-2 whitespace-nowrap">
                               <div class="text-lg text-center">
                                 <button
-                                 class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded"
+                                  class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded"
                                   type="primary"
                                   onClick={() => handleShowEdit(item._id)}
                                 >
@@ -196,9 +193,8 @@ const DashBoard = () => {
                                   handleClose={handleCloseEdit}
                                   itemId={itemIdToUpdate}
                                 />{" "}
-                                
-                                <button 
-                                class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded"
+                                <button
+                                  class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded"
                                   type="primary"
                                   onClick={() => handleShowDelete(item._id)}
                                 >
@@ -209,7 +205,6 @@ const DashBoard = () => {
                                   handleClose={handleCloseDelete}
                                   itemId={itemIdToDelete}
                                 />{" "}
-                                
                               </div>
                             </td>
                           </tr>
