@@ -11,6 +11,12 @@ const vehicleController = require("../controllers/VehicleController");
 
 router.get("/", verifyToken, vehicleController.getVehicle);
 
+//@route GET api/Vehicle/:id
+// @desc get Vehicledetail
+// @access Private
+
+router.get("/:id", verifyToken, vehicleController.getVehicleDetails);
+
 //@route PUT api/Vehicle
 // @desc Update Vehicle
 // @access Private

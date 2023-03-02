@@ -1,6 +1,7 @@
 import React, { Fragment, useContext } from "react";
 import Spinner from "react-bootstrap/Spinner";
 import { UserContext } from "../../../contexts/UserContext";
+import FormattedDate from "../../../utils/FormattedDate";
 const History = () => {
   const {
     userState: { users, userLoading, userError },
@@ -89,7 +90,10 @@ const History = () => {
                               <div class=" text-center">{item.status}</div>
                             </td>
                             <td class="p-2 whitespace-nowrap">
-                              <div class=" text-center">{item.created_at}</div>
+                              <div class=" text-center">
+                                {" "}
+                                <FormattedDate date={item.created_at} />
+                              </div>
                             </td>
                           </tr>
                         ))}
