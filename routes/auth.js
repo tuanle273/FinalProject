@@ -24,7 +24,7 @@ router.post("/register", authController.register);
 router.post("/login", authController.login);
 
 //
-router.post("/forgotpass", verifyToken, emailResetPass.emailPass);
+router.post("/forgotpass", emailResetPass.emailPass);
 
 router.post("/reset-password/:token", emailResetPass.tokenPass);
 

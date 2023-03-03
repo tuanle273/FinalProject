@@ -140,7 +140,7 @@ const loginByGoogle = async (req, res) => {
                 googleId: profile.id,
                 email: profile.emails[0].value,
                 username: profile.emails[0].value,
-                avatar: profile.photos[0].value,
+                imageUrl: profile.photos[0].value,
               })
                 .save()
                 .then((user) => done(null, user));
