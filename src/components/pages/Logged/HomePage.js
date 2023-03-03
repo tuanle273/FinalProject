@@ -90,7 +90,7 @@ export default function HomePage(props) {
                           <img
                             alt="Placeholder"
                             className="block h-48 w-full rounded"
-                            src={item.image}
+                            src={item.imageUrl}
                           />
                         </div>
                         <div className="p-2">

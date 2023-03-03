@@ -3,7 +3,7 @@ export const apiUrl =
     ? "http://localhost:5000/api"
     : "somedeployURL";
 export const LOCAL_STORAGE_TOKEN_NAME = "connycar";
-
+export const SET_AUTH = "SET_AUTH";
 export const UPDATE_USER_PROFILE = "UPDATE_USER_PROFILE";
 
 export const VEHICLE_FETCH_REQUEST = "VEHICLE_FETCH_REQUEST";

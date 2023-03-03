@@ -50,6 +50,7 @@ const Sidebar = () => {
       indicatorRef.current.style.height = `${sidebarItem.clientHeight}px`;
       setStepHeight(sidebarItem.clientHeight);
     }, 50);
+    return () => {};
   }, []);
 
   // change active index
@@ -59,6 +60,7 @@ const Sidebar = () => {
       (item) => item.section === curPath
     );
     setActiveIndex(curPath.length === 0 ? 0 : activeItem);
+    return () => {};
   }, [location]);
 
   return (

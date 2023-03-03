@@ -27,7 +27,10 @@ export function UserProvider({ children }) {
       dispatch({ type: HISTORY_FETCH_FAIL });
     }
   };
-  useEffect(() => loadHistory(), []);
+  useEffect(() => {
+    loadHistory();
+    return () => {};
+  }, []);
 
   const value = {
     loadHistory,

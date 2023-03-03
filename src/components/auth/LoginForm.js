@@ -114,11 +114,9 @@ const LoginForm = () => {
               Login
             </button>
             <div className="mb-3">
-              <button
-                onClick=""
-                className="flex flex-wrap justify-center w-full border border-gray-300 hover:border-gray-500 px-2 py-1.5 rounded-md"
-              >
+              <button className="flex flex-wrap justify-center w-full border border-gray-300 hover:border-gray-500 px-2 py-1.5 rounded-md">
                 <img
+                  alt="img"
                   className="w-5 mr-2"
                   src="https://lh3.googleusercontent.com/COxitqgJr1sJnIDe8-jiKhxDx1FrYbtRHKJ9z_hELisAlapwE9LUPh6fcXIfb5vwpbMl4xl9H9TRFPc5NOO8Sb3VSgIBrfRYvW6cUA"
                 />
@@ -127,7 +125,7 @@ const LoginForm = () => {
             </div>
 
             <span className="text-sm ml-2 hover:text-blue-500 cursor-pointer">
-              <Link to="/ForgotPass">Forget Password</Link>
+              <Link to="/forgotpassword">Forget Password</Link>
             </span>
             <span className="text-sm ml-14 hover:text-blue-500 cursor-pointer">
               <Link to="/register">Sign Up</Link>

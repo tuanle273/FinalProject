@@ -38,7 +38,10 @@ export function VehicleProvider({ children }) {
     }
   };
 
-  useEffect(() => loadVehicles(), []);
+  useEffect(() => {
+    loadVehicles();
+    return () => {};
+  }, []);
 
   //get Detail vehicle
 

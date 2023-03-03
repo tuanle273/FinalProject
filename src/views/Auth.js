@@ -10,13 +10,12 @@ const Auth = ({ authRoute }) => {
     authState: { authLoading, isAuthenticated },
   } = useContext(AuthContext);
 
-
   let body;
- 
+
   if (authLoading)
     body = (
-      <div class="flex items-center h-screen">
-        <div class="m-auto">
+      <div className="flex items-center h-screen">
+        <div className="m-auto">
           {" "}
           <PacmanLoader color="#36d7b7" />
         </div>
