@@ -51,7 +51,7 @@ const VehicleSchema = new Schema({
     type: Boolean,
     default: true,
   },
-  image: {
+  imageUrl: {
     type: String,
     default:
       "https://res.cloudinary.com/duax5havz/image/upload/v1675608212/istockphoto-1131164548-612x612_tta6jg.jpg",

@@ -1,5 +1,5 @@
 import React, { Fragment, useContext, useState } from "react";
-import Spinner from "react-bootstrap/Spinner";
+import PacmanLoader from "react-spinners/PacmanLoader";
 import { VehicleContext } from "../../../contexts/VehicleContext";
 import CreateVehicleModal from "./Modal/CreateVehicleModal";
 import DeleteModal from "./Modal/DeleteModal";
@@ -35,9 +35,12 @@ const DashBoard = () => {
 
   if (vehicleLoading)
     return (
-      <h1>
-        <Spinner animation="border" />
-      </h1>
+      <div class="flex items-center h-screen">
+        <div class="m-auto">
+          {" "}
+          <PacmanLoader color="#36d7b7" />
+        </div>
+      </div>
     );
   else if (vehicles && !vehicleError)
     return (
@@ -133,7 +136,7 @@ const DashBoard = () => {
                                 <div className="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3">
                                   <img
                                     className="rounded-full"
-                                    src={item.image}
+                                    src={item.imageUrl}
                                     width="30"
                                     height="30"
                                     alt="Alex Shatov"
@@ -192,19 +195,19 @@ const DashBoard = () => {
                                 {String(item.availability)}
                               </div>
                             </td>
-                            <td className="p-2 whitespace-nowrap">
+                            <td className="p-2 ">
                               <div className="text-lg text-center">
                                 {item.price}
                               </div>
                             </td>
                             <td className="p-2 whitespace-nowrap">
-                              <div className="text-lg text-center">
+                              <div className="text-lg text-center   inline-flex items-center ">
                                 <button
-                                  className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded"
+                                  className="bg-blue-500  hover:bg-blue-400 text-white font-bold flex py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded"
                                   type="primary"
                                   onClick={() => handleShowEdit(item._id)}
                                 >
-                                  edit
+                                  Edit
                                 </button>
                                 <EditVehicleModal
                                   show={showEdit}
@@ -212,7 +215,7 @@ const DashBoard = () => {
                                   itemId={itemIdToUpdate}
                                 />{" "}
                                 <button
-                                  className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded"
+                                  className="bg-red-500 hover:bg-red-400 text-white font-bold flex py-2 px-4 border-b-4 border-red-700 hover:border-red-500 rounded"
                                   type="primary"
                                   onClick={() => handleShowDelete(item._id)}
                                 >

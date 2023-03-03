@@ -8,37 +8,90 @@ const NavbarMain = () => {
   const location = useLocation();
   const {
     authState: {
-      user: { username, avatar, email, role },
+      user: { username, imageUrl, email, role },
       isAuthenticated,
     },
     logoutUser,
   } = useContext(AuthContext);
 
   let navigation;
-  if (isAuthenticated && role === "admin") {
-    navigation = [
-      { name: "Home", to: "/", current: location.pathname === "/" },
-      { name: "Team", to: "/about", current: location.pathname === "/about" },
-      { name: "Projects", to: "#", current: location.pathname === "/projects" },
-      { name: "Calendar", to: "#", current: location.pathname === "/calendar" },
-      {
-        name: "Dashboard",
-        to: "/admin",
-        current: location.pathname === "/admin",
-      },
-    ];
+  if (isAuthenticated) {
+    if (role === "admin") {
+      navigation = [
+        { name: "Home", to: "/", current: location.pathname === "/" },
+        { name: "Team", to: "/about", current: location.pathname === "/about" },
+        {
+          name: "Projects",
+          to: "#",
+          current: location.pathname === "/projects",
+        },
+        {
+          name: "Calendar",
+          to: "#",
+          current: location.pathname === "/calendar",
+        },
+        {
+          name: "Dashboard",
+          to: "/admin",
+          current: location.pathname === "/admin",
+        },
+      ];
+    } else if (role === "owner") {
+      navigation = [
+        { name: "Home", to: "/", current: location.pathname === "/" },
+        { name: "Team", to: "/about", current: location.pathname === "/about" },
+        {
+          name: "Projects",
+          to: "#",
+          current: location.pathname === "/projects",
+        },
+        {
+          name: "Calendar",
+          to: "#",
+          current: location.pathname === "/calendar",
+        },
+        {
+          name: "Dashboard",
+          to: "/admin",
+          current: location.pathname === "/admin",
+        },
+      ];
+    } else {
+      navigation = [
+        { name: "Home", to: "/", current: location.pathname === "/" },
+        { name: "Team", to: "/about", current: location.pathname === "/about" },
+        {
+          name: "Projects",
+          to: "#",
+          current: location.pathname === "/projects",
+        },
+        {
+          name: "Calendar",
+          to: "#",
+          current: location.pathname === "/calendar",
+        },
+      ];
+    }
   } else {
     navigation = [
       { name: "Home", to: "/", current: location.pathname === "/" },
       { name: "Team", to: "/about", current: location.pathname === "/about" },
-      { name: "Projects", to: "#", current: location.pathname === "/projects" },
-      { name: "Calendar", to: "#", current: location.pathname === "/calendar" },
+      {
+        name: "Projects",
+        to: "#",
+        current: location.pathname === "/projects",
+      },
+      {
+        name: "Calendar",
+        to: "#",
+        current: location.pathname === "/calendar",
+      },
     ];
   }
   const userNavigation = [
     { name: "Your Profile", to: "/profile" },
     { name: "Rental History", to: "/history" },
-    { name: "Settings", to: "#" },
+    { name: "Settings", to: "/setting" },
   ];
 
   function classNames(...classes) {
@@ -136,7 +189,7 @@ const NavbarMain = () => {
                           <span className="sr-only">Open user menu</span>
                           <img
                             className="h-8 w-8 rounded-full"
-                            src={avatar}
+                            src={imageUrl}
                             alt=""
                           />
                         </Menu.Button>
@@ -217,7 +270,7 @@ const NavbarMain = () => {
                   <div className="flex-shrink-0">
                     <img
                       className="h-10 w-10 rounded-full"
-                      src={avatar}
+                      src={imageUrl}
                       alt=""
                     />
                   </div>

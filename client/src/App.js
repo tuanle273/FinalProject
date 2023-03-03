@@ -3,24 +3,23 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
 import Landing from "./components/layout/Landing";
 import NotFound from "./components/pages/404/NotFound";
-import About from "./components/pages/About";
-import DashBoard from "./components/pages/Dashboard/DashBoard";
-import CheckOut from "./components/pages/Logged/CheckOut";
 
+import DashBoard from "./components/pages/Dashboard/DashBoard";
+import ForgotPassword from "./components/pages/ForgotPassword";
+import About from "./components/pages/Logged/About";
+import CheckOut from "./components/pages/Logged/CheckOut";
+import History from "./components/pages/Logged/History";
+import UserProfile from "./components/pages/Logged/UserProfile";
+import PasswordReset from "./components/pages/PasswordReset";
+import AdminRoute from "./components/routing/AdminRoute";
 import ProtectedRoute from "./components/routing/ProtectedRoute";
 import AuthContextProvider from "./contexts/AuthContext";
 import Auth from "./views/Auth";
-
-import { BubblyContainer, BubblyLink } from "react-bubbly-transitions";
-import History from "./components/pages/Logged/History";
-import UserProfile from "./components/pages/Logged/UserProfile";
-import AdminRoute from "./components/routing/AdminRoute";
 function App() {
   return (
     <AuthContextProvider>
       <Router>
         {" "}
-        <BubblyContainer />
         <Switch>
           {" "}
           <ProtectedRoute
@@ -38,24 +37,23 @@ function App() {
             path="/about"
             component={About}
           ></ProtectedRoute>
+          <Route
+            exact
+            path="/forgotpassword"
+            component={ForgotPassword}
+          ></Route>
+          <Route
+            exact
+            path="/passwordreset/:token"
+            component={PasswordReset}
+          ></Route>
           <AdminRoute exact path="/admin" component={DashBoard}></AdminRoute>
           <ProtectedRoute
             exact
             path="/checkout"
             component={CheckOut}
           ></ProtectedRoute>
-          <ProtectedRoute
-            exact
-            path="/"
-            component={Landing}
-            element={
-              <>
-                <BubblyLink to="/">Home</BubblyLink>
-                <BubblyLink to="/about">About</BubblyLink>
-                <BubblyLink to="/contact">Contact</BubblyLink>
-              </>
-            }
-          ></ProtectedRoute>
+          <ProtectedRoute exact path="/" component={Landing}></ProtectedRoute>
           <Route
             exact
             path="/login"

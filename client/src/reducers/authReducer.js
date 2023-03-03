@@ -1,4 +1,4 @@
-import { UPDATE_USER_PROFILE } from "../contexts/constants";
+import { SET_AUTH, UPDATE_USER_PROFILE } from "../contexts/constants";
 
 export const authReducer = (state, action) => {
   const {
@@ -6,7 +6,7 @@ export const authReducer = (state, action) => {
     payload: { isAuthenticated, user },
   } = action;
   switch (type) {
-    case "SET_AUTH":
+    case SET_AUTH:
       return {
         ...state,
         authLoading: false,

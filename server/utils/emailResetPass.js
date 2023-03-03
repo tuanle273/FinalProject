@@ -14,7 +14,7 @@ const transporter = nodemailer.createTransport({
 });
 //forgot password
 const emailPass = async (req, res) => {
-  const email = "tuanle273@gmail.com";
+  const email = req.body.email;
 
   User.findOne({ email })
     .then((user) => {
@@ -31,7 +31,7 @@ const emailPass = async (req, res) => {
         from: "tuanle2731@gmail.com",
         to: email,
         subject: "Forgot Password",
-        text: `Please click on the following link to reset your password: http://localhost:5000/api/auth/reset-password/${resetToken}`,
+        text: `Please click on the following link to reset your password: http://localhost:3000/passwordreset/${resetToken}`,
       };
 
       // Send the email
@@ -41,7 +41,9 @@ const emailPass = async (req, res) => {
           return res.status(500).send({ error: "Failed to send email." });
         } else {
           console.log("Email sent: " + info.response);
-          return res.send({ success: "Password reset email sent." });
+          return res.send({
+            success: "Password reset email sent. Please check your EMAIL",
+          });
         }
       });
     })

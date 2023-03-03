@@ -3,12 +3,12 @@ import React, { createContext, useEffect, useReducer } from "react";
 import { BookingReducer } from "../reducers/BookingReducer";
 import {
   apiUrl,
-  Booking_CREATE_FAIL,
+  BOOKING_CREATE_FAIL,
   BOOKING_CREATE_SUCCESS,
   BOOKING_DELETE_FAIL,
   BOOKING_DELETE_SUCCESS,
-  Booking_FETCH_FAIL,
-  Booking_FETCH_SUCCESS,
+  BOOKING_FETCH_FAIL,
+  BOOKING_FETCH_SUCCESS,
   BOOKING_UPDATE_FAIL,
   BOOKING_UPDATE_SUCCESS,
 } from "./constants";
@@ -29,15 +29,18 @@ export function BookingProvider({ children }) {
 
       if (response.status >= 200 && response.status < 300) {
         dispatch({
-          type: Booking_FETCH_SUCCESS,
+          type: BOOKING_FETCH_SUCCESS,
           payload: response.data.Bookings,
         });
       }
     } catch (error) {
-      dispatch({ type: Booking_FETCH_FAIL });
+      dispatch({ type: BOOKING_FETCH_FAIL });
     }
   };
-  useEffect(() => loadBookings(), []);
+  useEffect(() => {
+    loadBookings();
+    return () => {};
+  }, []);
 
   // Create Booking
   const createBooking = async (newBooking) => {
@@ -51,7 +54,7 @@ export function BookingProvider({ children }) {
         return { success: true, message: "Booking added successfully" };
       }
     } catch (error) {
-      dispatch({ type: Booking_CREATE_FAIL });
+      dispatch({ type: BOOKING_CREATE_FAIL });
       return { success: false, message: error.message };
     }
   };

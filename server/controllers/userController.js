@@ -58,6 +58,7 @@ const authenticateRole = (requiredRoles) => {
   };
 };
 
+
 module.exports = {
   getUser,
   getHistory,

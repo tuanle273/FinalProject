@@ -2,9 +2,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 const NotFound = () => {
   return (
-    <div class="w-full h-screen flex flex-col items-center justify-center">
+    <div className="w-full h-screen flex flex-col items-center justify-center">
       <svg
-        class="w-1/2 md:1/3 lg:w-1/4 text-blue-600"
+        className="w-1/2 md:1/3 lg:w-1/4 text-blue-600"
         xmlns="http://www.w3.org/2000/svg"
         data-name="Layer 1"
         viewBox="0 0 860.13137 571.14799"
@@ -155,18 +155,18 @@ const NotFound = () => {
           fill="#cacaca"
         ></path>
       </svg>
-      <div class="flex flex-col items-center justify-center">
-        <p class="text-3xl md:text-4xl lg:text-5xl text-gray-800 mt-12">
+      <div className="flex flex-col items-center justify-center">
+        <p className="text-3xl md:text-4xl lg:text-5xl text-gray-800 mt-12">
           Page Not Found
         </p>
-        <p class="md:text-lg lg:text-xl text-gray-600 mt-8">
+        <p className="md:text-lg lg:text-xl text-gray-600 mt-8">
           Sorry, the page you are looking for could not be found.
         </p>
         <br />
-        <button class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-6 rounded inline-flex items-center">
+        <button className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-6 rounded inline-flex items-center">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            class="h-5 w-5"
+            className="h-5 w-5"
             viewBox="0 0 20 20"
             fill="currentColor"
           >

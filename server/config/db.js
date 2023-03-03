@@ -10,13 +10,11 @@ const connectDb = async () => {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     })
-    .then(() => console.log("DB Connected!"));
+    .then(() => console.log("DB Connected Successfully!"));
   db.on("error", (err) => {
     console.log("DB connection error:", err.message);
     process.exit(1);
   });
-
-
 };
 
 module.exports = {

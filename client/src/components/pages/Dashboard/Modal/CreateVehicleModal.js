@@ -16,7 +16,7 @@ const CreateVehicleModal = (props) => {
     transmission: "",
     price: "",
     availability: "",
-    image: "",
+    imageUrl: "",
   });
 
   const handleChange = (event) => {
@@ -42,8 +42,7 @@ const CreateVehicleModal = (props) => {
   };
   return (
     <div>
-      <Toaster/>
-      {" "}
+      <Toaster />{" "}
       {props.show ? (
         <>
           <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
@@ -155,7 +154,9 @@ const CreateVehicleModal = (props) => {
                         onChange={handleChange}
                         required
                         aria-label="Default select example"
-                      >      <option>Select transmission</option>
+                      >
+                        {" "}
+                        <option>Select transmission</option>
                         <option value="Automatic">Automatic</option>
                         <option value="Manual">Manual</option>
                       </Form.Select>
@@ -196,17 +197,16 @@ const CreateVehicleModal = (props) => {
                         <option value="false">false</option>
                       </Form.Select>
                     </Form.Group>
-                    <Form.Group controlId="image">
+                    <Form.Group controlId="imageUrl">
                       <Form.Label>Image</Form.Label>
                       <Form.Control
                         type="text"
-                        name="image"
-                        value={formData.image}
+                        name="imageUrl"
+                        value={formData.imageUrl}
                         onChange={handleChange}
                         required
                       />
                     </Form.Group>
-                  
                     {/*footer*/}
                     <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
                       <button
@@ -219,7 +219,6 @@ const CreateVehicleModal = (props) => {
                       <button
                         className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                         type="submit"
-                      
                       >
                         Save Changes
                       </button>
@@ -232,7 +231,6 @@ const CreateVehicleModal = (props) => {
           <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
         </>
       ) : null}
-   
     </div>
   );
 };

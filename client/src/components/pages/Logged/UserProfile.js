@@ -11,13 +11,12 @@ const UserProfile = () => {
   const { updateUserProfile } = useContext(AuthContext);
 
   const [userData, setUserData] = useState({
-    email: "",
     age: "",
     phone: "",
     address: "",
     gender: "",
   });
-  const { email, age, phone, address, gender } = userData;
+  const { age, phone, address, gender } = userData;
   const onChangeUpdateForm = (event) =>
     setUserData({ ...userData, [event.target.name]: event.target.value });
 
@@ -37,7 +36,8 @@ const UserProfile = () => {
         <Toaster />
         <div className="flex flex-col items-center  ">
           <img
-            src={user.avatar}
+            alt="img"
+            src={user.imageUrl}
             className="w-20 border-4 border-white rounded-full"
           />
           <div className="flex items-center space-x-2 mt-2">
@@ -59,24 +59,12 @@ const UserProfile = () => {
               </svg>
             </span>
           </div>
-
-          <p className="text-gray-700">{user.gender}</p>
-          <p className="text-sm text-gray-500">{user.address}</p>
+          <p className="text-gray-700">{user.email}</p>
+          &nbsp;
         </div>
         <div className="flex flex-col items-center  -mt-1">
           <h4 className="text-xl text-gray-900 font-bold">Personal Info</h4>
           <ul className="mt-2 text-gray-700">
-            <li className="flex border-b py-2">
-              <span className="font-bold w-24">Email:</span>
-              <input
-                type="email"
-                name="email"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder={user.email}
-                value={email}
-                onChange={onChangeUpdateForm}
-              ></input>
-            </li>
             <li className="flex border-b py-2">
               <span className="font-bold w-24">Age:</span>
               <input
