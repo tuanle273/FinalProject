@@ -27,32 +27,34 @@ export function VehicleProvider({ children }) {
     try {
       const response = await axios.get(apiUrl + "/vehicle");
 
+
       if (response.status >= 200 && response.status < 300) {
         dispatch({
           type: VEHICLE_FETCH_SUCCESS,
           payload: response.data.vehicles,
         });
+
       }
+      return { success: true, data: response.data.vehicles , message: "Vehicle List" };
     } catch (error) {
       dispatch({ type: VEHICLE_FETCH_FAIL });
     }
   };
 
-  useEffect(() => {
-    loadVehicles();
-    return () => {};
-  }, []);
-
+ 
   //get Detail vehicle
 
-  const getDetailVehicle = async (id) => {
+  const getDetailVehicle = async (_id) => {
+    
     try {
-      const response = await axios.get(`${apiUrl}/vehicle/${id}`);
+      const response = await axios.get(`${apiUrl}/vehicle/${_id}`);
       if (response.status >= 200 && response.status < 300) {
         dispatch({
           type: VEHICLE_FETCH_SUCCESS,
-          payload: response.data.vehicles,
+          payload:response.data.vehicles ,
         });
+        return { success: true, data: response.data.vehicles , message: "Vehicle Founded" };
+         
       }
     } catch (error) {
       dispatch({ type: VEHICLE_FETCH_FAIL });

@@ -1,14 +1,13 @@
 import React, { useContext, useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
-
 const PasswordReset = () => {
   const { passwordReset } = useContext(AuthContext);
   const [formData, setFormData] = useState({
     password: "",
   });
-
+  const history = useHistory();
   const handleChange = (event) => {
     setFormData({
       ...formData,
@@ -20,10 +19,6 @@ const PasswordReset = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const response = await passwordReset(token, formData);
-    console.log(
-      "🚀 ~ file: PasswordReset.js:23 ~ handleSubmit ~ response:",
-      response
-    );
 
     if (response.status >= 200 && response.status < 300) {
       toast.success(response);

@@ -6,13 +6,20 @@ import { AuthContext } from "../../contexts/AuthContext";
 const LoginForm = () => {
   // COntext
   const { loginUser } = useContext(AuthContext);
-
+  const {loginByGoogle} = useContext(AuthContext);
   //Local state
   const [loginForm, setLoginForm] = useState({
     username: "",
     password: "",
   });
-
+  const loginGoogle = async () => {
+    const response = await loginByGoogle();
+    console.log(
+      "🚀 ~ file: CreateVehicleModal.js:31 ~ uploadImageToCloudinary ~ response:",
+      response
+    );
+    return response.accessToken;
+  };
   const { username, password } = loginForm;
   const onChangeLoginForm = (event) =>
     setLoginForm({ ...loginForm, [event.target.name]: event.target.value });
@@ -113,16 +120,7 @@ const LoginForm = () => {
             >
               Login
             </button>
-            <div className="mb-3">
-              <button className="flex flex-wrap justify-center w-full border border-gray-300 hover:border-gray-500 px-2 py-1.5 rounded-md">
-                <img
-                  alt="img"
-                  className="w-5 mr-2"
-                  src="https://lh3.googleusercontent.com/COxitqgJr1sJnIDe8-jiKhxDx1FrYbtRHKJ9z_hELisAlapwE9LUPh6fcXIfb5vwpbMl4xl9H9TRFPc5NOO8Sb3VSgIBrfRYvW6cUA"
-                />
-                Sign in with Google
-              </button>
-            </div>
+           
 
             <span className="text-sm ml-2 hover:text-blue-500 cursor-pointer">
               <Link to="/forgotpassword">Forget Password</Link>
@@ -131,6 +129,18 @@ const LoginForm = () => {
               <Link to="/register">Sign Up</Link>
             </span>
           </form>
+          <div className="mb-3">
+              <button
+              onClick={loginGoogle}
+              className="flex flex-wrap justify-center w-full border border-gray-300 hover:border-gray-500 px-2 py-1.5 rounded-md">
+                <img
+                  alt="img"
+                  className="w-5 mr-2"
+                  src="https://lh3.googleusercontent.com/COxitqgJr1sJnIDe8-jiKhxDx1FrYbtRHKJ9z_hELisAlapwE9LUPh6fcXIfb5vwpbMl4xl9H9TRFPc5NOO8Sb3VSgIBrfRYvW6cUA"
+                />
+                Sign in with Google
+              </button>
+            </div>
         </div>
       </div>
     </div>
