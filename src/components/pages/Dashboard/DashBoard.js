@@ -4,6 +4,7 @@ import { VehicleContext } from "../../../contexts/VehicleContext";
 import CreateVehicleModal from "./Modal/CreateVehicleModal";
 import DeleteModal from "./Modal/DeleteModal";
 import EditVehicleModal from "./Modal/EditVehicleModal";
+import DataTable, {createTheme } from 'react-data-table-component';
 const DashBoard = () => {
   //Modal Create
   const [showCreate, setShowCreate] = useState(false);
@@ -30,6 +31,7 @@ const DashBoard = () => {
   };
 
   const [vehicles, setVehicle] = useState(null);
+
  
   const {
     loadVehicles
@@ -42,205 +44,156 @@ const DashBoard = () => {
     };
     loadVehicle()}, []);
 
-    return (
-      <div>
-        <Fragment>
-          <section className="antialiased bg-gray-100 text-gray-600 h-screen px-4 ">
-            <div className="flex flex-col justify-center ">
-              <div className="w-full max-w-6xl mx-auto bg-white shadow-lg rounded-sm border border-gray-200">
-                <header className="px-5 py-3  border-b border-gray-100">
-                  <h2 className="font-semibold text-gray-800">Vehicles</h2>
-                  <button
-                    type="button"
-                    onClick={handleShowCreate}
-                    className="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                  >
-                    Add new vehicle
-                  </button>
+    
+    const columns = [
+      
+      {
+          name: 'Image',
+          cell: row => <img src={row.imageUrl} alt="Avatar" />,
+      },
+      {
+        name: 'Title',
+        selector: row => row.title,
+        sortable: true,
+    },
+    {
+      name: 'Description',
+      selector: row => row.description,
+  },
+  {
+    name: 'Model',
+    selector: row => row.model,
+    sortable: true,
+},
+{
+  name: 'Color',
+  selector: row => row.color,
+  sortable: true,
+},
+{
+  name: 'Plate number',
+  selector: row => row.platenumber,
+},
 
-                  <CreateVehicleModal
-                    show={showCreate}
-                    handleClose={handleCloseCreate}
-                  />
-                </header>
-                <div className="p-3">
-                  <div className="overflow-x-auto">
-                    <table className="table-auto">
-                      <thead className="text-xs font-semibold uppercase text-gray-400 bg-gray-50">
-                        <tr>
-                          <th className="p-2 whitespace-nowrap">
-                            <div className="font-semibold text-left">Car</div>
-                          </th>
-                          <th className="p-2 whitespace-nowrap">
-                            <div className="font-semibold text-left">
-                              Description
-                            </div>
-                          </th>
-                          <th className="p-2 whitespace-nowrap">
-                            <div className="font-semibold text-left">Model</div>
-                          </th>
-                          <th className="p-2 whitespace-nowrap">
-                            <div className="font-semibold text-center">
-                              Color
-                            </div>
-                          </th>
-                          <th className="p-2 whitespace-nowrap">
-                            <div className="font-semibold text-center">
-                              Plate Number
-                            </div>
-                          </th>
-                          <th className="p-2 whitespace-nowrap">
-                            <div className="font-semibold text-center">
-                              Year
-                            </div>
-                          </th>
-                          <th className="p-2 whitespace-nowrap">
-                            <div className="font-semibold text-center">
-                              Seat
-                            </div>
-                          </th>
-                          <th className="p-2 whitespace-nowrap">
-                            <div className="font-semibold text-center">
-                              Transmission
-                            </div>
-                          </th>
-                          <th className="p-2 whitespace-nowrap">
-                            <div className="font-semibold text-center">
-                              Type
-                            </div>
-                          </th>
-                          <th className="p-2 whitespace-nowrap">
-                            <div className="font-semibold text-center">
-                              Availability
-                            </div>
-                          </th>
-                          <th className="p-2 whitespace-nowrap">
-                            <div className="font-semibold text-center">
-                              Price
-                            </div>
-                          </th>
-                          <th className="p-2 whitespace-nowrap">
-                            <div className="font-semibold text-center">
-                              Action
-                            </div>
-                          </th>
-                        </tr>
-                      </thead>
 
-                      <tbody className="text-sm divide-y divide-gray-100">
-                      {vehicles &&
-                    vehicles.map((item) => (
-                          <tr key={item._id}>
-                            <td className="p-2 whitespace-nowrap">
-                              <div className="flex items-center">
-                                <div className="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3">
-                                  <img
-                                    className="rounded-full"
-                                    src={item.imageUrl}
-                                    width="30"
-                                    height="30"
-                                    alt="Alex Shatov"
-                                  />
-                                </div>
-                                <div className="font-medium text-gray-800">
-                                  {item.title}
-                                </div>
-                              </div>
-                            </td>
-                            <td className="p-2 whitespace-nowrap">
-                              <div className="text-left">
-                                {item.description}
-                              </div>
-                            </td>
-                            <td className="p-2 whitespace-nowrap">
-                              <div className="text-left font-medium text-green-500  ">
-                                {item.model}
-                              </div>
-                            </td>
-                            <td className="p-2 whitespace-nowrap">
-                              <div className="text-lg text-center">
-                                {item.color}
-                              </div>
-                            </td>
-                            <td className="p-2 whitespace-nowrap">
-                              <div className="text-lg text-center badge bg-primary text-wrap">
-                                {item.platenumber}
-                              </div>
-                            </td>
-                            <td className="p-2 whitespace-nowrap">
-                              {" "}
-                              <div className="text-lg text-center">
-                                <span className="bg-green-100 text-green-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">
-                                  {item.year}
-                                </span>
-                              </div>
-                            </td>
-                            <td className="p-2 whitespace-nowrap">
-                              <div className="text-lg text-center">
-                                {item.seat}
-                              </div>
-                            </td>
-                            <td className="p-2 whitespace-nowrap">
-                              <div className="text-lg text-center">
-                                {item.transmission}
-                              </div>
-                            </td>
-                            <td className="p-2 whitespace-nowrap">
-                              <div className="text-lg text-center">
-                                {item.type}
-                              </div>
-                            </td>
-                            <td className="p-2 whitespace-nowrap">
-                              <div className="text-lg text-center">
-                                {String(item.availability)}
-                              </div>
-                            </td>
-                            <td className="p-2 ">
-                              <div className="text-lg text-center">
-                                {item.price}
-                              </div>
-                            </td>
-                            <td className="p-2 whitespace-nowrap">
-                              <div className="text-lg text-center   inline-flex items-center ">
-                                <button
-                                  className="bg-blue-500  hover:bg-blue-400 text-white font-bold flex py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded"
+      {
+          name: 'Year',
+          selector: row => row.year,
+          sortable: true,
+      },
+      {
+        name: 'Seat',
+        selector: row => row.seat,
+    },
+    {
+      name: 'Transmission',
+      selector: row => row.transmission,
+  },
+  {
+    name: 'Type',
+    selector: row => row.type,
+},
+{
+  name: 'Availability',
+  selector: row => row.availability.toString(),
+},
+{
+  name: 'Price',
+  selector: row => row.price,
+},
+{
+  name: "Action",
+  cell: (row) => (
+    <>
+    <button
+    className="bg-blue-500  hover:bg-blue-400 text-white font-bold flex py-2 px-3 border-b-4 border-blue-700 hover:border-blue-500 rounded"
+    type="primary"
+    onClick={() => handleShowEdit(row._id)}
+  >
+    Edit
+  </button>
+  <button
+                                  className="bg-red-500 hover:bg-red-400 text-white font-bold flex py-2 px-1 border-b-4 border-red-700 hover:border-red-500 rounded"
                                   type="primary"
-                                  onClick={() => handleShowEdit(item._id)}
-                                >
-                                  Edit
-                                </button>
-                                <EditVehicleModal
-                                  show={showEdit}
-                                  handleClose={handleCloseEdit}
-                                  itemId={itemIdToUpdate}
-                                />{" "}
-                                <button
-                                  className="bg-red-500 hover:bg-red-400 text-white font-bold flex py-2 px-4 border-b-4 border-red-700 hover:border-red-500 rounded"
-                                  type="primary"
-                                  onClick={() => handleShowDelete(item._id)}
+                                  onClick={() => handleShowDelete(row._id)}
                                 >
                                   Delete
                                 </button>
-                                <DeleteModal
+  </>
+  ),
+  ignoreRowClick: true,
+  allowOverflow: true,
+  button: true
+}
+  ];
+
+  const customStyles = {
+    rows: {
+      style: {
+        minHeight: '50px', // override the row height
+      },
+    },
+    headCells: {
+      style: {
+        paddingLeft: '8px', // override the cell padding for head cells
+        paddingRight: '8px',
+      },
+    },
+    headRow: {
+      fontSize: '20px',
+      fontWeight: 'bold',
+    },
+    cells: {
+      style: {
+        paddingLeft: '8px', // override the cell padding for data cells
+        paddingRight: '8px',
+      },
+    },
+  };
+return (
+      
+      <div style={{ overflowY: 'auto' }}>
+      
+         {vehicles !== null && (
+          
+         <DataTable
+         
+         pagination
+         title="Vehicle"
+            columns={columns}
+            data={vehicles}
+            selectableRows
+            customStyles={customStyles}
+         actions={<button
+          type="button"
+          onClick={handleShowCreate}
+          className="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        >
+          Add new vehicle
+        </button>
+        }
+            highlightOnHover
+	        	pointerOnHover
+            responsive
+        />
+        )}
+        <CreateVehicleModal
+                    show={showCreate}
+                    handleClose={handleCloseCreate}
+                  />
+        <EditVehicleModal
+                                  show={showEdit}
+                                  handleClose={handleCloseEdit}
+                                  itemId={itemIdToUpdate}
+                                />
+        <DeleteModal
                                   show={showDelete}
                                   handleClose={handleCloseDelete}
                                   itemId={itemIdToDelete}
-                                />{" "}
-                              </div>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-        </Fragment>
+                                />                        
       </div>
     );
- 
+
 };
 
 export default DashBoard;
