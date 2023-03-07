@@ -3,6 +3,7 @@ import Spinner from "react-bootstrap/Spinner";
 import { Redirect, Route } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
 import NavbarMain from "../layout/NavbarMain";
+import SideBarMain from "../pages/Dashboard/SideBarMain";
 
 const AdminRoute = ({ component: Component, ...rest }) => {
   const {
@@ -17,11 +18,13 @@ const AdminRoute = ({ component: Component, ...rest }) => {
 
   return (
     <Route
+
       {...rest}
       render={(props) =>
         isAuthenticated && user.role === "admin" ? (
           <>
-            <NavbarMain />
+           <NavbarMain/>
+           <SideBarMain/>
             <Component {...rest} {...props} />
           </>
         ) : (

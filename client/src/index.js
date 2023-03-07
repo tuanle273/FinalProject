@@ -4,15 +4,17 @@ import App from "./App";
 import { UserProvider } from "./contexts/UserContext";
 import { VehicleProvider } from "./contexts/VehicleContext";
 import "./index.css";
-
+import { ProSidebarProvider } from 'react-pro-sidebar';
 import reportWebVitals from "./reportWebVitals";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
+  <ProSidebarProvider>
   <VehicleProvider>
     <UserProvider>
       <App />
     </UserProvider>
   </VehicleProvider>
+  </ProSidebarProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function

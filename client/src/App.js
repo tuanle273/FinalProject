@@ -4,7 +4,9 @@ import "./App.css";
 import Landing from "./components/layout/Landing";
 import NotFound from "./components/pages/404/NotFound";
 
-import DashBoard from "./components/pages/Dashboard/DashBoard";
+import Dashboard from "./components/pages/Dashboard/Dashboard";
+import UserManagement from "./components/pages/Dashboard/UserManagement";
+import VehicleManagement from "./components/pages/Dashboard/VehicleManagement";
 import ForgotPassword from "./components/pages/ForgotPassword";
 import About from "./components/pages/Logged/About";
 import CheckOut from "./components/pages/Logged/CheckOut";
@@ -16,6 +18,7 @@ import AdminRoute from "./components/routing/AdminRoute";
 import ProtectedRoute from "./components/routing/ProtectedRoute";
 import AuthContextProvider from "./contexts/AuthContext";
 import Auth from "./views/Auth";
+
 function App() {
   return (
     <AuthContextProvider>
@@ -53,7 +56,10 @@ function App() {
             path="/passwordreset/:token"
             component={PasswordReset}
           ></Route>
-          <AdminRoute exact path="/admin" component={DashBoard}></AdminRoute>
+          <AdminRoute exact path="/admin" component={Dashboard}></AdminRoute>
+          <AdminRoute exact path="/admin/usermanagement" component={UserManagement}></AdminRoute>
+          <AdminRoute exact path="/admin/vehiclemanagement" component={VehicleManagement}></AdminRoute>
+         
           <ProtectedRoute
             exact
             path="/checkout"
