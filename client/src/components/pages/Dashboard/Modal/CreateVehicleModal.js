@@ -1,3 +1,4 @@
+import { Cloudinary } from "@cloudinary/base";
 import React, { useContext, useState } from "react";
 import Form from "react-bootstrap/Form";
 import { toast, Toaster } from "react-hot-toast";
@@ -18,7 +19,30 @@ const CreateVehicleModal = (props) => {
     availability: "",
     imageUrl: "",
   });
+  const cloudinary = new Cloudinary({
+    cloud: {
+      cloudName: "duax5havz",
+      apiKey: "297641854334774",
+      apiSecret: "vabR1J7y9PGo785J_RSexv2SlXA",
+    },
+  });
 
+  const uploadImageToCloudinary = async (imageFile) => {
+    const response = await cloudinary.upload(imageFile).toPromise();
+    console.log(
+      "🚀 ~ file: CreateVehicleModal.js:31 ~ uploadImageToCloudinary ~ response:",
+      response
+    );
+    return response.secure_url;
+  };
+  const handleImageUpload = async (event) => {
+    const imageFile = event.target.files[0];
+    const imageUrl = await uploadImageToCloudinary(imageFile);
+    setFormData({
+      ...formData,
+      imageUrl: imageUrl,
+    });
+  };
   const handleChange = (event) => {
     setFormData({
       ...formData,
@@ -30,14 +54,11 @@ const CreateVehicleModal = (props) => {
     event.preventDefault();
     const response = await createVehicle(formData);
     if (response.success) {
-      
-        toast.success(response.message);
-      
-       
+      toast.success(response.message);
+
       props.handleClose();
-    } else { 
+    } else {
       toast.error(response.message);
-    
     }
   };
   return (
@@ -205,6 +226,11 @@ const CreateVehicleModal = (props) => {
                         value={formData.imageUrl}
                         onChange={handleChange}
                         required
+                      />
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageUpload}
                       />
                     </Form.Group>
                     {/*footer*/}

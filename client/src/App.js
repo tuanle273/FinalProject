@@ -10,6 +10,7 @@ import About from "./components/pages/Logged/About";
 import CheckOut from "./components/pages/Logged/CheckOut";
 import History from "./components/pages/Logged/History";
 import UserProfile from "./components/pages/Logged/UserProfile";
+import VehicleDetail from "./components/pages/Logged/VehicleDetail";
 import PasswordReset from "./components/pages/PasswordReset";
 import AdminRoute from "./components/routing/AdminRoute";
 import ProtectedRoute from "./components/routing/ProtectedRoute";
@@ -36,6 +37,11 @@ function App() {
             exact
             path="/about"
             component={About}
+          ></ProtectedRoute>
+           <ProtectedRoute
+            exact
+            path="/vehicleDetail/:vehicleId"
+            component={VehicleDetail}
           ></ProtectedRoute>
           <Route
             exact

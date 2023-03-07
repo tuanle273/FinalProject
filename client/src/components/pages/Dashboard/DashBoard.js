@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useState } from "react";
+import React, { Fragment, useContext, useEffect, useState } from "react";
 import PacmanLoader from "react-spinners/PacmanLoader";
 import { VehicleContext } from "../../../contexts/VehicleContext";
 import CreateVehicleModal from "./Modal/CreateVehicleModal";
@@ -29,20 +29,19 @@ const DashBoard = () => {
     setShowDelete(true);
   };
 
+  const [vehicles, setVehicle] = useState(null);
+ 
   const {
-    vehicleState: { vehicles, vehicleLoading, vehicleError },
+    loadVehicles
   } = useContext(VehicleContext);
+  useEffect(() => {
+    const loadVehicle = async () => {
+      const response = await loadVehicles();
+     
+      setVehicle(response.data);
+    };
+    loadVehicle()}, []);
 
-  if (vehicleLoading)
-    return (
-      <div class="flex items-center h-screen">
-        <div class="m-auto">
-          {" "}
-          <PacmanLoader color="#36d7b7" />
-        </div>
-      </div>
-    );
-  else if (vehicles && !vehicleError)
     return (
       <div>
         <Fragment>
@@ -129,7 +128,8 @@ const DashBoard = () => {
                       </thead>
 
                       <tbody className="text-sm divide-y divide-gray-100">
-                        {vehicles.map((item) => (
+                      {vehicles &&
+                    vehicles.map((item) => (
                           <tr key={item._id}>
                             <td className="p-2 whitespace-nowrap">
                               <div className="flex items-center">
@@ -240,9 +240,7 @@ const DashBoard = () => {
         </Fragment>
       </div>
     );
-  else {
-    return <h1>Something Went Wrong</h1>;
-  }
+ 
 };
 
 export default DashBoard;

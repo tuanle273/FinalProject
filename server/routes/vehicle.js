@@ -11,6 +11,7 @@ const vehicleController = require("../controllers/VehicleController");
 
 router.get("/", verifyToken, vehicleController.getVehicle);
 
+router.get("/searchvehicle", verifyToken, vehicleController.searchVehicle);
 //@route GET api/Vehicle/:id
 // @desc get Vehicledetail
 // @access Private

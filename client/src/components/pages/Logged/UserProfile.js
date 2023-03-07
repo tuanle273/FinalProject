@@ -20,8 +20,8 @@ const UserProfile = () => {
   const onChangeUpdateForm = (event) =>
     setUserData({ ...userData, [event.target.name]: event.target.value });
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async (event) => {
+    event.preventDefault();
     const response = await updateUserProfile(user._id, userData);
     if (response.success) {
       toast.success(response.message);
@@ -71,8 +71,8 @@ const UserProfile = () => {
                 type="number"
                 name="age"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder={user.age}
-                value={age}
+                defaultValue={user.age}
+                
                 onChange={onChangeUpdateForm}
               ></input>
             </li>
@@ -82,8 +82,8 @@ const UserProfile = () => {
                 type="number"
                 name="phone"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder={user.phone}
-                value={phone}
+                defaultValue={user.phone}
+                
                 onChange={onChangeUpdateForm}
               ></input>
             </li>
@@ -93,8 +93,8 @@ const UserProfile = () => {
                 type="text"
                 name="address"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder={user.address}
-                value={address}
+                defaultValue={user.address}
+               
                 onChange={onChangeUpdateForm}
               ></input>
             </li>{" "}
@@ -104,8 +104,8 @@ const UserProfile = () => {
                 type="text"
                 name="gender"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder={user.gender}
-                value={gender}
+                defaultValue={user.gender}
+              
                 onChange={onChangeUpdateForm}
               ></input>
             </li>

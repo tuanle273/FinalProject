@@ -1,6 +1,7 @@
 const express = require("express");
 const dotenv = require("dotenv");
 dotenv.config();
+const bodyParser = require('body-parser');
 const cors = require("cors");
 const authRouter = require("./routes/auth");
 const vehicleRouter = require("./routes/vehicle");
@@ -11,14 +12,14 @@ const passport = require("passport");
 const userRouter = require("./routes/user");
 const app = express();
 const db = require("./config/db");
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.json({ limit: "25mb" }));
+app.use(express.urlencoded({ limit: "25mb" }));
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  next();
+});
 app.use(cors());
-const corsOptions = {
-  origin: "http://localhost:3000",
-};
-
-app.use(cors(corsOptions));
+app.use(bodyParser.urlencoded({ limit: "25mb" }));
 
 app.use(
   session({

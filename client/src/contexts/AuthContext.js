@@ -5,6 +5,7 @@ import setAuthToken from "../utils/setAuthToken";
 import {
   apiUrl,
   LOCAL_STORAGE_TOKEN_NAME,
+  LOGIN_BY_GOOGLE_REQUEST,
   SET_AUTH,
   UPDATE_USER_PROFILE,
 } from "./constants";
@@ -152,7 +153,28 @@ const AuthContextProvider = ({ children }) => {
         };
     }
   };
+  const loginByGoogle = async () => {
+    try {
+      const response = await axios.get(apiUrl + "/user/auth/google");
+     
+   
 
+      if (response.status >= 200 && response.status < 300) {
+        dispatch({
+          type: LOGIN_BY_GOOGLE_REQUEST,
+          payload: response.data.userDetail,
+        });
+      }
+      return response.data;
+    } catch (error) {
+      if (error.response.data) return error.response.data;
+      else
+        return {
+          success: false,
+          message: error.message,
+        };
+    }
+  };
   //context data
   const authContextData = {
     loginUser,
@@ -161,7 +183,7 @@ const AuthContextProvider = ({ children }) => {
     updateUserProfile,
     authState,
     forgotPassword,
-    passwordReset,
+    passwordReset,loginByGoogle
   };
   return (
     <AuthContext.Provider value={authContextData}>
