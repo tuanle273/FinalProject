@@ -4,7 +4,7 @@ import "./App.css";
 import Landing from "./components/layout/Landing";
 import NotFound from "./components/pages/404/NotFound";
 
-import Dashboard from "./components/pages/Dashboard/Dashboard";
+import Dashboard from "./components/pages/Dashboard/DashBoard";
 import UserManagement from "./components/pages/Dashboard/UserManagement";
 import VehicleManagement from "./components/pages/Dashboard/VehicleManagement";
 import ForgotPassword from "./components/pages/ForgotPassword";
@@ -12,7 +12,7 @@ import About from "./components/pages/Logged/About";
 import CheckOut from "./components/pages/Logged/CheckOut";
 import History from "./components/pages/Logged/History";
 import UserProfile from "./components/pages/Logged/UserProfile";
-import VehicleDetail from "./components/pages/Logged/VehicleDetail";
+import VehicleDetail from "./components/pages/Logged/vehicleDetail";
 import PasswordReset from "./components/pages/PasswordReset";
 import AdminRoute from "./components/routing/AdminRoute";
 import ProtectedRoute from "./components/routing/ProtectedRoute";
@@ -41,7 +41,7 @@ function App() {
             path="/about"
             component={About}
           ></ProtectedRoute>
-           <ProtectedRoute
+          <ProtectedRoute
             exact
             path="/vehicleDetail/:vehicleId"
             component={VehicleDetail}
@@ -57,9 +57,16 @@ function App() {
             component={PasswordReset}
           ></Route>
           <AdminRoute exact path="/admin" component={Dashboard}></AdminRoute>
-          <AdminRoute exact path="/admin/usermanagement" component={UserManagement}></AdminRoute>
-          <AdminRoute exact path="/admin/vehiclemanagement" component={VehicleManagement}></AdminRoute>
-         
+          <AdminRoute
+            exact
+            path="/admin/usermanagement"
+            component={UserManagement}
+          ></AdminRoute>
+          <AdminRoute
+            exact
+            path="/admin/vehiclemanagement"
+            component={VehicleManagement}
+          ></AdminRoute>
           <ProtectedRoute
             exact
             path="/checkout"

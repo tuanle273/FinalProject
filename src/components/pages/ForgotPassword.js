@@ -7,7 +7,6 @@ const ForgotPassword = () => {
   const [formData, setFormData] = useState({
     email: "",
   });
- 
 
   const handleChange = (event) => {
     setFormData({
