@@ -3,6 +3,18 @@ const jwt = require("jsonwebtoken");
 const { response } = require("../index");
 const Booking = require("../models/Booking");
 
+const getAllUser = async (req, res) => {
+  try {
+    const Users = await User.find({ User });
+    res.json({
+      Users,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, message: "Internal Server Error" });
+  }
+};
+
 const getUser = async (req, res) => {
   try {
     const userDetail = await User.findById(req.userId);
@@ -58,10 +70,10 @@ const authenticateRole = (requiredRoles) => {
   };
 };
 
-
 module.exports = {
   getUser,
   getHistory,
   authenticateRole,
   updateUser,
+  getAllUser,
 };
