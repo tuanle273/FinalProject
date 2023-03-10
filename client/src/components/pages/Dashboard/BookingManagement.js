@@ -59,24 +59,6 @@ const VehicleManagement = () => {
       selector: (row) => row.userId,
     },
     {
-      name: "Total Cost",
-      selector: (row) => row.totalCost,
-      sortable: true,
-    },
-    {
-      name: "Status",
-      selector: (row) => (
-        <span class="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
-          <span
-            aria-hidden
-            class="absolute inset-0 bg-green-200 opacity-50 rounded-full"
-          ></span>
-          <span class="relative">{row.status}</span>
-        </span>
-      ),
-      sortable: true,
-    },
-    {
       name: "Start Date",
       selector: (row) => <FormattedDate date={row.startDate} />,
       sortable: true,
@@ -86,11 +68,43 @@ const VehicleManagement = () => {
       selector: (row) => <FormattedDate date={row.endDate} />,
       sortable: true,
     },
+    {
+      name: "Total Cost",
+      selector: (row) => row.totalCost,
+      sortable: true,
+    },
+    {
+      name: "Payment Method",
+      selector: (row) => row.paymentMethod,
+      sortable: true,
+    },
+    {
+      name: "Payment Status",
+      selector: (row) => row.paymentStatus,
+      sortable: true,
+    },
+    {
+      name: "Booking Status",
+      selector: (row) => (
+        <span className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
+          <span
+            aria-hidden
+            className="absolute inset-0 bg-green-200 opacity-50 rounded-full"
+          ></span>
+          <span className="relative">{row.status}</span>
+        </span>
+      ),
+      sortable: true,
+    },
 
     {
       name: "Created Date",
       selector: (row) => <FormattedDate date={row.created_at} />,
       sortable: true,
+    },
+    {
+      name: "Note",
+      selector: (row) => row.note,
     },
   ];
 
