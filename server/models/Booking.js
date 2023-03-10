@@ -23,15 +23,29 @@ const bookingSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  paymentMethod: {
+    type: String,
+    required: true,
+    enum: ["pay on receipt", "credit"],
+  },
+  paymentStatus: {
+    type: String,
+    required: true,
+    enum: ["paid", "unpaid"],
+  },
   status: {
     type: String,
     enum: ["pending", "approved", "cancelled"],
     default: "pending",
   },
-
+  note: {
+    type: String,
+    default: "",
+  },
   created_at: {
     type: Date,
     default: Date.now,
   },
 });
+
 module.exports = mongoose.model("Booking", bookingSchema);

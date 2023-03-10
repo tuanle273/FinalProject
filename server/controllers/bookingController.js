@@ -6,15 +6,16 @@ const Booking = require("../models/Booking");
 const BookingController = require("./BookingController");
 
 const getBooking = async (req, res) => {
-  Booking.find({})
-    // .populate("BookingId")
-    .exec((err, bookings) => {
-      if (err) {
-        res.status(500).send({ error: err });
-      } else {
-        res.send(bookings);
-      }
+  try {
+    const bookings = await Booking.find({ Booking });
+
+    res.json({
+      bookings,
     });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, message: "Internal Server Error" });
+  }
 };
 
 const updateBooking = async (req, res) => {

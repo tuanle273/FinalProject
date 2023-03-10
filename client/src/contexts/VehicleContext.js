@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { createContext, useEffect, useReducer } from "react";
+import React, { createContext, useReducer } from "react";
 import { vehicleReducer } from "../reducers/vehicleReducer";
 import {
   apiUrl,
@@ -26,35 +26,37 @@ export function VehicleProvider({ children }) {
   const loadVehicles = async () => {
     try {
       const response = await axios.get(apiUrl + "/vehicle");
-
-
       if (response.status >= 200 && response.status < 300) {
         dispatch({
           type: VEHICLE_FETCH_SUCCESS,
           payload: response.data.vehicles,
         });
-
       }
-      return { success: true, data: response.data.vehicles , message: "Vehicle List" };
+      return {
+        success: true,
+        data: response.data.vehicles,
+        message: "Vehicle List",
+      };
     } catch (error) {
       dispatch({ type: VEHICLE_FETCH_FAIL });
     }
   };
 
- 
   //get Detail vehicle
 
   const getDetailVehicle = async (_id) => {
-    
     try {
       const response = await axios.get(`${apiUrl}/vehicle/${_id}`);
       if (response.status >= 200 && response.status < 300) {
         dispatch({
           type: VEHICLE_FETCH_SUCCESS,
-          payload:response.data.vehicles ,
+          payload: response.data.vehicles,
         });
-        return { success: true, data: response.data.vehicles , message: "Vehicle Founded" };
-         
+        return {
+          success: true,
+          data: response.data.vehicles,
+          message: "Vehicle Founded",
+        };
       }
     } catch (error) {
       dispatch({ type: VEHICLE_FETCH_FAIL });

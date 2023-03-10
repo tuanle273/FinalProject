@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
-import { VehicleContext } from "../../../contexts/VehicleContext";
+import { BookingContext } from "../../../contexts/BookingContext";
+import FormattedDate from "../../../utils/FormattedDate";
 import CreateVehicleModal from "./Modal/CreateVehicleModal";
 import DeleteModal from "./Modal/DeleteModal";
 import EditVehicleModal from "./Modal/EditVehicleModal";
@@ -30,131 +31,66 @@ const VehicleManagement = () => {
   };
 
   const [vehicles, setVehicle] = useState([]);
-  console.log(
-    "🚀 ~ file: VehicleManagement.js:37 ~ VehicleManagement ~ vehicles:",
-    vehicles
-  );
+
   const [search, setSearch] = useState("");
   const [searchKeyword, setSearchKeyword] = useState("");
-  const { loadVehicles } = useContext(VehicleContext);
+  const { getAllBooking } = useContext(BookingContext);
   useEffect(() => {
     const loadVehicle = async () => {
-      const response = await loadVehicles();
+      const response = await getAllBooking();
 
-      setVehicle(response.data);
+      setVehicle(response.data.bookings);
     };
     loadVehicle();
   }, []);
 
   const customFilter = (rows, keyword) => {
-    return rows.filter(
-      (row) =>
-        row.title.toLowerCase().includes(keyword.toLowerCase()) ||
-        row.model.toLowerCase().includes(keyword.toLowerCase())
+    return rows.filter((row) =>
+      row.userId.toLowerCase().includes(keyword.toLowerCase())
     );
   };
   const columns = [
     {
-      name: "Image",
-      cell: (row) => (
-        <img
-          class="w-full h-full rounded-full"
-          src={row.imageUrl}
-          alt="Avatar"
-        />
-      ),
+      name: "VehicleId",
+      cell: (row) => row.vehicleId,
     },
     {
-      name: "Title",
-      selector: (row) => row.title,
+      name: "UserId",
+      selector: (row) => row.userId,
+    },
+    {
+      name: "Total Cost",
+      selector: (row) => row.totalCost,
       sortable: true,
     },
     {
-      name: "Description",
-      selector: (row) => row.description,
-    },
-    {
-      name: "Model",
-      selector: (row) => row.model,
-      sortable: true,
-    },
-    {
-      name: "Color",
-      selector: (row) => row.color,
-      sortable: true,
-    },
-    {
-      name: "Plate number",
+      name: "Status",
       selector: (row) => (
-        <span class="bg-gray-100 text-dark-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-100 dark:text-gray-100">
-          {row.platenumber}
-        </span>
-      ),
-    },
-
-    {
-      name: "Year",
-      selector: (row) => row.year,
-      sortable: true,
-    },
-    {
-      name: "Seat",
-      selector: (row) => row.seat,
-    },
-    {
-      name: "Transmission",
-      selector: (row) => row.transmission,
-    },
-    {
-      name: "Type",
-      selector: (row) => row.type,
-    },
-    {
-      name: "Availability",
-      selector: (row) => (
-        <span
-          class={`relative inline-block px-3 py-1 font-semibold text-${
-            row.availability ? "green" : "red"
-          }-900 leading-tight`}
-        >
+        <span class="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
           <span
             aria-hidden
-            class={`absolute inset-0 bg-${
-              row.availability ? "green" : "red"
-            }-200 opacity-50 rounded-full`}
+            class="absolute inset-0 bg-green-200 opacity-50 rounded-full"
           ></span>
-          <span class="relative">{row.availability.toString()}</span>
+          <span class="relative">{row.status}</span>
         </span>
       ),
+      sortable: true,
+    },
+    {
+      name: "Start Date",
+      selector: (row) => <FormattedDate date={row.startDate} />,
+      sortable: true,
+    },
+    {
+      name: "End Date",
+      selector: (row) => <FormattedDate date={row.endDate} />,
+      sortable: true,
     },
 
     {
-      name: "Price",
-      selector: (row) => row.price,
-    },
-    {
-      name: "Action",
-      cell: (row) => (
-        <>
-          <button
-            className="bg-blue-500  hover:bg-blue-400 text-white font-bold flex py-2 px-3 border-b-4 border-blue-700 hover:border-blue-500 rounded"
-            type="primary"
-            onClick={() => handleShowEdit(row._id)}
-          >
-            Edit
-          </button>
-          <button
-            className="bg-red-500 hover:bg-red-400 text-white font-bold flex py-2 px-1 border-b-4 border-red-700 hover:border-red-500 rounded"
-            type="primary"
-            onClick={() => handleShowDelete(row._id)}
-          >
-            Delete
-          </button>
-        </>
-      ),
-      ignoreRowClick: true,
-      allowOverflow: true,
-      button: true,
+      name: "Created Date",
+      selector: (row) => <FormattedDate date={row.created_at} />,
+      sortable: true,
     },
   ];
 
@@ -166,7 +102,7 @@ const VehicleManagement = () => {
     },
     headCells: {
       style: {
-        paddingLeft: "8px", // override the cell padding for head cells
+        paddingLeft: "10px", // override the cell padding for head cells
         paddingRight: "8px",
       },
     },
@@ -176,7 +112,7 @@ const VehicleManagement = () => {
     },
     cells: {
       style: {
-        paddingLeft: "8px", // override the cell padding for data cells
+        paddingLeft: "10px", // override the cell padding for data cells
         paddingRight: "8px",
       },
     },
@@ -199,7 +135,7 @@ const VehicleManagement = () => {
           }
           subHeaderAlign="left"
           pagination
-          title="Vehicle"
+          title="Booking Management"
           columns={columns}
           data={customFilter(vehicles, searchKeyword)}
           selectableRows
