@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
 import Landing from "./components/layout/Landing";
 import NotFound from "./components/pages/404/NotFound";
+import BookingManagement from "./components/pages/Dashboard/BookingManagement";
 
 import Dashboard from "./components/pages/Dashboard/DashBoard";
 import UserManagement from "./components/pages/Dashboard/UserManagement";
@@ -12,7 +13,7 @@ import About from "./components/pages/Logged/About";
 import CheckOut from "./components/pages/Logged/CheckOut";
 import History from "./components/pages/Logged/History";
 import UserProfile from "./components/pages/Logged/UserProfile";
-import VehicleDetail from "./components/pages/Logged/vehicleDetail";
+import vehicleDetail from "./components/pages/Logged/VehicleDetail";
 import PasswordReset from "./components/pages/PasswordReset";
 import AdminRoute from "./components/routing/AdminRoute";
 import ProtectedRoute from "./components/routing/ProtectedRoute";
@@ -44,7 +45,7 @@ function App() {
           <ProtectedRoute
             exact
             path="/vehicleDetail/:vehicleId"
-            component={VehicleDetail}
+            component={vehicleDetail}
           ></ProtectedRoute>
           <Route
             exact
@@ -66,6 +67,11 @@ function App() {
             exact
             path="/admin/vehiclemanagement"
             component={VehicleManagement}
+          ></AdminRoute>
+          <AdminRoute
+            exact
+            path="/admin/bookingmanagement"
+            component={BookingManagement}
           ></AdminRoute>
           <ProtectedRoute
             exact

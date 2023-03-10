@@ -93,6 +93,7 @@ const CreateVehicleModal = (props) => {
                         name="title"
                         value={formData.title}
                         onChange={handleChange}
+                        style={{ border: "1px solid black" }}
                         required
                       />
                     </Form.Group>

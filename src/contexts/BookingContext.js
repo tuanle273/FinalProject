@@ -1,14 +1,13 @@
 import axios from "axios";
-import React, { createContext, useEffect, useReducer } from "react";
-import { BookingReducer } from "../reducers/BookingReducer";
+import React, { createContext, useReducer } from "react";
+import { bookingReducer } from "../reducers/bookingReducer";
+
 import {
   apiUrl,
   BOOKING_CREATE_FAIL,
   BOOKING_CREATE_SUCCESS,
   BOOKING_DELETE_FAIL,
   BOOKING_DELETE_SUCCESS,
-  BOOKING_FETCH_FAIL,
-  BOOKING_FETCH_SUCCESS,
   BOOKING_UPDATE_FAIL,
   BOOKING_UPDATE_SUCCESS,
 } from "./constants";
@@ -16,31 +15,23 @@ import {
 export const BookingContext = createContext();
 
 export function BookingProvider({ children }) {
-  const [BookingState, dispatch] = useReducer(BookingReducer, {
+  const [BookingState, dispatch] = useReducer(bookingReducer, {
     Bookings: [],
     BookingLoading: true,
     BookingError: false,
   });
 
   // Load Bookings
-  const loadBookings = async () => {
+
+  const getAllBooking = async () => {
     try {
-      const response = await axios.get(apiUrl + "/Booking");
+      const response = await axios.get(apiUrl + "/booking");
 
       if (response.status >= 200 && response.status < 300) {
-        dispatch({
-          type: BOOKING_FETCH_SUCCESS,
-          payload: response.data.Bookings,
-        });
       }
-    } catch (error) {
-      dispatch({ type: BOOKING_FETCH_FAIL });
-    }
+      return { success: true, data: response.data, message: "Booking List" };
+    } catch (error) {}
   };
-  useEffect(() => {
-    loadBookings();
-    return () => {};
-  }, []);
 
   // Create Booking
   const createBooking = async (newBooking) => {
@@ -95,7 +86,7 @@ export function BookingProvider({ children }) {
   };
   const value = {
     BookingState,
-    loadBookings,
+    getAllBooking,
     createBooking,
     updateBooking,
     deleteBooking,

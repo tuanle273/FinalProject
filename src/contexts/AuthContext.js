@@ -4,6 +4,7 @@ import { authReducer } from "../reducers/authReducer";
 import setAuthToken from "../utils/setAuthToken";
 import {
   apiUrl,
+  FETCH_USER_DATA,
   LOCAL_STORAGE_TOKEN_NAME,
   LOGIN_BY_GOOGLE_REQUEST,
   SET_AUTH,
@@ -17,7 +18,21 @@ const AuthContextProvider = ({ children }) => {
     isAuthenticated: false,
     user: null,
   });
-
+  const getAllUser = async() => {
+    try {
+      const response = await axios.get(apiUrl + "/user/alluser");
+     
+      if (response.status >= 200 && response.status < 300) {
+        dispatch({
+          type: FETCH_USER_DATA,
+          payload: response.data.Users,
+        });
+       
+      } return { success: true, data: response.data.Users , message: "User List" };
+    } catch (error) {
+      console.log(error);
+    }
+  }
   const loadUser = async () => {
     if (localStorage[LOCAL_STORAGE_TOKEN_NAME]) {
       setAuthToken(localStorage[LOCAL_STORAGE_TOKEN_NAME]);
@@ -183,7 +198,7 @@ const AuthContextProvider = ({ children }) => {
     updateUserProfile,
     authState,
     forgotPassword,
-    passwordReset,loginByGoogle
+    passwordReset,loginByGoogle,getAllUser
   };
   return (
     <AuthContext.Provider value={authContextData}>

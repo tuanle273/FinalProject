@@ -1,19 +1,22 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { ProSidebarProvider } from "react-pro-sidebar";
 import App from "./App";
+import { BookingProvider } from "./contexts/BookingContext";
 import { UserProvider } from "./contexts/UserContext";
 import { VehicleProvider } from "./contexts/VehicleContext";
 import "./index.css";
-import { ProSidebarProvider } from 'react-pro-sidebar';
 import reportWebVitals from "./reportWebVitals";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <ProSidebarProvider>
-  <VehicleProvider>
-    <UserProvider>
-      <App />
-    </UserProvider>
-  </VehicleProvider>
+    <VehicleProvider>
+      <BookingProvider>
+        <UserProvider>
+          <App />
+        </UserProvider>
+      </BookingProvider>
+    </VehicleProvider>
   </ProSidebarProvider>
 );
 
