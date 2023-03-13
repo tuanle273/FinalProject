@@ -29,7 +29,7 @@ router.get("/owner", userController.authenticateRole(["owner"]), (req, res) => {
 loginByGoogle();
 router.get(
   "/auth/google",
-
+  
   passport.authenticate("google", { scope: ["profile"], scope: ["email"] })
 );
 
