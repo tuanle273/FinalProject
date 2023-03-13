@@ -3,7 +3,7 @@ import Spinner from "react-bootstrap/Spinner";
 import { Redirect, Route } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
 import NavbarMain from "../layout/NavbarMain";
-import SideBarMain from "../pages/Dashboard/SideBarMain";
+import Dashboard from "../pages/Dashboard/DashBoard";
 
 const AdminRoute = ({ component: Component, ...rest }) => {
   const {
@@ -24,7 +24,9 @@ const AdminRoute = ({ component: Component, ...rest }) => {
           <>
             <NavbarMain />
 
-            <SideBarMain data={<Component {...rest} {...props} />} />
+            <Dashboard>
+              <Component {...rest} {...props} />
+            </Dashboard>
           </>
         ) : (
           <Redirect to="/login" />

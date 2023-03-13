@@ -5,10 +5,7 @@ import { AuthContext } from "../../../contexts/AuthContext";
 const UserManagement = () => {
   const [userData, setUserData] = useState([]);
   const [searchKeyword, setSearchKeyword] = useState("");
-  console.log(
-    "🚀 ~ file: UserManagement.js:6 ~ UserManagement ~ userData:",
-    userData
-  );
+
   const { getAllUser } = useContext(AuthContext);
   useEffect(() => {
     const loadAllUser = async () => {
@@ -95,7 +92,7 @@ const UserManagement = () => {
       {userData !== null && (
         <DataTable
           fixedHeader
-          fixedHeaderScrollHeight="450px"
+          fixedHeaderScrollHeight="550px"
           subHeader
           subHeaderComponent={
             <input

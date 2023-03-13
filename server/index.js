@@ -3,13 +3,15 @@ const dotenv = require("dotenv");
 dotenv.config();
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const authRouter = require("./routes/auth");
-const vehicleRouter = require("./routes/vehicle");
-const bookingRouter = require("./routes/booking");
+const authRouter = require("./routes/auth-route");
+const vehicleRouter = require("./routes/vehicle-route");
+const bookingRouter = require("./routes/booking-route");
+const brandRouter = require("./routes/brand-route");
+const discountRouter = require("./routes/discount-route");
 const session = require("express-session");
 const passport = require("passport");
 
-const userRouter = require("./routes/user");
+const userRouter = require("./routes/user-route");
 const app = express();
 const db = require("./config/db");
 app.use(express.json({ limit: "25mb" }));
@@ -44,7 +46,8 @@ app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/vehicle", vehicleRouter);
 app.use("/api/booking", bookingRouter);
-
+app.use("/api/brand", brandRouter);
+app.use("/api/discount", discountRouter);
 const PORT = process.env.PORT || 5000;
 
 (async () => {

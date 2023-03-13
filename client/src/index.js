@@ -3,6 +3,8 @@ import ReactDOM from "react-dom/client";
 import { ProSidebarProvider } from "react-pro-sidebar";
 import App from "./App";
 import { BookingProvider } from "./contexts/BookingContext";
+import { BrandProvider } from "./contexts/BrandContext";
+import { DiscountProvider } from "./contexts/DiscountContext";
 import { UserProvider } from "./contexts/UserContext";
 import { VehicleProvider } from "./contexts/VehicleContext";
 import "./index.css";
@@ -12,9 +14,13 @@ root.render(
   <VehicleProvider>
     <BookingProvider>
       <UserProvider>
-        <ProSidebarProvider>
-          <App />
-        </ProSidebarProvider>
+        <DiscountProvider>
+          <BrandProvider>
+            <ProSidebarProvider>
+              <App />
+            </ProSidebarProvider>
+          </BrandProvider>
+        </DiscountProvider>
       </UserProvider>
     </BookingProvider>
   </VehicleProvider>

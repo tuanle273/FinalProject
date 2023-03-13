@@ -170,9 +170,7 @@ const AuthContextProvider = ({ children }) => {
   };
   const loginByGoogle = async () => {
     try {
-      const response = await axios.get(apiUrl + "/user/auth/google", {
-        withCredentials: true,
-      });
+      const response = await axios.get(apiUrl + "/user/auth/google");
       console.log(
         "🚀 ~ file: AuthContext.js:174 ~ loginByGoogle ~ response:",
         response

@@ -4,8 +4,10 @@ import "./App.css";
 import Landing from "./components/layout/Landing";
 import NotFound from "./components/pages/404/NotFound";
 import BookingManagement from "./components/pages/Dashboard/BookingManagement";
+import BrandManagement from "./components/pages/Dashboard/BrandManagement";
+import Chart from "./components/pages/Dashboard/Chart";
+import DiscountManagement from "./components/pages/Dashboard/DiscountManagement";
 
-import Dashboard from "./components/pages/Dashboard/DashBoard";
 import UserManagement from "./components/pages/Dashboard/UserManagement";
 import VehicleManagement from "./components/pages/Dashboard/VehicleManagement";
 import ForgotPassword from "./components/pages/ForgotPassword";
@@ -57,7 +59,16 @@ function App() {
             path="/passwordreset/:token"
             component={PasswordReset}
           ></Route>
-          <AdminRoute exact path="/admin" component={Dashboard}></AdminRoute>
+          <AdminRoute
+            exact
+            path="/admin"
+            component={UserManagement}
+          ></AdminRoute>
+          <AdminRoute
+            exact
+            path="/admin/general"
+            component={Chart}
+          ></AdminRoute>
           <AdminRoute
             exact
             path="/admin/usermanagement"
@@ -70,8 +81,18 @@ function App() {
           ></AdminRoute>
           <AdminRoute
             exact
+            path="/admin/brandmanagement"
+            component={BrandManagement}
+          ></AdminRoute>
+          <AdminRoute
+            exact
             path="/admin/bookingmanagement"
             component={BookingManagement}
+          ></AdminRoute>{" "}
+          <AdminRoute
+            exact
+            path="/admin/discountmanagement"
+            component={DiscountManagement}
           ></AdminRoute>
           <ProtectedRoute
             exact

@@ -4,7 +4,7 @@ const router = express.Router();
 const verifyToken = require("../middlewares/auth");
 const Vehicle = require("../models/Vehicle");
 const vehicleController = require("../controllers/VehicleController");
-
+const brandController = require("../controllers/VehicleController");
 //@route GET api/Vehicle
 // @desc get Vehicle
 // @access Private
