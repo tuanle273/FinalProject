@@ -18,21 +18,21 @@ const AuthContextProvider = ({ children }) => {
     isAuthenticated: false,
     user: null,
   });
-  const getAllUser = async() => {
+  const getAllUser = async () => {
     try {
       const response = await axios.get(apiUrl + "/user/alluser");
-     
+
       if (response.status >= 200 && response.status < 300) {
         dispatch({
           type: FETCH_USER_DATA,
           payload: response.data.Users,
         });
-       
-      } return { success: true, data: response.data.Users , message: "User List" };
+      }
+      return { success: true, data: response.data.Users, message: "User List" };
     } catch (error) {
       console.log(error);
     }
-  }
+  };
   const loadUser = async () => {
     if (localStorage[LOCAL_STORAGE_TOKEN_NAME]) {
       setAuthToken(localStorage[LOCAL_STORAGE_TOKEN_NAME]);
@@ -170,9 +170,13 @@ const AuthContextProvider = ({ children }) => {
   };
   const loginByGoogle = async () => {
     try {
-      const response = await axios.get(apiUrl + "/user/auth/google");
-     
-   
+      const response = await axios.get(apiUrl + "/user/auth/google", {
+        withCredentials: true,
+      });
+      console.log(
+        "🚀 ~ file: AuthContext.js:174 ~ loginByGoogle ~ response:",
+        response
+      );
 
       if (response.status >= 200 && response.status < 300) {
         dispatch({
@@ -182,12 +186,10 @@ const AuthContextProvider = ({ children }) => {
       }
       return response.data;
     } catch (error) {
-      if (error.response.data) return error.response.data;
-      else
-        return {
-          success: false,
-          message: error.message,
-        };
+      return {
+        success: false,
+        message: error.message,
+      };
     }
   };
   //context data
@@ -198,7 +200,9 @@ const AuthContextProvider = ({ children }) => {
     updateUserProfile,
     authState,
     forgotPassword,
-    passwordReset,loginByGoogle,getAllUser
+    passwordReset,
+    loginByGoogle,
+    getAllUser,
   };
   return (
     <AuthContext.Provider value={authContextData}>

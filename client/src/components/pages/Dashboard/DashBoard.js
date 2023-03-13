@@ -1,12 +1,4 @@
-import React from 'react'
-import SideBarMain from './SideBarMain'
-import VehicleManagement from './VehicleManagement'
-const DashBoard = () => {
-  return (
-    <div>
-        
-        <VehicleManagement/></div>
-  )
+import React from "react";
+export default function DashBoard() {
+  return <div></div>;
 }
-
-export default DashBoard

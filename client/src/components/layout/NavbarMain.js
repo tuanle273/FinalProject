@@ -3,6 +3,7 @@ import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import React, { Fragment, useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
+
 const NavbarMain = () => {
   const location = useLocation();
   const {
@@ -99,11 +100,20 @@ const NavbarMain = () => {
   const logout = () => logoutUser();
 
   return (
-    <div className="min-h-full">
-      <Disclosure as="nav" className="bg-gray-800">
+    <div className="min-h-full ">
+      <div class="rainbow">
+        <p>.</p>
+      </div>
+      <div class="bg-yellow-500 text-white py-1 px-4 flex items-center justify-center">
+        <p>Get 10% off your first purchase with code WELCOME10!</p>
+      </div>
+      <Disclosure
+        as="nav"
+        className="bg-white-800 border border-solid border-gray-200 shadow-md p-4"
+      >
         {({ open }) => (
           <>
-            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8  ">
               <div className="flex h-16 items-center justify-between">
                 <div className="flex items-center">
                   <div className="flex-shrink-0">
@@ -122,7 +132,7 @@ const NavbarMain = () => {
                           className={classNames(
                             item.current
                               ? "bg-gray-900 text-white"
-                              : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                              : "text-dark-300 hover:bg-gray-700 hover:text-white",
                             "px-3 py-2 rounded-md text-sm font-medium"
                           )}
                           aria-current={item.current ? "page" : undefined}
@@ -165,7 +175,7 @@ const NavbarMain = () => {
                     </div>
                     <button
                       type="button"
-                      className="rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                      className="rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-dark-800"
                     >
                       <span className="sr-only">View notifications</span>
 

@@ -117,7 +117,6 @@ const loginByGoogle = async (req, res) => {
         scope: ["email"],
       },
       (accessToken, refreshToken, email, profile, done) => {
-        console.log("🚀 ~ file: user.js:40 ~ accessToken", accessToken);
         accessToken = jwt.sign(
           {
             googleId: profile.id,
@@ -136,11 +135,14 @@ const loginByGoogle = async (req, res) => {
             if (existingUser) {
               done(null, existingUser);
             } else {
+              const email = profile.emails[0].value;
+              const username = profile.displayName || email;
+              const imageUrl = profile.photos && profile.photos[0].value;
               new User({
                 googleId: profile.id,
-                email: profile.emails[0].value,
-                username: profile.emails[0].value,
-                imageUrl: profile.photos[0].value,
+                email,
+                username,
+                imageUrl,
               })
                 .save()
                 .then((user) => done(null, user));

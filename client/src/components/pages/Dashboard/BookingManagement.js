@@ -132,7 +132,7 @@ const VehicleManagement = () => {
     },
   };
   return (
-    <div style={{ overflowY: "auto" }}>
+    <div className="shadow-xl mt-8 mr-0 mb-0 ml-0 pt-4 pr-10 pb-4 pl-10 flow-root rounded-lg sm:py-2">
       {vehicles !== null && (
         <DataTable
           fixedHeader

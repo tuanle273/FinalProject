@@ -8,9 +8,8 @@ const contentStyle = {
 const Heading = () => (
   <>
     <header className="bg-white shadow">
-      <div className="mx-auto max-w-7xl py-6 px-4 sm:px-6 lg:px-8">
-        
-      </div>
+      <div className="mx-auto "></div>
+
       <div class="flex justify-center items-center w-screen h-screen bg-gray-800">
         <div class="container mx-auto mt-10 mb-10 lg:mb-40 lg:px-20">
           <div class="relative w-full my-4 lg:w-9/12 mr-auto rounded-2xl shadow-2xl">

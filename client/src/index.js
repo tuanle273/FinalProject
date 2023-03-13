@@ -9,15 +9,15 @@ import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <ProSidebarProvider>
-    <VehicleProvider>
-      <BookingProvider>
-        <UserProvider>
+  <VehicleProvider>
+    <BookingProvider>
+      <UserProvider>
+        <ProSidebarProvider>
           <App />
-        </UserProvider>
-      </BookingProvider>
-    </VehicleProvider>
-  </ProSidebarProvider>
+        </ProSidebarProvider>
+      </UserProvider>
+    </BookingProvider>
+  </VehicleProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function
