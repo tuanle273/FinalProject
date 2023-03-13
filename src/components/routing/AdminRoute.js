@@ -18,14 +18,13 @@ const AdminRoute = ({ component: Component, ...rest }) => {
 
   return (
     <Route
-
       {...rest}
       render={(props) =>
         isAuthenticated && user.role === "admin" ? (
           <>
-           <NavbarMain/>
-           <SideBarMain/>
-            <Component {...rest} {...props} />
+            <NavbarMain />
+
+            <SideBarMain data={<Component {...rest} {...props} />} />
           </>
         ) : (
           <Redirect to="/login" />

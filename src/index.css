@@ -8,3 +8,23 @@
 }
 @tailwind components;
 @tailwind utilities;
+/* Create a rainbow-like effect using linear gradients */
+.rainbow {
+  background: linear-gradient(to right, #fb8817, #ff4b01, #c12127, #e02aff);
+  padding: 0 0;
+  padding-top: 0;
+  animation: rainbow-animation 5s ease infinite;
+}
+
+/* Define the animation */
+@keyframes rainbow-animation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
