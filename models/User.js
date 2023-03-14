@@ -5,7 +5,6 @@ const UserSchema = new Schema({
   googleId: { type: "string" },
   username: {
     type: "string",
-    required: true,
   },
   email: {
     type: String,
@@ -54,6 +53,10 @@ const UserSchema = new Schema({
   address: {
     type: String,
     default: "123",
+  },
+  isBanned: {
+    type: Boolean,
+    default: "false",
   },
 });
 

@@ -85,6 +85,12 @@ const login = async (req, res) => {
       return res
         .status(400)
         .json({ success: false, message: "Incorrect username or password" });
+    if (user.isBanned) {
+      return res.status(400).json({
+        success: false,
+        message: "Your account has been banned by the admin",
+      });
+    }
     //All good
     //return Token
     const accessToken = jwt.sign(
@@ -93,9 +99,10 @@ const login = async (req, res) => {
         userEmail: user.email,
         userRole: user.role,
         userName: user.username,
+        isBanned: user.isBanned,
       },
-      process.env.ACCESS_TOKEN
-      // { expiresIn: "1h" }
+      process.env.ACCESS_TOKEN,
+      { expiresIn: "1h" }
     );
 
     res.json({ success: true, message: "Login Successfully", accessToken });
