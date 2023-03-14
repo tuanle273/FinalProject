@@ -62,7 +62,7 @@ const VehicleManagement = () => {
       ),
     },
     {
-      name: "Title",
+      name: "Brand",
       selector: (row) => row.title,
       sortable: true,
     },

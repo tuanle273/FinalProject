@@ -1,10 +1,16 @@
 import React, { useContext, useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
-import { HiBan } from "react-icons/hi";
+import { toast, Toaster } from "react-hot-toast";
+import { HiBan, HiOutlineBadgeCheck } from "react-icons/hi";
 import { AuthContext } from "../../../contexts/AuthContext";
+import { UserContext } from "../../../contexts/UserContext";
 
 const UserManagement = () => {
   const [userData, setUserData] = useState([]);
+  console.log(
+    "🚀 ~ file: UserManagement.js:8 ~ UserManagement ~ userData:",
+    userData
+  );
   const [searchKeyword, setSearchKeyword] = useState("");
 
   const { getAllUser } = useContext(AuthContext);
@@ -17,9 +23,32 @@ const UserManagement = () => {
     loadAllUser();
   }, []);
   const customFilter = (rows, keyword) => {
-    return rows.filter((row) =>
-      row.username.toLowerCase().includes(keyword.toLowerCase())
-    );
+    return rows.filter((row) => {
+      const username = row?.username?.toLowerCase();
+      if (!username) return false;
+      return username.includes(keyword.toLowerCase());
+    });
+  };
+
+  const { banUser, unbanUser } = useContext(UserContext);
+
+  const handleUnBan = async (_id) => {
+    const response = await unbanUser(_id);
+
+    if (response.status >= 200 && response.status < 300) {
+      toast.success(response.data.message);
+    } else {
+      toast.error(response.data.message);
+    }
+  };
+  const handleBan = async (_id) => {
+    const response = await banUser(_id);
+
+    if (response.status >= 200 && response.status < 300) {
+      toast.success(response.data.message);
+    } else {
+      toast.error(response.data.message);
+    }
   };
   const columns = [
     {
@@ -59,22 +88,43 @@ const UserManagement = () => {
       selector: (row) => row.address,
     },
     {
+      name: "isBanned",
+      selector: (row) => row.isBanned.toString(),
+    },
+    {
       name: "CreatedAt",
       selector: (row) => row.createdAt,
       sortable: true,
     },
     {
-      name: "Ban",
-      cell: (row) => (
-        <>
-          <button
-            className="bg-red-500 hover:bg-red-400 text-white font-bold flex py-2 px-3 border-b-4 border-red-700 hover:border-red-500 rounded"
-            type="primary"
-          >
-            <HiBan />
-          </button>
-        </>
-      ),
+      name: "Ban/Unban",
+      cell: (row) => {
+        if (row.role === "admin") {
+          return <div></div>;
+        } else {
+          if (row.isBanned === true) {
+            return (
+              <button
+                className="bg-blue-500 hover:bg-blue-400 text-white font-bold flex py-2 px-3 border-b-4 border-blue-700 hover:border-blue-500 rounded"
+                type="primary"
+                onClick={() => handleUnBan(row._id)}
+              >
+                <HiOutlineBadgeCheck />
+              </button>
+            );
+          } else {
+            return (
+              <button
+                className="bg-red-500 hover:bg-red-400 text-white font-bold flex py-2 px-3 border-b-4 border-red-700 hover:border-red-500 rounded"
+                type="primary"
+                onClick={() => handleBan(row._id)}
+              >
+                <HiBan />
+              </button>
+            );
+          }
+        }
+      },
       ignoreRowClick: true,
       allowOverflow: true,
       button: true,
@@ -106,6 +156,7 @@ const UserManagement = () => {
   };
   return (
     <div className="shadow-xl mt-8 mr-0 mb-0 ml-0 pt-4 pr-10 pb-4 pl-10 flow-root rounded-lg sm:py-2">
+      <Toaster />
       {userData !== null && (
         <DataTable
           fixedHeader

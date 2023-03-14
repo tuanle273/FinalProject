@@ -31,10 +31,6 @@ const DiscountManagement = () => {
   };
 
   const [discounts, setDiscount] = useState([]);
-  console.log(
-    "🚀 ~ file: DiscountManagement.js:34 ~ DiscountManagement ~ discounts:",
-    discounts
-  );
 
   const [search, setSearch] = useState("");
   const [searchKeyword, setSearchKeyword] = useState("");
