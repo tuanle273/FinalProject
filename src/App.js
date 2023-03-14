@@ -15,7 +15,7 @@ import About from "./components/pages/Logged/About";
 import CheckOut from "./components/pages/Logged/CheckOut";
 import History from "./components/pages/Logged/History";
 import UserProfile from "./components/pages/Logged/UserProfile";
-import vehicleDetail from "./components/pages/Logged/VehicleDetail";
+import vehicleDetail from "./components/pages/Logged/vehicleDetail";
 import PasswordReset from "./components/pages/PasswordReset";
 import AdminRoute from "./components/routing/AdminRoute";
 import ProtectedRoute from "./components/routing/ProtectedRoute";
@@ -48,6 +48,11 @@ function App() {
             exact
             path="/vehicleDetail/:vehicleId"
             component={vehicleDetail}
+          ></ProtectedRoute>
+          <ProtectedRoute
+            exact
+            path="/checkout/:vehicleId/:diffDays"
+            component={CheckOut}
           ></ProtectedRoute>
           <Route
             exact

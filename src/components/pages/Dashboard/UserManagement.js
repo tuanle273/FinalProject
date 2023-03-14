@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
+import { HiBan } from "react-icons/hi";
 import { AuthContext } from "../../../contexts/AuthContext";
 
 const UserManagement = () => {
@@ -61,6 +62,22 @@ const UserManagement = () => {
       name: "CreatedAt",
       selector: (row) => row.createdAt,
       sortable: true,
+    },
+    {
+      name: "Ban",
+      cell: (row) => (
+        <>
+          <button
+            className="bg-red-500 hover:bg-red-400 text-white font-bold flex py-2 px-3 border-b-4 border-red-700 hover:border-red-500 rounded"
+            type="primary"
+          >
+            <HiBan />
+          </button>
+        </>
+      ),
+      ignoreRowClick: true,
+      allowOverflow: true,
+      button: true,
     },
   ];
 
