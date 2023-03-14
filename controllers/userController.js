@@ -43,6 +43,43 @@ const updateUser = async (req, res) => {
   );
 };
 
+const banUser = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const user = await User.findById(id);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    user.isBanned = true;
+    await user.save();
+
+    return res.status(200).json({ message: "User banned successfully" });
+  } catch (error) {
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+const unbanUser = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const user = await User.findById(id);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    user.isBanned = false;
+    await user.save();
+
+    return res.status(200).json({ message: "User unban successfully" });
+  } catch (error) {
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
 const getHistory = async (req, res) => {
   try {
     const bookingDetail = await Booking.find({ userId: req.userId });
@@ -76,4 +113,6 @@ module.exports = {
   authenticateRole,
   updateUser,
   getAllUser,
+  banUser,
+  unbanUser,
 };

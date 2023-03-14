@@ -101,8 +101,8 @@ const login = async (req, res) => {
         userName: user.username,
         isBanned: user.isBanned,
       },
-      process.env.ACCESS_TOKEN,
-      { expiresIn: "1h" }
+      process.env.ACCESS_TOKEN
+      // { expiresIn: "1h" }
     );
 
     res.json({ success: true, message: "Login Successfully", accessToken });
