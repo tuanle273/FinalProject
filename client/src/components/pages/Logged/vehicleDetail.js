@@ -3,7 +3,7 @@ import Form from "react-bootstrap/Form";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { toast, Toaster } from "react-hot-toast";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { AuthContext } from "../../../contexts/AuthContext";
 import { BookingContext } from "../../../contexts/BookingContext";
 import { VehicleContext } from "../../../contexts/VehicleContext";
@@ -25,10 +25,10 @@ const VehicleDetail = () => {
     endDate: endDate.toISOString(),
     totalCost: "10000",
   });
-  console.log(
-    "🚀 ~ file: VehicleDetail.js:25 ~ VehicleDetail ~ formData:",
-    formData
-  );
+  const start = new Date(startDate);
+  const end = new Date(endDate);
+  const timeDiff = Math.abs(end.getTime() - start.getTime());
+  const diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -43,10 +43,7 @@ const VehicleDetail = () => {
   useEffect(() => {
     const getVehicle = async () => {
       const respone = await getDetailVehicle(vehicleId);
-      console.log(
-        "🚀 ~ file: vehicleDetail.js:12 ~ getVehicle ~ getDetailVehicle:",
-        getDetailVehicle
-      );
+
       setVehicle(respone.data);
     };
 
@@ -216,14 +213,15 @@ const VehicleDetail = () => {
                   onChange={(date) => setEndDate(date)}
                   dateFormat="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
                 />
-                <button
+                <Link
+                  to={`/checkout/${vehicles._id}/${diffDays}`}
                   disabled={!vehicles.availability}
                   type="submit"
                   class="flex ml-auto text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded"
                 >
                   {" "}
                   {vehicles.availability ? "Rent" : "Not available"}
-                </button>
+                </Link>
                 <button class="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4">
                   <svg
                     fill="currentColor"
