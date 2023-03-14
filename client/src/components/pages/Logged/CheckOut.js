@@ -9,7 +9,6 @@ const CheckOut = () => {
   useEffect(() => {
     const getVehicle = async () => {
       const respone = await getDetailVehicle(vehicleId);
-      console.log("🚀 ~ file: CheckOut.js:12 ~ getVehicle ~ respone:", respone);
 
       setVehicle(respone.data);
     };
@@ -57,6 +56,11 @@ const CheckOut = () => {
             <div className="flex justify-between">
               <p className="text-gray-700">SubTotal</p>
               <p className="text-gray-700">${vehicles.price * diffDays}</p>
+            </div>
+            <div className="flex justify-between">
+              <p className="text-gray-700">Discount Code</p>
+              <input className="text-gray-700"></input>
+              <button>Apply</button>
             </div>
             <hr className="my-4" />
             <div className="flex justify-between">
