@@ -41,10 +41,6 @@ export function UserProvider({ children }) {
   const banUser = async (id) => {
     try {
       const response = await axios.get(apiUrl + "/user/banuser/" + id);
-      console.log(
-        "🚀 ~ file: UserContext.js:45 ~ banUser ~ response:",
-        response
-      );
 
       if (response.status >= 200 && response.status < 300) {
         dispatch({
@@ -52,26 +48,26 @@ export function UserProvider({ children }) {
           payload: response.data.message,
         });
       }
+      return { success: true, message: "BAN User successfully" };
     } catch (error) {
       dispatch({ type: BAN_USER_FAIL });
+      return { success: false, message: error.message };
     }
   };
   const unbanUser = async (id) => {
     try {
       const response = await axios.get(apiUrl + "/user/unbanuser/" + id);
-      console.log(
-        "🚀 ~ file: UserContext.js:38 ~ banUser ~ response:",
-        response
-      );
 
       if (response.status >= 200 && response.status < 300) {
         dispatch({
           type: HISTORY_FETCH_SUCCESS,
           payload: response.data.user,
         });
+        return { success: true, message: "UNBAN User successfully" };
       }
     } catch (error) {
       dispatch({ type: HISTORY_FETCH_FAIL });
+      return { success: false, message: error.message };
     }
   };
   const value = {
