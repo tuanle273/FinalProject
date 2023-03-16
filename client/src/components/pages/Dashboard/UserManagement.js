@@ -14,14 +14,14 @@ const UserManagement = () => {
   const [searchKeyword, setSearchKeyword] = useState("");
 
   const { getAllUser } = useContext(AuthContext);
+  const loadAllUser = async () => {
+    const response = await getAllUser();
+    setUserData(response.data);
+  };
   useEffect(() => {
-    const loadAllUser = async () => {
-      const response = await getAllUser();
-
-      setUserData(response.data);
-    };
     loadAllUser();
   }, []);
+
   const customFilter = (rows, keyword) => {
     return rows.filter((row) => {
       const username = row?.username?.toLowerCase();
@@ -35,19 +35,21 @@ const UserManagement = () => {
   const handleUnBan = async (_id) => {
     const response = await unbanUser(_id);
 
-    if (response.status >= 200 && response.status < 300) {
-      toast.success(response.data.message);
+    if (response.success) {
+      toast.success(response.message);
+      await loadAllUser();
     } else {
-      toast.error(response.data.message);
+      toast.error(response.message);
     }
   };
   const handleBan = async (_id) => {
     const response = await banUser(_id);
 
-    if (response.status >= 200 && response.status < 300) {
-      toast.success(response.data.message);
+    if (response.success) {
+      toast.success(response.message);
+      await loadAllUser();
     } else {
-      toast.error(response.data.message);
+      toast.error(response.message);
     }
   };
   const columns = [
