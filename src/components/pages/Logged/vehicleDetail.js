@@ -1,8 +1,7 @@
 import { useContext, useEffect, useState } from "react";
-import Form from "react-bootstrap/Form";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { toast, Toaster } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 import { Link, useParams } from "react-router-dom";
 import { AuthContext } from "../../../contexts/AuthContext";
 import { BookingContext } from "../../../contexts/BookingContext";
@@ -30,16 +29,6 @@ const VehicleDetail = () => {
   const timeDiff = Math.abs(end.getTime() - start.getTime());
   const diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const response = await createBooking(formData);
-
-    if (response.success) {
-      toast.success(response.message);
-    } else {
-      toast.error(response.message);
-    }
-  };
   useEffect(() => {
     const getVehicle = async () => {
       const respone = await getDetailVehicle(vehicleId);
@@ -56,7 +45,7 @@ const VehicleDetail = () => {
 
   return (
     <div>
-      <Form onSubmit={handleSubmit}>
+      <div>
         <div class="container px-5 py-24 mx-auto">
           <Toaster />
           <div class="lg:w-4/5 mx-auto flex flex-wrap">
@@ -214,7 +203,7 @@ const VehicleDetail = () => {
                   dateFormat="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
                 />
                 <Link
-                  to={`/checkout/${vehicles._id}/${diffDays}`}
+                  to={`/checkout/${vehicles._id}/${startDate}/${endDate}`}
                   disabled={!vehicles.availability}
                   type="submit"
                   class="flex ml-auto text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded"
@@ -238,7 +227,7 @@ const VehicleDetail = () => {
             </div>
           </div>
         </div>
-      </Form>
+      </div>
     </div>
   );
 };

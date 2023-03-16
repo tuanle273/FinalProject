@@ -51,7 +51,7 @@ function App() {
           ></ProtectedRoute>
           <ProtectedRoute
             exact
-            path="/checkout/:vehicleId/:diffDays"
+            path="/checkout/:vehicleId/:startDate/:endDate"
             component={CheckOut}
           ></ProtectedRoute>
           <Route
