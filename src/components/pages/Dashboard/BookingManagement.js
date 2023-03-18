@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
+import { CSVLink } from "react-csv";
 import DataTable from "react-data-table-component";
 import { BookingContext } from "../../../contexts/BookingContext";
 import FormattedDate from "../../../utils/FormattedDate";
@@ -30,19 +31,19 @@ const VehicleManagement = () => {
     setShowDelete(true);
   };
 
-  const [vehicles, setVehicle] = useState([]);
+  const [bookings, setBooking] = useState([]);
 
   const [search, setSearch] = useState("");
   const [searchKeyword, setSearchKeyword] = useState("");
   const { getAllBooking } = useContext(BookingContext);
 
-  const loadVehicle = async () => {
+  const loadBooking = async () => {
     const response = await getAllBooking();
-    setVehicle(response.data.bookings);
+    setBooking(response.data.bookings);
   };
 
   useEffect(() => {
-    loadVehicle();
+    loadBooking();
   }, []);
 
   const customFilter = (rows, keyword) => {
@@ -190,7 +191,7 @@ const VehicleManagement = () => {
   };
   return (
     <div className="shadow-xl mt-8 mr-0 mb-0 ml-0 pt-4 pr-10 pb-4 pl-10 flow-root rounded-lg sm:py-2">
-      {vehicles !== null && (
+      {bookings !== null && (
         <DataTable
           fixedHeader
           fixedHeaderScrollHeight="450px"
@@ -208,17 +209,28 @@ const VehicleManagement = () => {
           pagination
           title="Booking Management"
           columns={columns}
-          data={customFilter(vehicles, searchKeyword)}
+          data={customFilter(bookings, searchKeyword)}
           selectableRows
           customStyles={customStyles}
           actions={
-            <button
-              type="button"
-              onClick={handleShowCreate}
-              className="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-            >
-              Add new vehicle
-            </button>
+            <>
+              {" "}
+              <button
+                type="button"
+                onClick={handleShowCreate}
+                className="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              >
+                Add new vehicle
+              </button>
+              <CSVLink
+                data={bookings}
+                filename={"bookings_data.csv"}
+                className="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                target="_blank"
+              >
+                Export Data to CSV
+              </CSVLink>
+            </>
           }
           highlightOnHover
           pointerOnHover

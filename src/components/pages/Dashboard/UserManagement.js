@@ -1,18 +1,18 @@
 import React, { useContext, useEffect, useState } from "react";
+import { CSVLink } from "react-csv";
 import DataTable from "react-data-table-component";
 import { toast, Toaster } from "react-hot-toast";
 import { HiBan, HiOutlineBadgeCheck } from "react-icons/hi";
 import { AuthContext } from "../../../contexts/AuthContext";
 import { UserContext } from "../../../contexts/UserContext";
 import FormattedDate from "../../../utils/FormattedDate";
-
 const UserManagement = () => {
   const [userData, setUserData] = useState([]);
 
   const [searchKeyword, setSearchKeyword] = useState("");
 
   const { getAllUser } = useContext(AuthContext);
-  
+
   const loadAllUser = async () => {
     const response = await getAllUser();
     setUserData(response.data);
@@ -170,30 +170,43 @@ const UserManagement = () => {
     <div className="shadow-xl mt-8 mr-0 mb-0 ml-0 pt-4 pr-10 pb-4 pl-10 flow-root rounded-lg sm:py-2">
       <Toaster />
       {userData !== null && (
-        <DataTable
-          fixedHeader
-          fixedHeaderScrollHeight="550px"
-          subHeader
-          subHeaderComponent={
-            <input
-              type="text"
-              placeholder="Search by username"
-              value={searchKeyword}
-              onChange={(e) => setSearchKeyword(e.target.value)}
-              className="w-25 form-control"
-            ></input>
-          }
-          subHeaderAlign="left"
-          pagination
-          title="User Management"
-          columns={columns}
-          data={customFilter(userData, searchKeyword)}
-          selectableRows
-          customStyles={customStyles}
-          highlightOnHover
-          pointerOnHover
-          responsive
-        />
+        <>
+          {" "}
+          <DataTable
+            fixedHeader
+            fixedHeaderScrollHeight="550px"
+            subHeader
+            subHeaderComponent={
+              <input
+                type="text"
+                placeholder="Search by username"
+                value={searchKeyword}
+                onChange={(e) => setSearchKeyword(e.target.value)}
+                className="w-25 form-control"
+              ></input>
+            }
+            subHeaderAlign="left"
+            pagination
+            title="User Management"
+            columns={columns}
+            data={customFilter(userData, searchKeyword)}
+            selectableRows
+            customStyles={customStyles}
+            actions={
+              <CSVLink
+                data={userData}
+                filename={"user_data.csv"}
+                className="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                target="_blank"
+              >
+                Export Data to CSV
+              </CSVLink>
+            }
+            highlightOnHover
+            pointerOnHover
+            responsive
+          />
+        </>
       )}
     </div>
   );
