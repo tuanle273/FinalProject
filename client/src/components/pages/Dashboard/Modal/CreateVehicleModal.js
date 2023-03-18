@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import Form from "react-bootstrap/Form";
 import { toast, Toaster } from "react-hot-toast";
+import Export from "react-data-table-component";
 import { UserContext } from "../../../../contexts/UserContext";
 import { VehicleContext } from "../../../../contexts/VehicleContext";
 const CreateVehicleModal = (props) => {
@@ -37,6 +38,10 @@ const CreateVehicleModal = (props) => {
       ...formData,
       [event.target.name]: event.target.value,
     });
+    console.log(
+      "🚀 ~ file: CreateVehicleModal.js:41 ~ handleChange ~ formData:",
+      formData
+    );
   };
 
   const handleSubmit = async (event) => {
@@ -148,14 +153,6 @@ const CreateVehicleModal = (props) => {
                       <Form.Label className="mb-3 block text-base font-medium text-[#07074D]">
                         Year
                       </Form.Label>
-                      <Form.Control
-                        type="number"
-                        name="year"
-                        value={formData.year}
-                        onChange={handleChange}
-                        className="bg-white p-2 rounded mt-1 border-2 border-grey cursor-pointer hover:bg-grey-lighter"
-                        required
-                      />
                     </Form.Group>
                     <Form.Group controlId="capacity">
                       <Form.Label className="mb-3 block text-base font-medium text-[#07074D]">
@@ -174,14 +171,25 @@ const CreateVehicleModal = (props) => {
                       <Form.Label className="mb-3 block text-base font-medium text-[#07074D]">
                         Seat
                       </Form.Label>
-                      <Form.Control
+                      <Form.Select
                         type="number"
                         name="seat"
                         value={formData.seat}
                         onChange={handleChange}
                         className="bg-white p-2 rounded mt-1 border-2 border-grey cursor-pointer hover:bg-grey-lighter"
                         required
-                      />
+                        aria-label="Default select example"
+                      >
+                        {" "}
+                        <option>Select Seat</option>
+                        <option value="2">2</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="7">7</option>
+                        <option value="9">9</option>
+                        <option value="16">16</option>
+                        <option value="30">30</option>
+                      </Form.Select>
                     </Form.Group>
                     <Form.Group controlId="transmission">
                       <Form.Label className="mb-3 block text-base font-medium text-[#07074D]">

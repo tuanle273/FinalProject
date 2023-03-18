@@ -28,5 +28,4 @@ router.get("/owner", userController.authenticateRole(["owner"]), (req, res) => {
   res.send({ success: "Owner zone." });
 });
 
-
 module.exports = router;

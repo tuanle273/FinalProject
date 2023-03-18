@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
+import { AuthContext } from "../../../contexts/AuthContext";
 import { VehicleContext } from "../../../contexts/VehicleContext";
 import CreateVehicleModal from "./Modal/CreateVehicleModal";
 import DeleteModal from "./Modal/DeleteModal";
@@ -9,7 +10,9 @@ const VehicleManagement = () => {
   const [showCreate, setShowCreate] = useState(false);
   const handleCloseCreate = () => setShowCreate(false);
   const handleShowCreate = () => setShowCreate(true);
-
+  const {
+    authState: { user },
+  } = useContext(AuthContext);
   //Modal Edit
   const [itemIdToUpdate, setItemIdToUpdate] = useState(null);
 
@@ -31,7 +34,6 @@ const VehicleManagement = () => {
 
   const [vehicles, setVehicle] = useState([]);
 
-  const [search, setSearch] = useState("");
   const [searchKeyword, setSearchKeyword] = useState("");
   const { loadVehicles } = useContext(VehicleContext);
   useEffect(() => {
@@ -54,8 +56,9 @@ const VehicleManagement = () => {
         row.model.toLowerCase().includes(keyword.toLowerCase())
     );
   };
+
   const columns = [
-    {
+    user.role === "admin" && {
       name: "Image",
       cell: (row) => (
         <img
