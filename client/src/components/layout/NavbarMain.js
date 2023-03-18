@@ -1,9 +1,9 @@
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import React, { Fragment, useContext } from "react";
+import { FcLike } from "react-icons/fc";
 import { Link, useLocation } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
-
 const NavbarMain = () => {
   const location = useLocation();
   const {
@@ -19,16 +19,20 @@ const NavbarMain = () => {
     if (role === "admin") {
       navigation = [
         { name: "Home", to: "/", current: location.pathname === "/" },
-        { name: "Team", to: "/about", current: location.pathname === "/about" },
         {
-          name: "Projects",
-          to: "#",
-          current: location.pathname === "/projects",
+          name: "About",
+          to: "/about",
+          current: location.pathname === "/about",
         },
         {
-          name: "Calendar",
-          to: "#",
-          current: location.pathname === "/calendar",
+          name: "FAQ",
+          to: "/faq",
+          current: location.pathname === "/faq",
+        },
+        {
+          name: "All Car",
+          to: "/allcar",
+          current: location.pathname === "/allcar",
         },
         {
           name: "Dashboard",
@@ -41,14 +45,14 @@ const NavbarMain = () => {
         { name: "Home", to: "/", current: location.pathname === "/" },
         { name: "Team", to: "/about", current: location.pathname === "/about" },
         {
-          name: "Projects",
-          to: "#",
-          current: location.pathname === "/projects",
+          name: "FAQ",
+          to: "/faq",
+          current: location.pathname === "/faq",
         },
         {
-          name: "Calendar",
-          to: "#",
-          current: location.pathname === "/calendar",
+          name: "All Car",
+          to: "/allcar",
+          current: location.pathname === "/allcar",
         },
         {
           name: "Dashboard",
@@ -61,14 +65,14 @@ const NavbarMain = () => {
         { name: "Home", to: "/", current: location.pathname === "/" },
         { name: "Team", to: "/about", current: location.pathname === "/about" },
         {
-          name: "Projects",
-          to: "#",
-          current: location.pathname === "/projects",
+          name: "FAQ",
+          to: "/faq",
+          current: location.pathname === "/faq",
         },
         {
-          name: "Calendar",
-          to: "#",
-          current: location.pathname === "/calendar",
+          name: "All Car",
+          to: "/allcar",
+          current: location.pathname === "/allcar",
         },
       ];
     }
@@ -77,14 +81,14 @@ const NavbarMain = () => {
       { name: "Home", to: "/", current: location.pathname === "/" },
       { name: "Team", to: "/about", current: location.pathname === "/about" },
       {
-        name: "Projects",
-        to: "#",
-        current: location.pathname === "/projects",
+        name: "FAQ",
+        to: "/faq",
+        current: location.pathname === "/faq",
       },
       {
-        name: "Calendar",
-        to: "#",
-        current: location.pathname === "/calendar",
+        name: "All Car",
+        to: "/allcar",
+        current: location.pathname === "/allcar",
       },
     ];
   }
@@ -101,15 +105,14 @@ const NavbarMain = () => {
 
   return (
     <div className="min-h-full ">
-      <div class="rainbow">
-        <p>.</p>
-      </div>
-      <div class="bg-yellow-500 text-white py-1 px-4 flex items-center justify-center">
-        <p>Get 10% off your first purchase with code WELCOME10!</p>
+      <div className="py-1 px-1 flex items-center justify-center bg-gradient-to-r from-red-400 via-yellow-400 to-green-400 to-purple-400 animate-pulse"></div>
+      <div className="bg-white-500 text-black py-4 px-4 flex items-center justify-center ">
+        <FcLike />
+        <p>Get 10% off your first rent with code WELCOME10!</p>
       </div>
       <Disclosure
         as="nav"
-        className="bg-white-800 border border-solid border-gray-200 shadow-md p-4"
+        className="bg-white-800 border border-solid border-gray-300 shadow-lg p-3"
       >
         {({ open }) => (
           <>
@@ -184,7 +187,7 @@ const NavbarMain = () => {
                     {/* Profile dropdown */}
                     <Menu as="div" className="relative ml-3">
                       <div>
-                        <Menu.Button className="flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                        <Menu.Button className="flex max-w-xs items-center rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                           <span className="sr-only">Open user menu</span>
                           <img
                             className="h-8 w-8 rounded-full"

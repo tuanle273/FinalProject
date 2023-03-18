@@ -60,25 +60,32 @@ const VehicleManagement = () => {
           alt="Avatar"
         />
       ),
+      width: "90px",
     },
     {
       name: "Brand",
       selector: (row) => row.title,
       sortable: true,
+      width: "90px",
+      wrap: true,
     },
     {
       name: "Description",
       selector: (row) => row.description,
+      wrap: true,
     },
     {
       name: "Model",
       selector: (row) => row.model,
       sortable: true,
+      width: "100px",
+      wrap: true,
     },
     {
       name: "Color",
       selector: (row) => row.color,
       sortable: true,
+      width: "90px",
     },
     {
       name: "Plate number",
@@ -87,47 +94,54 @@ const VehicleManagement = () => {
           {row.platenumber}
         </span>
       ),
+      width: "120px",
     },
 
     {
       name: "Year",
       selector: (row) => row.year,
       sortable: true,
+      width: "90px",
     },
     {
       name: "Seat",
       selector: (row) => row.seat,
+      width: "70px",
     },
     {
       name: "Transmission",
       selector: (row) => row.transmission,
+      width: "110px",
     },
     {
       name: "Type",
       selector: (row) => row.type,
+      width: "0px",
     },
     {
       name: "Availability",
       selector: (row) => (
         <span
           className={`relative inline-block px-3 py-1 font-semibold text-${
-            row.availability ? "green" : "red"
+            row.availability ? "green" : "yellow"
           }-900 leading-tight`}
         >
           <span
             aria-hidden
             className={`absolute inset-0 bg-${
-              row.availability ? "green" : "red"
+              row.availability ? "green" : "yellow"
             }-200 opacity-50 rounded-full`}
           ></span>
           <span className="relative">{row.availability.toString()}</span>
         </span>
       ),
+      width: "90px",
     },
 
     {
       name: "Price",
       selector: (row) => row.price,
+      width: "70px",
     },
     {
       name: "Action",

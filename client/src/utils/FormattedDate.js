@@ -5,7 +5,6 @@ const FormattedDate = ({ date }) => {
     year: "numeric",
     month: "short",
     day: "numeric",
-    hour: "numeric",
   };
   const formattedDate = new Intl.DateTimeFormat("en-US", options).format(
     new Date(date)

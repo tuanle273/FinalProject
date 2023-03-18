@@ -35,12 +35,13 @@ const VehicleManagement = () => {
   const [search, setSearch] = useState("");
   const [searchKeyword, setSearchKeyword] = useState("");
   const { getAllBooking } = useContext(BookingContext);
-  useEffect(() => {
-    const loadVehicle = async () => {
-      const response = await getAllBooking();
 
-      setVehicle(response.data.bookings);
-    };
+  const loadVehicle = async () => {
+    const response = await getAllBooking();
+    setVehicle(response.data.bookings);
+  };
+
+  useEffect(() => {
     loadVehicle();
   }, []);
 
@@ -53,20 +54,30 @@ const VehicleManagement = () => {
     {
       name: "VehicleId",
       cell: (row) => row.vehicleId,
+      wrap: true,
     },
     {
       name: "UserId",
       selector: (row) => row.userId,
+      wrap: true,
     },
     {
       name: "Start Date",
       selector: (row) => <FormattedDate date={row.startDate} />,
       sortable: true,
+      width: "100px",
     },
     {
       name: "End Date",
       selector: (row) => <FormattedDate date={row.endDate} />,
       sortable: true,
+      width: "100px",
+    },
+    {
+      name: "Created Date",
+      selector: (row) => <FormattedDate date={row.created_at} />,
+      sortable: true,
+      width: "100px",
     },
     {
       name: "Total Cost",
@@ -94,14 +105,10 @@ const VehicleManagement = () => {
           <span className="relative">{row.status}</span>
         </span>
       ),
+      width: "150px",
       sortable: true,
     },
 
-    {
-      name: "Created Date",
-      selector: (row) => <FormattedDate date={row.created_at} />,
-      sortable: true,
-    },
     {
       name: "Note",
       selector: (row) => row.note,

@@ -26,10 +26,6 @@ export function BrandProvider({ children }) {
           type: DISCOUNT_FETCH_SUCCESS,
           payload: response.data.VehicleBrand,
         });
-        console.log(
-          "🚀 ~ file: BrandContext.js:29 ~ loadBrand ~  response.data.VehicleBrand:",
-          response.data.VehicleBrand
-        );
       }
       return {
         success: true,

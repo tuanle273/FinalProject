@@ -1,5 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import Form from "react-bootstrap/Form";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import { toast } from "react-hot-toast";
 import { useParams } from "react-router-dom";
 import { AuthContext } from "../../../contexts/AuthContext";
@@ -12,7 +14,12 @@ const CheckOut = () => {
   const [vehicles, setVehicle] = useState(null);
   const { createBooking } = useContext(BookingContext);
   const { getDetailVehicle } = useContext(VehicleContext);
-  const { vehicleId, startDate, endDate } = useParams();
+  const [startDate, setStartDate] = useState(new Date());
+
+  const [endDate, setEndDate] = useState(new Date());
+
+  const { vehicleId } = useParams();
+  const today = new Date();
   const [formData, setFormData] = useState({
     userId: user._id,
     vehicleId: vehicleId,
@@ -31,6 +38,10 @@ const CheckOut = () => {
   if (!vehicles) {
     return <div>Loading...</div>;
   }
+  const start = new Date(startDate);
+  const end = new Date(endDate);
+  const timeDiff = Math.abs(end.getTime() - start.getTime());
+  const diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -66,6 +77,33 @@ const CheckOut = () => {
                 </div>
                 <div className="mt-4 flex justify-between sm:space-y-6 sm:mt-0 sm:block sm:space-x-6"></div>
               </div>
+              <div className="sm:ml-4 sm:flex sm:w-full sm:justify-between">
+                <div className="mt-5 sm:mt-0">
+                  <label>Start date:</label>
+                  <DatePicker
+                    className="bg-white p-2 rounded mt-1 border-2 border-grey cursor-pointer hover:bg-grey-lighter"
+                    selected={startDate}
+                    onChange={(date) => setStartDate(date)}
+                    showTimeSelect
+                    minDate={today}
+                    timeFormat="HH:mm"
+                    timeIntervals={15}
+                    dateFormat="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+                  />
+                  <label>End date:</label>
+                  <DatePicker
+                    selected={endDate}
+                    className="bg-white p-2 rounded mt-1 border-2 border-grey cursor-pointer hover:bg-grey-lighter"
+                    onChange={(date) => setEndDate(date)}
+                    showTimeSelect
+                    minDate={today}
+                    timeFormat="HH:mm"
+                    timeIntervals={15}
+                    dateFormat="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+                  />
+                </div>
+                <div className="mt-4 flex justify-between sm:space-y-6 sm:mt-0 sm:block sm:space-x-6"></div>
+              </div>
             </div>
           </div>
 
@@ -79,16 +117,11 @@ const CheckOut = () => {
             </div>
             <div className="mb-2 flex justify-between">
               <p className="text-gray-700">Time</p>
-              <p className="text-gray-700">
-                {startDate} {endDate}
-              </p>
+              <p className="text-gray-700">{diffDays}</p>
             </div>
             <div className="flex justify-between">
               <p className="text-gray-700">SubTotal</p>
-              <p className="text-gray-700"></p>
-            </div>
-            <div className="flex justify-between">
-              <p className="text-gray-700">Discount Code</p>{" "}
+              <p className="text-gray-700">${vehicles.price * diffDays}</p>
             </div>
             <div className="mb-2 flex justify-between">
               {" "}
@@ -97,10 +130,15 @@ const CheckOut = () => {
                 name=""
                 id=""
                 placeholder="Discount Code"
-                className="border rounded"
+                className="bg-white p-2 rounded mt-1 border-2 border-grey cursor-pointer hover:bg-grey-lighter"
               />
-            </div>
-            <button>Apply</button>
+            </div>{" "}
+            <button
+              type="button"
+              class="text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-medium rounded-lg text-sm px-5 py-2 text-center mr-1 mb-2"
+            >
+              Apply
+            </button>
             <hr className="my-4" />
             <div className="flex justify-between">
               <p className="text-lg font-bold">Bonus</p>
@@ -108,12 +146,8 @@ const CheckOut = () => {
             <div className="mb-2 flex justify-between">
               {" "}
               <textarea
-                name=""
-                id=""
-                cols="10"
-                rows="3"
-                placeholder="Note"
-                class="border p-2 mt-3 w-full"
+                className="bg-white p-2 rounded mt-1 border-2 border-grey cursor-pointer hover:bg-grey-lighter"
+                placeholder="Bio"
               ></textarea>
             </div>
             <hr className="my-4" />

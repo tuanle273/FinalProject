@@ -15,7 +15,6 @@
     "axios": "^1.2.2",
     "bootstrap": "^5.2.3",
     "chart.js": "^4.2.1",
-    "cloudinary": "^1.35.0",
     "flowbite": "^1.6.3",
     "flowbite-react": "^0.3.8",
     "jsqr": "^1.4.0",
@@ -30,6 +29,7 @@
     "react-icons": "^4.7.1",
     "react-minimal-side-navigation": "^1.9.2",
     "react-modal": "^3.16.1",
+    "react-paginate": "^8.1.4",
     "react-pro-sidebar": "^1.0.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "5.0.1",
@@ -38,6 +38,7 @@
     "react-transition-group": "^4.4.5",
     "reactjs-popup": "^2.0.5",
     "styled-components": "^5.3.6",
+    "swiper": "^9.1.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
