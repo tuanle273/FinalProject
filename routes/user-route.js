@@ -5,8 +5,6 @@ const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 const verifyToken = require("../middlewares/auth");
 const userController = require("../controllers/userController");
-const passport = require("passport");
-const { loginByGoogle } = require("../controllers/authController");
 
 router.get("/profile", verifyToken, userController.getUser);
 
@@ -30,22 +28,5 @@ router.get("/owner", userController.authenticateRole(["owner"]), (req, res) => {
   res.send({ success: "Owner zone." });
 });
 
-//Login by GOOGLE
-
-loginByGoogle();
-router.get(
-  "/auth/google",
-
-  passport.authenticate("google", { scope: ["profile"], scope: ["email"] })
-);
-
-router.get(
-  "/auth/google/callback",
-
-  passport.authenticate("google", { session: false }),
-  function (req, res) {
-    res.redirect("http://localhost:3000");
-  }
-);
 
 module.exports = router;
