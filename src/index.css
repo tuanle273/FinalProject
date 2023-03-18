@@ -11,11 +11,11 @@
 /* Create a rainbow-like effect using linear gradients */
 .rainbow {
   background: linear-gradient(to right, #fb8817, #ff4b01, #c12127, #e02aff);
-  padding: 0 0;
-  padding-top: 0;
-  animation: rainbow-animation 5s ease infinite;
-}
+  padding: 0;
 
+  animation: rainbow-animation 3s ease infinite;
+  background-size: 60% 100%;
+}
 /* Define the animation */
 @keyframes rainbow-animation {
   0% {
@@ -27,4 +27,15 @@
   100% {
     background-position: 0% 50%;
   }
+}
+::-webkit-scrollbar {
+  width: 5px; /* Chiều rộng của thanh trượt */
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Màu nền của thanh trượt */
+}
+
+::-webkit-scrollbar-thumb {
+  display: none;
 }

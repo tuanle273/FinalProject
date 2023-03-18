@@ -11,7 +11,9 @@ import DiscountManagement from "./components/pages/Dashboard/DiscountManagement"
 import UserManagement from "./components/pages/Dashboard/UserManagement";
 import VehicleManagement from "./components/pages/Dashboard/VehicleManagement";
 import ForgotPassword from "./components/pages/ForgotPassword";
+import Faq from "./components/pages/Landing/Faq";
 import About from "./components/pages/Logged/About";
+import AllCars from "./components/pages/Logged/AllCars";
 import CheckOut from "./components/pages/Logged/CheckOut";
 import History from "./components/pages/Logged/History";
 import UserProfile from "./components/pages/Logged/UserProfile";
@@ -51,7 +53,7 @@ function App() {
           ></ProtectedRoute>
           <ProtectedRoute
             exact
-            path="/checkout/:vehicleId/:startDate/:endDate"
+            path="/checkout/:vehicleId"
             component={CheckOut}
           ></ProtectedRoute>
           <Route
@@ -103,6 +105,12 @@ function App() {
             exact
             path="/checkout"
             component={CheckOut}
+          ></ProtectedRoute>
+          <ProtectedRoute exact path="/faq" component={Faq}></ProtectedRoute>{" "}
+          <ProtectedRoute
+            exact
+            path="/allcar"
+            component={AllCars}
           ></ProtectedRoute>
           <ProtectedRoute exact path="/" component={Landing}></ProtectedRoute>
           <Route

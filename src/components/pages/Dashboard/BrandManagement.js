@@ -38,10 +38,6 @@ const BrandManagement = () => {
   useEffect(() => {
     const loadVehicle = async () => {
       const response = await loadBrand();
-      console.log(
-        "🚀 ~ file: BrandManagement.js:45 ~ loadVehicle ~ response:",
-        response
-      );
 
       setBrand(response.data);
     };

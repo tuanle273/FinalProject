@@ -56,10 +56,10 @@ const LoginForm = () => {
               Read More
             </button>
           </div>
-          <div className="absolute -bottom-32 -left-40 w-80 h-80 border-4 rounded-full border-opacity-30 border-t-8"></div>
-          <div className="absolute -bottom-40 -left-20 w-80 h-80 border-4 rounded-full border-opacity-30 border-t-8"></div>
-          <div className="absolute -top-40 -right-0 w-80 h-80 border-4 rounded-full border-opacity-30 border-t-8"></div>
-          <div className="absolute -top-20 -right-20 w-80 h-80 border-4 rounded-full border-opacity-30 border-t-8"></div>
+          <div className=" absolute -bottom-32 -left-40 w-80 h-80 border-4 rounded-full border-opacity-30 border-t-8"></div>
+          <div className=" absolute -bottom-40 -left-20 w-80 h-80 border-4 rounded-full border-opacity-30 border-t-8"></div>
+          <div className=" absolute -top-40 -right-0 w-80 h-80 border-4 rounded-full border-opacity-30 border-t-8"></div>
+          <div className=" absolute -top-20 -right-20 w-80 h-80 border-4 rounded-full border-opacity-30 border-t-8"></div>
         </div>
         <div className="flex md:w-1/2 justify-center py-10 items-center bg-white">
           <form className="bg-white">
@@ -117,20 +117,11 @@ const LoginForm = () => {
             </div>
             <button
               type="submit"
-              className="block w-full bg-indigo-600 mt-4 py-2 rounded-2xl text-white font-semibold mb-2"
+              className=" block w-full bg-indigo-600 mt-4 py-2 rounded-2xl text-white font-semibold mb-2"
             >
               Login
             </button>
-
-            <span className="text-sm ml-2 hover:text-blue-500 cursor-pointer">
-              <Link to="/forgotpassword">Forget Password</Link>
-            </span>
-            <span className="text-sm ml-14 hover:text-blue-500 cursor-pointer">
-              <Link to="/register">Sign Up</Link>
-            </span>
-          </form>
-          <div className="mb-3">
-            <button
+            <Link
               onClick={loginGoogle}
               className="flex flex-wrap justify-center w-full border border-gray-300 hover:border-gray-500 px-2 py-1.5 rounded-md"
             >
@@ -140,8 +131,15 @@ const LoginForm = () => {
                 src="https://lh3.googleusercontent.com/COxitqgJr1sJnIDe8-jiKhxDx1FrYbtRHKJ9z_hELisAlapwE9LUPh6fcXIfb5vwpbMl4xl9H9TRFPc5NOO8Sb3VSgIBrfRYvW6cUA"
               />
               Sign in with Google
-            </button>
-          </div>
+            </Link>
+
+            <span className="text-sm ml-2 hover:text-blue-500 cursor-pointer">
+              <Link to="/forgotpassword">Forget Password?</Link>
+            </span>
+            <span className="text-sm ml-14 hover:text-blue-500 cursor-pointer">
+              <Link to="/register">Sign Up</Link>
+            </span>
+          </form>
         </div>
       </div>
     </div>

@@ -18,10 +18,6 @@ export function DiscountProvider({ children }) {
 
   // Load discounts
   const loadDiscount = async () => {
-    console.log(
-      "🚀 ~ file: DiscountContext.js:21 ~ loadDiscount ~ loadDiscount:",
-      loadDiscount
-    );
     try {
       const response = await axios.get(apiUrl + "/discount");
 

@@ -4,16 +4,15 @@ import { toast, Toaster } from "react-hot-toast";
 import { HiBan, HiOutlineBadgeCheck } from "react-icons/hi";
 import { AuthContext } from "../../../contexts/AuthContext";
 import { UserContext } from "../../../contexts/UserContext";
+import FormattedDate from "../../../utils/FormattedDate";
 
 const UserManagement = () => {
   const [userData, setUserData] = useState([]);
-  console.log(
-    "🚀 ~ file: UserManagement.js:8 ~ UserManagement ~ userData:",
-    userData
-  );
+
   const [searchKeyword, setSearchKeyword] = useState("");
 
   const { getAllUser } = useContext(AuthContext);
+  
   const loadAllUser = async () => {
     const response = await getAllUser();
     setUserData(response.data);
@@ -56,50 +55,61 @@ const UserManagement = () => {
     {
       name: "Image",
       cell: (row) => <img src={row.imageUrl} alt="Avatar" />,
+      width: "90px",
     },
     {
       name: "Name",
       selector: (row) => row.username,
       sortable: true,
+      wrap: true,
     },
     {
       name: "Email",
       selector: (row) => row.email,
+      wrap: true,
     },
     {
       name: "Gender",
       selector: (row) => row.gender,
       sortable: true,
+      width: "90px",
     },
     {
       name: "Phone",
       selector: (row) => row.phone,
       sortable: true,
+      width: "100px",
+      wrap: true,
     },
     {
       name: "Role",
       selector: (row) => row.role,
+      width: "90px",
     },
 
     {
       name: "Age",
       selector: (row) => row.age,
+      width: "90px",
     },
     {
       name: "Address",
       selector: (row) => row.address,
+      wrap: true,
     },
     {
       name: "isBanned",
       selector: (row) => row.isBanned.toString(),
+      width: "90px",
     },
     {
       name: "CreatedAt",
-      selector: (row) => row.createdAt,
+      selector: (row) => <FormattedDate date={row.createdAt} />,
       sortable: true,
     },
     {
       name: "Ban/Unban",
+      width: "80px",
       cell: (row) => {
         if (row.role === "admin") {
           return <div></div>;
