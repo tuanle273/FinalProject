@@ -6,6 +6,9 @@ const jwt = require("jsonwebtoken");
 const verifyToken = require("../middlewares/auth");
 const authController = require("../controllers/authController");
 const emailResetPass = require("../utils/emailResetPass");
+const passport = require("passport");
+const { loginByGoogle } = require("../controllers/authController");
+
 // @route GET api/auth
 // @des Check if user is logged in
 //@access public
@@ -27,5 +30,21 @@ router.post("/login", authController.login);
 router.post("/forgotpass", emailResetPass.emailPass);
 
 router.post("/reset-password/:token", emailResetPass.tokenPass);
+
+//Login by GOOGLE
+
+loginByGoogle();
+router.get(
+  "/auth/google",
+
+  passport.authenticate("google", { scope: ["profile"], scope: ["email"] })
+);
+
+router.get(
+  "/auth/google/callback",
+
+  passport.authenticate("google", { session: false }),
+  authController.loginCallback
+);
 
 module.exports = router;

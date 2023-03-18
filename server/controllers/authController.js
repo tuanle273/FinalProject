@@ -120,7 +120,7 @@ const loginByGoogle = async (req, res) => {
       {
         clientID: keys.googleClientID,
         clientSecret: keys.googleClientSecret,
-        callbackURL: "http://localhost:5000/api/user/auth/google/callback",
+        callbackURL: "http://localhost:5000/api/auth/auth/google/callback",
         scope: ["email"],
       },
       (accessToken, refreshToken, email, profile, done) => {
@@ -135,8 +135,6 @@ const loginByGoogle = async (req, res) => {
           { expiresIn: "1h" }
         );
 
-        // Check if google profile exist.
-        console.log(profile);
         if (profile.id) {
           User.findOne({ googleId: profile.id }).then((existingUser) => {
             if (existingUser) {
@@ -168,9 +166,40 @@ const loginByGoogle = async (req, res) => {
     cb(null, obj);
   });
 };
+
+const loginCallback = async (req, res) => {
+  try {
+    if (req.user.isBanned) {
+      return res.status(400).json({
+        success: false,
+        message: "Your account has been banned by the admin",
+      });
+    }
+    //All good
+    //return Token
+    const accessToken = jwt.sign(
+      {
+        userId: req.user._id,
+        userEmail: req.user.email,
+        userRole: req.user.role,
+        userName: req.user.username,
+        isBanned: req.user.isBanned,
+      },
+      process.env.ACCESS_TOKEN
+      // { expiresIn: "1h" }
+    );
+
+    res.redirect(`http://localhost:3000/login?accessToken=${accessToken}`);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, message: "Internal Server Error" });
+  }
+};
+
 module.exports = {
   register,
   login,
   verifyUser,
   loginByGoogle,
+  loginCallback,
 };

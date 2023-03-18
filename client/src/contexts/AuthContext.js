@@ -6,7 +6,6 @@ import {
   apiUrl,
   FETCH_USER_DATA,
   LOCAL_STORAGE_TOKEN_NAME,
-  LOGIN_BY_GOOGLE_REQUEST,
   SET_AUTH,
   UPDATE_USER_PROFILE,
 } from "./constants";
@@ -59,18 +58,17 @@ const AuthContextProvider = ({ children }) => {
     return () => {};
   }, []);
 
+ 
   //Login
   const loginUser = async (userForm) => {
     try {
       const response = await axios.post(apiUrl + "/auth/login", userForm);
-
       if (response.data.success)
         localStorage.setItem(
           LOCAL_STORAGE_TOKEN_NAME,
           response.data.accessToken
         );
-      await loadUser();
-      window.location.reload();
+
       return response.data;
     } catch (error) {
       if (error.response.data) return error.response.data;
@@ -168,28 +166,7 @@ const AuthContextProvider = ({ children }) => {
         };
     }
   };
-  const loginByGoogle = async () => {
-    try {
-      const response = await axios.get(apiUrl + "/user/auth/google");
-      console.log(
-        "🚀 ~ file: AuthContext.js:174 ~ loginByGoogle ~ response:",
-        response
-      );
 
-      if (response.status >= 200 && response.status < 300) {
-        dispatch({
-          type: LOGIN_BY_GOOGLE_REQUEST,
-          payload: response.data.userDetail,
-        });
-      }
-      return response.data;
-    } catch (error) {
-      return {
-        success: false,
-        message: error.message,
-      };
-    }
-  };
   //context data
   const authContextData = {
     loginUser,
@@ -199,7 +176,6 @@ const AuthContextProvider = ({ children }) => {
     authState,
     forgotPassword,
     passwordReset,
-    loginByGoogle,
     getAllUser,
   };
   return (
