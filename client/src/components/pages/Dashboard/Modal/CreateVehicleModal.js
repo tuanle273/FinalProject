@@ -1,11 +1,11 @@
-import { Cloudinary } from "@cloudinary/base";
 import React, { useContext, useState } from "react";
 import Form from "react-bootstrap/Form";
 import { toast, Toaster } from "react-hot-toast";
+import { UserContext } from "../../../../contexts/UserContext";
 import { VehicleContext } from "../../../../contexts/VehicleContext";
 const CreateVehicleModal = (props) => {
   const { createVehicle } = useContext(VehicleContext);
-
+  const { cloudinaryUpload } = useContext(UserContext);
   const [formData, setFormData] = useState({
     title: "",
     model: "",
@@ -20,26 +20,17 @@ const CreateVehicleModal = (props) => {
     availability: "",
     imageUrl: "",
   });
-  const cloudinary = new Cloudinary({
-    cloud: {
-      cloudName: "duax5havz",
-      apiKey: "297641854334774",
-      apiSecret: "vabR1J7y9PGo785J_RSexv2SlXA",
-    },
-  });
 
-  const uploadImageToCloudinary = async (imageFile) => {
-    const response = await cloudinary.upload(imageFile).toPromise();
-
-    return response.secure_url;
-  };
-  const handleImageUpload = async (event) => {
-    const imageFile = event.target.files[0];
-    const imageUrl = await uploadImageToCloudinary(imageFile);
-    setFormData({
-      ...formData,
-      imageUrl: imageUrl,
-    });
+  const handleFileUpload = async (e) => {
+    try {
+      const uploadData = new FormData();
+      uploadData.append("file", e.target.files[0], "file");
+      const response = await cloudinaryUpload(uploadData);
+      const secureUrl = response.data.secure_url;
+      setFormData({ ...formData, imageUrl: secureUrl });
+    } catch (error) {
+      console.error("Error uploading file:", error);
+    }
   };
   const handleChange = (event) => {
     setFormData({
@@ -51,6 +42,7 @@ const CreateVehicleModal = (props) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const response = await createVehicle(formData);
+
     if (response.success) {
       toast.success(response.message);
 
@@ -270,7 +262,7 @@ const CreateVehicleModal = (props) => {
                       <input
                         type="file"
                         accept="image/*"
-                        onChange={handleImageUpload}
+                        onChange={handleFileUpload}
                       />
                     </Form.Group>
                     {/*footer*/}

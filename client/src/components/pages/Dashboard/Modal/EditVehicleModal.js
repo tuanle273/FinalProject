@@ -1,11 +1,10 @@
 import React, { useContext, useState } from "react";
-import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import Modal from "react-bootstrap/Modal";
+import { toast, Toaster } from "react-hot-toast";
+import { UserContext } from "../../../../contexts/UserContext";
 import { VehicleContext } from "../../../../contexts/VehicleContext";
-import { Toaster, toast } from "react-hot-toast";
 const EditVehicleModal = (props) => {
-
+  const { cloudinaryUpload } = useContext(UserContext);
   const { updateVehicle } = useContext(VehicleContext);
   const [formData, setFormData] = useState({
     title: "",
@@ -21,7 +20,17 @@ const EditVehicleModal = (props) => {
     availability: "",
     imageUrl: "",
   });
-
+  const handleFileUpload = async (e) => {
+    try {
+      const uploadData = new FormData();
+      uploadData.append("file", e.target.files[0], "file");
+      const response = await cloudinaryUpload(uploadData);
+      const secureUrl = response.data.secure_url;
+      setFormData({ ...formData, imageUrl: secureUrl });
+    } catch (error) {
+      console.error("Error uploading file:", error);
+    }
+  };
   const handleChange = (event) => {
     setFormData({
       ...formData,
@@ -31,15 +40,14 @@ const EditVehicleModal = (props) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const response = await updateVehicle(props.itemId, formData );
+    const response = await updateVehicle(props.itemId, formData);
 
-    if (response.success) { 
+    if (response.success) {
       toast.success(response.message);
-    props.handleClose();
-  } else { 
-    toast.error(response.message);
-  
-  }
+      props.handleClose();
+    } else {
+      toast.error(response.message);
+    }
   };
   return (
     <div>
@@ -199,13 +207,21 @@ const EditVehicleModal = (props) => {
                       </Form.Select>
                     </Form.Group>
                     <Form.Group controlId="imageUrl">
-                      <Form.Label>Image</Form.Label>
+                      <Form.Label className="mb-3 block text-base font-medium text-[#07074D]">
+                        Image
+                      </Form.Label>
                       <Form.Control
                         type="text"
                         name="imageUrl"
                         value={formData.imageUrl}
+                        className="bg-white p-2 rounded mt-1 border-2 border-grey cursor-pointer hover:bg-grey-lighter"
                         onChange={handleChange}
                         required
+                      />
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleFileUpload}
                       />
                     </Form.Group>
                     {/*footer*/}

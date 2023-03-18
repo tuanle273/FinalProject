@@ -110,28 +110,19 @@ const uploadCloudinary = async (req, res, next) => {
   try {
     fileUploader.single("file")(req, res, function (err) {
       if (err) {
-        return next(new Error("Error uploading file!"));
+        next(new Error("Error uploading file!"));
+        return;
       }
 
       if (!req.file) {
-        return next(new Error("No file uploaded!"));
+        next(new Error("No file uploaded!"));
+        return;
       }
 
-      const newImage = new UploadedFile({
-        title: req.file.filename,
-        fileUrl: req.file.path,
-      });
-
-      newImage.save((err) => {
-        if (err) {
-          return next(err);
-        }
-
-        res.json({ secure_url: req.file.path });
-      });
+      res.json({ secure_url: req.file.path });
     });
   } catch (error) {
-    return next(error);
+    res.status(500).json({ success: false, message: error.message });
   }
 };
 
