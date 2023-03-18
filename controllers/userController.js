@@ -2,7 +2,7 @@ const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 const { response } = require("../index");
 const Booking = require("../models/Booking");
-
+const fileUploader = require("../utils/cloudinary.config");
 const getAllUser = async (req, res) => {
   try {
     const Users = await User.find({ User });
@@ -106,6 +106,34 @@ const authenticateRole = (requiredRoles) => {
     }
   };
 };
+const uploadCloudinary = async (req, res, next) => {
+  try {
+    fileUploader.single("file")(req, res, function (err) {
+      if (err) {
+        return next(new Error("Error uploading file!"));
+      }
+
+      if (!req.file) {
+        return next(new Error("No file uploaded!"));
+      }
+
+      const newImage = new UploadedFile({
+        title: req.file.filename,
+        fileUrl: req.file.path,
+      });
+
+      newImage.save((err) => {
+        if (err) {
+          return next(err);
+        }
+
+        res.json({ secure_url: req.file.path });
+      });
+    });
+  } catch (error) {
+    return next(error);
+  }
+};
 
 module.exports = {
   getUser,
@@ -115,4 +143,5 @@ module.exports = {
   getAllUser,
   banUser,
   unbanUser,
+  uploadCloudinary,
 };

@@ -15,7 +15,11 @@ router.put("/profile/:id", verifyToken, userController.updateUser);
 router.get("/history", verifyToken, userController.getHistory);
 
 router.get("/alluser", verifyToken, userController.getAllUser);
+
 router.get("/banuser/:id", verifyToken, userController.banUser);
+
+router.post("/cloudinary-upload", verifyToken, userController.uploadCloudinary);
+
 router.get("/unbanuser/:id", verifyToken, userController.unbanUser);
 
 router.get("/admin", userController.authenticateRole(["admin"]), (req, res) => {
