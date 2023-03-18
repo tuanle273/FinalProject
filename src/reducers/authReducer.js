@@ -18,11 +18,7 @@ export const authReducer = (state, action) => {
         ...state,
         user: { ...state.user, ...action.payload },
       };
-      case LOGIN_BY_GOOGLE_REQUEST:
-        return {
-          ...state,
-          user: { ...state.user, ...action.payload },
-        };
+    
   
     default:
       return state;
