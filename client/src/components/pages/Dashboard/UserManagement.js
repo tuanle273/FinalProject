@@ -98,6 +98,11 @@ const UserManagement = () => {
       wrap: true,
     },
     {
+      name: "Account Type",
+      selector: (row) => row.accountType,
+      width: "90px",
+    },
+    {
       name: "isBanned",
       selector: (row) => row.isBanned.toString(),
       width: "90px",
