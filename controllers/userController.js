@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const { response } = require("../index");
 const Booking = require("../models/Booking");
 const fileUploader = require("../utils/cloudinary.config");
+const csvtojson = require("csvtojson");
 const getAllUser = async (req, res) => {
   try {
     const Users = await User.find({ User });
@@ -15,6 +16,16 @@ const getAllUser = async (req, res) => {
   }
 };
 
+const uploadCSV = async (req, res) => {
+  try {
+    const csvString = req.body.csv; // assume csv data is sent in the "csv" field of the request body
+    const jsonArray = await csvtojson().fromString(csvString);
+    res.json(jsonArray);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
 const getUser = async (req, res) => {
   try {
     const userDetail = await User.findById(req.userId);
@@ -135,4 +146,5 @@ module.exports = {
   banUser,
   unbanUser,
   uploadCloudinary,
+  uploadCSV,
 };

@@ -99,6 +99,7 @@ const login = async (req, res) => {
         userEmail: user.email,
         userRole: user.role,
         userName: user.username,
+        userType: user.accountType,
         isBanned: user.isBanned,
       },
       process.env.ACCESS_TOKEN
@@ -130,6 +131,7 @@ const loginByGoogle = async (req, res) => {
             userEmail: profile.email,
             userRole: profile.role,
             userName: profile.username,
+            accountType: "google",
           },
           process.env.ACCESS_TOKEN,
           { expiresIn: "1h" }
@@ -143,11 +145,13 @@ const loginByGoogle = async (req, res) => {
               const email = profile.emails[0].value;
               const username = profile.displayName || email;
               const imageUrl = profile.photos && profile.photos[0].value;
+
               new User({
                 googleId: profile.id,
                 email,
                 username,
                 imageUrl,
+                accountType: "google",
               })
                 .save()
                 .then((user) => done(null, user));
@@ -184,6 +188,7 @@ const loginCallback = async (req, res) => {
         userRole: req.user.role,
         userName: req.user.username,
         isBanned: req.user.isBanned,
+        accountType: "google",
       },
       process.env.ACCESS_TOKEN
       // { expiresIn: "1h" }

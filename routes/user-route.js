@@ -18,6 +18,8 @@ router.get("/banuser/:id", verifyToken, userController.banUser);
 
 router.post("/cloudinary-upload", verifyToken, userController.uploadCloudinary);
 
+router.post("/uploadcsv", verifyToken, userController.uploadCSV);
+
 router.get("/unbanuser/:id", verifyToken, userController.unbanUser);
 
 router.get("/admin", userController.authenticateRole(["admin"]), (req, res) => {
