@@ -7,7 +7,7 @@ const DiscountController = require("../controllers/DiscountController");
 
 router.get("/", verifyToken, DiscountController.getDiscount);
 
-router.get("/checkcode", verifyToken, DiscountController.checkDiscountCode);
+router.post("/checkcode", verifyToken, DiscountController.checkDiscountCode);
 
 router.put("/:id", verifyToken, DiscountController.updateDiscount);
 

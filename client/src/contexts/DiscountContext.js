@@ -38,8 +38,18 @@ export function DiscountProvider({ children }) {
   };
 
   const checkDiscount = async (code) => {
+    console.log(
+      "🚀 ~ file: DiscountContext.js:41 ~ checkDiscount ~ discountCode:",
+      code
+    );
     try {
-      const response = await axios.get(apiUrl + "/discount/checkcode", code);
+      const response = await axios.post(apiUrl + "/discount/checkcode", {
+        code,
+      });
+      console.log(
+        "🚀 ~ file: DiscountContext.js:46 ~ checkDiscount ~ response:",
+        response
+      );
 
       if (response.status >= 200 && response.status < 300) {
         dispatch({
