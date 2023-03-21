@@ -2,9 +2,9 @@ import React, { useContext, useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
 import { DiscountContext } from "../../../contexts/DiscountContext";
 import FormattedDate from "../../../utils/FormattedDate";
-import CreateVehicleModal from "./Modal/CreateVehicleModal";
-import DeleteVehicleModal from "./Modal/DeleteVehicleModal";
-import EditVehicleModal from "./Modal/EditVehicleModal";
+import CreateDiscountModal from "./Modal/Discount/CreateDiscountModal";
+import DeleteVehicleModal from "./Modal/Vehicle/DeleteVehicleModal";
+import EditVehicleModal from "./Modal/Vehicle/EditVehicleModal";
 const DiscountManagement = () => {
   //Modal Create
   const [showCreate, setShowCreate] = useState(false);
@@ -36,12 +36,12 @@ const DiscountManagement = () => {
   const [searchKeyword, setSearchKeyword] = useState("");
   const { loadDiscount } = useContext(DiscountContext);
   useEffect(() => {
-    const loadVehicle = async () => {
+    const loadDiscountCode = async () => {
       const response = await loadDiscount();
 
       setDiscount(response.data);
     };
-    loadVehicle();
+    loadDiscountCode();
   }, []);
 
   const customFilter = (rows, keyword) => {
@@ -51,13 +51,14 @@ const DiscountManagement = () => {
   };
   const columns = [
     {
-      name: "Code",
-      cell: (row) => row.code,
-    },
-    {
       name: "Name",
       selector: (row) => row.name,
     },
+    {
+      name: "Code",
+      cell: (row) => row.code,
+    },
+
     {
       name: "Amount",
       selector: (row) => row.amount,
@@ -116,7 +117,7 @@ const DiscountManagement = () => {
           }
           subHeaderAlign="left"
           pagination
-          title="Booking Management"
+          title="Discount Management"
           columns={columns}
           data={customFilter(discounts, searchKeyword)}
           selectableRows
@@ -127,7 +128,7 @@ const DiscountManagement = () => {
               onClick={handleShowCreate}
               className="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             >
-              Add new vehicle
+              Add new Discount
             </button>
           }
           highlightOnHover
@@ -135,7 +136,7 @@ const DiscountManagement = () => {
           responsive
         />
       )}
-      <CreateVehicleModal show={showCreate} handleClose={handleCloseCreate} />
+      <CreateDiscountModal show={showCreate} handleClose={handleCloseCreate} />
       <EditVehicleModal
         show={showEdit}
         handleClose={handleCloseEdit}

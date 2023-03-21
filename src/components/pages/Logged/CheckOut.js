@@ -6,6 +6,7 @@ import { toast } from "react-hot-toast";
 import { useParams } from "react-router-dom";
 import { AuthContext } from "../../../contexts/AuthContext";
 import { BookingContext } from "../../../contexts/BookingContext";
+import { DiscountContext } from "../../../contexts/DiscountContext";
 import { VehicleContext } from "../../../contexts/VehicleContext";
 const CheckOut = () => {
   const {
@@ -14,6 +15,7 @@ const CheckOut = () => {
   const [vehicles, setVehicle] = useState(null);
   const { createBooking } = useContext(BookingContext);
   const { getDetailVehicle } = useContext(VehicleContext);
+  const { checkDiscount } = useContext(DiscountContext);
   const [startDate, setStartDate] = useState(new Date());
 
   const [endDate, setEndDate] = useState(new Date());
@@ -23,9 +25,22 @@ const CheckOut = () => {
   const [formData, setFormData] = useState({
     userId: user._id,
     vehicleId: vehicleId,
-
     totalCost: "10000",
   });
+  const [code, setCode] = useState({
+    code: "ABCXYZ",
+  });
+  const handleCheckCode = async (event) => {
+    event.preventDefault();
+    const response = await checkDiscount(code);
+
+    if (response.success) {
+      toast.success(response.message);
+    } else {
+      toast.error(response.message);
+    }
+  };
+
   useEffect(() => {
     const getVehicle = async () => {
       const respone = await getDetailVehicle(vehicleId);
@@ -134,8 +149,9 @@ const CheckOut = () => {
               />
             </div>{" "}
             <button
+              onClick={handleCheckCode}
               type="button"
-              class="text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-medium rounded-lg text-sm px-5 py-2 text-center mr-1 mb-2"
+              className="text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-medium rounded-lg text-sm px-5 py-2 text-center mr-1 mb-2"
             >
               Apply
             </button>
