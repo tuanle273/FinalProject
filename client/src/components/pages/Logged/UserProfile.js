@@ -8,15 +8,17 @@ const UserProfile = () => {
   const {
     authState: { user },
   } = useContext(AuthContext);
+
   const { updateUserProfile } = useContext(AuthContext);
 
   const [userData, setUserData] = useState({
+    imageUrl: "",
     age: "",
     phone: "",
     address: "",
     gender: "",
   });
-  const { age, phone, address, gender } = userData;
+
   const onChangeUpdateForm = (event) =>
     setUserData({ ...userData, [event.target.name]: event.target.value });
 
@@ -65,6 +67,20 @@ const UserProfile = () => {
         <div className="flex flex-col items-center  -mt-1">
           <h4 className="text-xl text-gray-900 font-bold">Personal Info</h4>
           <ul className="mt-2 text-gray-700">
+            {user.accountType === "google" ? (
+              <li className="flex border-b py-2"></li>
+            ) : (
+              <li className="flex border-b py-2">
+                <span className="font-bold w-24">Image:</span>
+                <input
+                  type="text"
+                  name="imageUrl"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  defaultValue={user.imageUrl}
+                  onChange={onChangeUpdateForm}
+                ></input>
+              </li>
+            )}
             <li className="flex border-b py-2">
               <span className="font-bold w-24">Age:</span>
               <input

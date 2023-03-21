@@ -3,7 +3,7 @@ import Form from "react-bootstrap/Form";
 import { toast, Toaster } from "react-hot-toast";
 import { VehicleContext } from "../../../../contexts/VehicleContext";
 
-const DeleteModal = (props) => {
+const DeleteVehicleModal = (props) => {
   const { deleteVehicle } = useContext(VehicleContext);
 
   const handleDelete = async (event) => {
@@ -75,4 +75,4 @@ const DeleteModal = (props) => {
   );
 };
 
-export default DeleteModal;
+export default DeleteVehicleModal;
