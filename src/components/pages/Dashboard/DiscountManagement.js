@@ -3,7 +3,7 @@ import DataTable from "react-data-table-component";
 import { DiscountContext } from "../../../contexts/DiscountContext";
 import FormattedDate from "../../../utils/FormattedDate";
 import CreateVehicleModal from "./Modal/CreateVehicleModal";
-import DeleteModal from "./Modal/DeleteModal";
+import DeleteVehicleModal from "./Modal/DeleteVehicleModal";
 import EditVehicleModal from "./Modal/EditVehicleModal";
 const DiscountManagement = () => {
   //Modal Create
@@ -141,7 +141,7 @@ const DiscountManagement = () => {
         handleClose={handleCloseEdit}
         itemId={itemIdToUpdate}
       />
-      <DeleteModal
+      <DeleteVehicleModal
         show={showDelete}
         handleClose={handleCloseDelete}
         itemId={itemIdToDelete}

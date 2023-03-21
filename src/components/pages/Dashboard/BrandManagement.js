@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
 import { BrandContext } from "../../../contexts/BrandContext";
 import CreateVehicleModal from "./Modal/CreateVehicleModal";
-import DeleteModal from "./Modal/DeleteModal";
+import DeleteVehicleModal from "./Modal/DeleteVehicleModal";
 import EditVehicleModal from "./Modal/EditVehicleModal";
 
 const BrandManagement = () => {
@@ -117,7 +117,7 @@ const BrandManagement = () => {
         handleClose={handleCloseEdit}
         itemId={itemIdToUpdate}
       />
-      <DeleteModal
+      <DeleteVehicleModal
         show={showDelete}
         handleClose={handleCloseDelete}
         itemId={itemIdToDelete}
