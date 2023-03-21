@@ -18,14 +18,29 @@ const getDiscount = async (req, res) => {
 };
 
 const checkDiscountCode = async (req, res) => {
-  const { code } = req.body;
+  const code = req.body;
   try {
-    const discount = await Discount.findOne({ code });
-
-    res.json({ success: true, discount });
+    const discount = await Discount.findOne(code);
+    console.log(
+      "🚀 ~ file: discountController.js:23 ~ checkDiscountCode ~ discount:",
+      discount
+    );
+    if (!discount) {
+      return res.json({
+        success: false,
+        message: "Discount code not found",
+      });
+    }
+    return res.json({
+      success: true,
+      discount,
+    });
   } catch (error) {
-    console.log(error);
-    res.status(500).json({ success: false, message: "Internal Server Error" });
+    console.error(error);
+    return res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+    });
   }
 };
 
