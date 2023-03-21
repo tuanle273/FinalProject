@@ -37,8 +37,28 @@ export function DiscountProvider({ children }) {
     }
   };
 
+  const checkDiscount = async (code) => {
+    try {
+      const response = await axios.get(apiUrl + "/discount/checkcode", code);
+
+      if (response.status >= 200 && response.status < 300) {
+        dispatch({
+          type: DISCOUNT_FETCH_SUCCESS,
+          payload: response.data.discount,
+        });
+      }
+      return {
+        success: true,
+        data: response.data.discount,
+        message: "Discount List",
+      };
+    } catch (error) {
+      dispatch({ type: DISCOUNT_FETCH_FAIL });
+    }
+  };
   const value = {
     loadDiscount,
+    checkDiscount,
   };
 
   return (

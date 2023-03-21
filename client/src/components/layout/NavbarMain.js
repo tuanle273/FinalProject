@@ -2,6 +2,7 @@ import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import React, { Fragment, useContext } from "react";
 import { FcLike } from "react-icons/fc";
+import { HiOutlineLogout } from "react-icons/hi";
 import { Link, useLocation } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
 const NavbarMain = () => {
@@ -258,7 +259,7 @@ const NavbarMain = () => {
                     className={classNames(
                       item.current
                         ? "bg-gray-900 text-white"
-                        : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                        : "text-gray-900 hover:bg-gray-700 hover:text-white",
                       "block px-3 py-2 rounded-md text-base font-medium"
                     )}
                     aria-current={item.current ? "page" : undefined}
@@ -280,7 +281,7 @@ const NavbarMain = () => {
                     <div className="text-base font-medium leading-none text-white">
                       {username}
                     </div>
-                    <div className="text-sm font-medium leading-none text-gray-400">
+                    <div className="text-sm font-medium leading-none text-gray-900">
                       {email}
                     </div>
                   </div>
@@ -291,18 +292,24 @@ const NavbarMain = () => {
                     <span className="sr-only">View notifications</span>
                     <BellIcon className="h-6 w-6" aria-hidden="true" />
                   </button>
-                </div>
+                </div>{" "}
+                <button
+                  onClick={logout}
+                  className="block w-full text-left px-4 py-2 text-base font-medium text-gray-700 hover:bg-gray-100"
+                >
+                  Sign Out <HiOutlineLogout />
+                </button>
                 <div className="mt-3 space-y-1 px-2">
                   {userNavigation.map((item) => (
                     <Link
                       key={item.name}
                       as="a"
                       to={item.to}
-                      className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
+                      className="block rounded-md px-3 py-2 text-base font-medium text-gray-900 hover:bg-gray-700 hover:text-white"
                     >
                       {item.name}
                     </Link>
-                  ))}
+                  ))}{" "}
                 </div>
               </div>
             </Disclosure.Panel>

@@ -10,6 +10,8 @@ const DiscountSchema = new Schema({
   },
   amount: {
     type: Number,
+    min: 0,
+    max: 1,
   },
   startDate: {
     type: Date,

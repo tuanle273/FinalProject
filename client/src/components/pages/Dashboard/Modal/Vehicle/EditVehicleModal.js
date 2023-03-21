@@ -1,12 +1,12 @@
 import React, { useContext, useState } from "react";
 import Form from "react-bootstrap/Form";
 import { toast, Toaster } from "react-hot-toast";
-import Export from "react-data-table-component";
-import { UserContext } from "../../../../contexts/UserContext";
-import { VehicleContext } from "../../../../contexts/VehicleContext";
-const CreateVehicleModal = (props) => {
-  const { createVehicle } = useContext(VehicleContext);
+import { UserContext } from "../../../../../contexts/UserContext";
+import { VehicleContext } from "../../../../../contexts/VehicleContext";
+
+const EditVehicleModal = (props) => {
   const { cloudinaryUpload } = useContext(UserContext);
+  const { updateVehicle } = useContext(VehicleContext);
   const [formData, setFormData] = useState({
     title: "",
     model: "",
@@ -21,7 +21,6 @@ const CreateVehicleModal = (props) => {
     availability: "",
     imageUrl: "",
   });
-
   const handleFileUpload = async (e) => {
     try {
       const uploadData = new FormData();
@@ -38,19 +37,14 @@ const CreateVehicleModal = (props) => {
       ...formData,
       [event.target.name]: event.target.value,
     });
-    console.log(
-      "🚀 ~ file: CreateVehicleModal.js:41 ~ handleChange ~ formData:",
-      formData
-    );
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const response = await createVehicle(formData);
+    const response = await updateVehicle(props.itemId, formData);
 
     if (response.success) {
       toast.success(response.message);
-
       props.handleClose();
     } else {
       toast.error(response.message);
@@ -78,129 +72,96 @@ const CreateVehicleModal = (props) => {
                   </button>
                 </div>
                 {/*body*/}
-                <div className="flex items-center justify-center p-12">
-                  <Form
-                    onSubmit={handleSubmit}
-                    className="-mx-3 flex flex-wrap"
-                  >
+                <div className="relative p-6 flex-auto">
+                  <Form onSubmit={handleSubmit}>
                     {" "}
                     <Form.Group controlId="title">
-                      <Form.Label className="mb-3 block text-base font-medium text-[#07074D]">
-                        Title
-                      </Form.Label>
+                      <Form.Label>Title</Form.Label>
                       <Form.Control
                         type="text"
                         name="title"
                         value={formData.title}
                         onChange={handleChange}
-                        className="w-full px-3 sm:w-1/2 bg-white p-2 rounded mt-1 border-2 border-grey cursor-pointer hover:bg-grey-lighter"
                         required
                       />
                     </Form.Group>
                     <Form.Group controlId="model">
-                      <Form.Label className="mb-3 block text-base font-medium text-[#07074D]">
-                        Model
-                      </Form.Label>
+                      <Form.Label>Model</Form.Label>
                       <Form.Control
                         type="text"
                         name="model"
                         value={formData.model}
                         onChange={handleChange}
-                        className="w-full px-3 sm:w-1/2 bg-white p-2 rounded mt-1 border-2 border-grey cursor-pointer hover:bg-grey-lighter"
                         required
                       />
                     </Form.Group>
                     <Form.Group controlId="color">
-                      <Form.Label className="mb-3 block text-base font-medium text-[#07074D]">
-                        Color
-                      </Form.Label>
+                      <Form.Label>Color</Form.Label>
                       <Form.Control
                         type="text"
                         name="color"
                         value={formData.color}
                         onChange={handleChange}
-                        className="bg-white p-2 rounded mt-1 border-2 border-grey cursor-pointer hover:bg-grey-lighter"
                         required
                       />
                     </Form.Group>
                     <Form.Group controlId="description">
-                      <Form.Label className="mb-3 block text-base font-medium text-[#07074D]">
-                        Description
-                      </Form.Label>
+                      <Form.Label>Description</Form.Label>
                       <Form.Control
                         type="text"
                         name="description"
                         value={formData.description}
-                        className="bg-white p-2 rounded mt-1 border-2 border-grey cursor-pointer hover:bg-grey-lighter"
                         onChange={handleChange}
                         required
                       />
                     </Form.Group>
                     <Form.Group controlId="platenumber">
-                      <Form.Label className="mb-3 block text-base font-medium text-[#07074D]">
-                        Platenumber
-                      </Form.Label>
+                      <Form.Label>Platenumber</Form.Label>
                       <Form.Control
                         type="text"
                         name="platenumber"
                         value={formData.platenumber}
-                        className="bg-white p-2 rounded mt-1 border-2 border-grey cursor-pointer hover:bg-grey-lighter"
                         onChange={handleChange}
                         required
                       />
                     </Form.Group>
                     <Form.Group controlId="year">
-                      <Form.Label className="mb-3 block text-base font-medium text-[#07074D]">
-                        Year
-                      </Form.Label>
+                      <Form.Label>Year</Form.Label>
+                      <Form.Control
+                        type="number"
+                        name="year"
+                        value={formData.year}
+                        onChange={handleChange}
+                        required
+                      />
                     </Form.Group>
                     <Form.Group controlId="capacity">
-                      <Form.Label className="mb-3 block text-base font-medium text-[#07074D]">
-                        Capacity
-                      </Form.Label>
+                      <Form.Label>Capacity</Form.Label>
                       <Form.Control
                         type="number"
                         name="capacity"
                         value={formData.capacity}
-                        className="bg-white p-2 rounded mt-1 border-2 border-grey cursor-pointer hover:bg-grey-lighter"
                         onChange={handleChange}
                         required
                       />
                     </Form.Group>
                     <Form.Group controlId="seat">
-                      <Form.Label className="mb-3 block text-base font-medium text-[#07074D]">
-                        Seat
-                      </Form.Label>
-                      <Form.Select
+                      <Form.Label>Seat</Form.Label>
+                      <Form.Control
                         type="number"
                         name="seat"
                         value={formData.seat}
                         onChange={handleChange}
-                        className="bg-white p-2 rounded mt-1 border-2 border-grey cursor-pointer hover:bg-grey-lighter"
                         required
-                        aria-label="Default select example"
-                      >
-                        {" "}
-                        <option>Select Seat</option>
-                        <option value="2">2</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="7">7</option>
-                        <option value="9">9</option>
-                        <option value="16">16</option>
-                        <option value="30">30</option>
-                      </Form.Select>
+                      />
                     </Form.Group>
                     <Form.Group controlId="transmission">
-                      <Form.Label className="mb-3 block text-base font-medium text-[#07074D]">
-                        Transmission
-                      </Form.Label>
+                      <Form.Label>Transmission</Form.Label>
                       <Form.Select
                         type="text"
                         name="transmission"
                         value={formData.transmission}
                         onChange={handleChange}
-                        className="bg-white p-2 rounded mt-1 border-2 border-grey cursor-pointer hover:bg-grey-lighter"
                         required
                         aria-label="Default select example"
                       >
@@ -211,41 +172,32 @@ const CreateVehicleModal = (props) => {
                       </Form.Select>
                     </Form.Group>
                     <Form.Group controlId="price">
-                      <Form.Label className="mb-3 block text-base font-medium text-[#07074D]">
-                        Price
-                      </Form.Label>
+                      <Form.Label>Price</Form.Label>
                       <Form.Control
                         type="number"
                         name="price"
                         value={formData.price}
                         onChange={handleChange}
-                        className="bg-white p-2 rounded mt-1 border-2 border-grey cursor-pointer hover:bg-grey-lighter"
                         required
                       />
                     </Form.Group>
                     <Form.Group controlId="type">
-                      <Form.Label className="mb-3 block text-base font-medium text-[#07074D]">
-                        Type
-                      </Form.Label>
+                      <Form.Label>Type</Form.Label>
                       <Form.Control
                         type="text"
                         name="type"
                         value={formData.type}
                         onChange={handleChange}
-                        className="bg-white p-2 rounded mt-1 border-2 border-grey cursor-pointer hover:bg-grey-lighter"
                         required
                       />
                     </Form.Group>
                     <Form.Group controlId="availability">
                       {" "}
-                      <Form.Label className="mb-3 block text-base font-medium text-[#07074D]">
-                        Availability
-                      </Form.Label>
+                      <Form.Label>Availability</Form.Label>
                       <Form.Select
                         type="text"
                         name="availability"
                         value={formData.availability}
-                        className="bg-white p-2 rounded mt-1 border-2 border-grey cursor-pointer hover:bg-grey-lighter"
                         onChange={handleChange}
                         required
                         aria-label="Default select example"
@@ -301,4 +253,4 @@ const CreateVehicleModal = (props) => {
   );
 };
 
-export default CreateVehicleModal;
+export default EditVehicleModal;

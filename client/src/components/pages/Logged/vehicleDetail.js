@@ -45,9 +45,9 @@ const VehicleDetail = () => {
                   <svg
                     fill="currentColor"
                     stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
                     className="w-4 h-4 text-red-500"
                     viewBox="0 0 24 24"
                   >
@@ -56,9 +56,9 @@ const VehicleDetail = () => {
                   <svg
                     fill="currentColor"
                     stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
                     className="w-4 h-4 text-red-500"
                     viewBox="0 0 24 24"
                   >
@@ -67,9 +67,9 @@ const VehicleDetail = () => {
                   <svg
                     fill="currentColor"
                     stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
                     className="w-4 h-4 text-red-500"
                     viewBox="0 0 24 24"
                   >
@@ -78,9 +78,9 @@ const VehicleDetail = () => {
                   <svg
                     fill="currentColor"
                     stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
                     className="w-4 h-4 text-red-500"
                     viewBox="0 0 24 24"
                   >
@@ -89,9 +89,9 @@ const VehicleDetail = () => {
                   <svg
                     fill="none"
                     stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
                     className="w-4 h-4 text-red-500"
                     viewBox="0 0 24 24"
                   >
@@ -103,9 +103,9 @@ const VehicleDetail = () => {
                   <a className="text-gray-500">
                     <svg
                       fill="currentColor"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
                       className="w-5 h-5"
                       viewBox="0 0 24 24"
                     >
@@ -115,9 +115,9 @@ const VehicleDetail = () => {
                   <a className="ml-2 text-gray-500">
                     <svg
                       fill="currentColor"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
                       className="w-5 h-5"
                       viewBox="0 0 24 24"
                     >
@@ -127,9 +127,9 @@ const VehicleDetail = () => {
                   <a className="ml-2 text-gray-500">
                     <svg
                       fill="currentColor"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
                       className="w-5 h-5"
                       viewBox="0 0 24 24"
                     >
@@ -167,15 +167,15 @@ const VehicleDetail = () => {
               </div>
               <div className="flex">
                 <div>
-                  <div class="rounded-lg bg-gray-100 flex py-2 px-3">
-                    <span class="text-indigo-400 mr-1 mt-1">$</span>
-                    <span class="font-bold text-indigo-600 text-3xl">
+                  <div className="rounded-lg bg-gray-100 flex py-2 px-3">
+                    <span className="text-indigo-400 mr-1 mt-1">$</span>
+                    <span className="font-bold text-indigo-600 text-3xl">
                       {vehicles.price}
                     </span>
                   </div>
                 </div>
               </div>
-              <div class="flex py-4 space-x-4">
+              <div className="flex py-4 space-x-4">
                 <Link
                   to={`/checkout/${vehicles._id}`}
                   disabled={!vehicles.availability}

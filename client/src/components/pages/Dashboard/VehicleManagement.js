@@ -2,9 +2,9 @@ import React, { useContext, useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
 import { AuthContext } from "../../../contexts/AuthContext";
 import { VehicleContext } from "../../../contexts/VehicleContext";
-import CreateVehicleModal from "./Modal/CreateVehicleModal";
-import DeleteVehicleModal from "./Modal/DeleteVehicleModal";
-import EditVehicleModal from "./Modal/EditVehicleModal";
+import CreateVehicleModal from "./Modal/Vehicle/CreateVehicleModal";
+import DeleteVehicleModal from "./Modal/Vehicle/DeleteVehicleModal";
+import EditVehicleModal from "./Modal/Vehicle/EditVehicleModal";
 const VehicleManagement = () => {
   //Modal Create
   const [showCreate, setShowCreate] = useState(false);

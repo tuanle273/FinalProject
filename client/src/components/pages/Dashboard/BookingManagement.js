@@ -3,9 +3,9 @@ import { CSVLink } from "react-csv";
 import DataTable from "react-data-table-component";
 import { BookingContext } from "../../../contexts/BookingContext";
 import FormattedDate from "../../../utils/FormattedDate";
-import CreateVehicleModal from "./Modal/CreateVehicleModal";
-import DeleteVehicleModal from "./Modal/DeleteVehicleModal";
-import EditVehicleModal from "./Modal/EditVehicleModal";
+import CreateVehicleModal from "./Modal/Vehicle/CreateVehicleModal";
+import DeleteVehicleModal from "./Modal/Vehicle/DeleteVehicleModal";
+import EditVehicleModal from "./Modal/Vehicle/EditVehicleModal";
 const VehicleManagement = () => {
   //Modal Create
   const [showCreate, setShowCreate] = useState(false);
@@ -220,7 +220,7 @@ const VehicleManagement = () => {
                 onClick={handleShowCreate}
                 className="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
               >
-                Add new vehicle
+                Add new Booking
               </button>
               <CSVLink
                 data={bookings}

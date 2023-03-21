@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
 import { BrandContext } from "../../../contexts/BrandContext";
-import CreateVehicleModal from "./Modal/CreateVehicleModal";
-import DeleteVehicleModal from "./Modal/DeleteVehicleModal";
-import EditVehicleModal from "./Modal/EditVehicleModal";
+import CreateVehicleModal from "./Modal/Vehicle/CreateVehicleModal";
+import DeleteVehicleModal from "./Modal/Vehicle/DeleteVehicleModal";
+import EditVehicleModal from "./Modal/Vehicle/EditVehicleModal";
 
 const BrandManagement = () => {
   //Modal Create
