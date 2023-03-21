@@ -17,6 +17,18 @@ const getDiscount = async (req, res) => {
   }
 };
 
+const checkDiscountCode = async (req, res) => {
+  const { code } = req.body;
+  try {
+    const discount = await Discount.findOne({ code });
+
+    res.json({ success: true, discount });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, message: "Internal Server Error" });
+  }
+};
+
 const updateDiscount = async (req, res) => {
   Discount.findByIdAndUpdate(
     req.params.id,
@@ -69,4 +81,5 @@ module.exports = {
   deleteDiscount,
   createDiscount,
   updateDiscount,
+  checkDiscountCode,
 };

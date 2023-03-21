@@ -8,6 +8,8 @@ const vehicleRouter = require("./routes/vehicle-route");
 const bookingRouter = require("./routes/booking-route");
 const brandRouter = require("./routes/brand-route");
 const discountRouter = require("./routes/discount-route");
+const paymentRouter = require("./routes/payment-route");
+
 const session = require("express-session");
 const passport = require("passport");
 
@@ -42,6 +44,8 @@ app.use("/api/vehicle", vehicleRouter);
 app.use("/api/booking", bookingRouter);
 app.use("/api/brand", brandRouter);
 app.use("/api/discount", discountRouter);
+app.use("/api/payment", paymentRouter);
+
 const PORT = process.env.PORT || 5000;
 
 (async () => {
