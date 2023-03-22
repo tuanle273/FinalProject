@@ -25,7 +25,7 @@ root.render(
     </BookingProvider>
   </VehicleProvider>
 );
-
+<script src="https://www.paypal.com/sdk/js?client-id=AXBaE0nA0j89DkBgxhfjgN9I2VtNPXvYcmHlmzqgby0uvzOHf4okRxzen5dw_4hQQixuq32fZPZZccVB"></script>;
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals

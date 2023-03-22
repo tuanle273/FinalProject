@@ -1,14 +1,26 @@
 import React from "react";
+import { AiOutlineMenu } from "react-icons/ai";
 import { FaCar } from "react-icons/fa";
 import { FiLogOut } from "react-icons/fi";
 import { HiChartPie, HiUserGroup } from "react-icons/hi";
 import { RiBillFill } from "react-icons/ri";
-import { Menu, MenuItem, Sidebar, SubMenu } from "react-pro-sidebar";
+import {
+  Menu,
+  MenuItem,
+  Sidebar,
+  SubMenu,
+  useProSidebar,
+} from "react-pro-sidebar";
 import { Link } from "react-router-dom";
 const SideBarMain = () => {
+  const { collapseSidebar } = useProSidebar();
   return (
     <div style={{ display: "flex", height: "100%" }}>
-      <Sidebar style={{ height: "100vh" }}>
+      <Sidebar
+        breakPoint="sm"
+        transitionDuration={800}
+        style={{ height: "100vh" }}
+      >
         <Menu
           menuItemStyles={{
             button: ({ level, active, disabled }) => {
@@ -21,6 +33,13 @@ const SideBarMain = () => {
             },
           }}
         >
+          <MenuItem
+            icon={<AiOutlineMenu />}
+            onClick={() => {
+              collapseSidebar();
+            }}
+            style={{ textAlign: "center" }}
+          ></MenuItem>
           <MenuItem
             icon={<HiChartPie />}
             style={{ borderBottom: "0.5px solid #ccc" }}

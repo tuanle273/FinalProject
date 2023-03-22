@@ -55,12 +55,13 @@ const CheckOut = () => {
   if (!vehicles) {
     return <div>Loading...</div>;
   }
+
   const start = new Date(startDate);
   const end = new Date(endDate);
   const timeDiff = Math.abs(end.getTime() - start.getTime());
   const diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
   const amount = discount;
-  console.log("🚀 ~ file: CheckOut.js:64 ~ CheckOut ~ amount:", amount);
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     const response = await createBooking(formData);
@@ -71,13 +72,29 @@ const CheckOut = () => {
       toast.error(response.message);
     }
   };
+   const [message, setMessage] = useState("");
+
+   useEffect(() => {
+     // Check to see if this is a redirect back from Checkout
+     const query = new URLSearchParams(window.location.search);
+
+     if (query.get("success")) {
+       setMessage("Order placed! You will receive an email confirmation.");
+     }
+
+     if (query.get("canceled")) {
+       setMessage(
+         "Order canceled -- continue to shop around and checkout when you're ready."
+       );
+     }
+   }, []);
   const subTotal = vehicles.price * diffDays;
   const Total = amount ? subTotal * amount : subTotal;
   return (
     <div>
       <Toaster />
       <div className="h-screen bg-gray-100 pt-10">
-        <Form onSubmit={handleSubmit}>
+        <Form action="http://localhost:5000/api/payment/paypal" method="POST">
           <h1 className="mb-10 text-center text-2xl font-bold">Check Out</h1>
           <div className="mx-auto max-w-5xl justify-center px-6 md:flex md:space-x-6 xl:px-0">
             <div className="rounded-lg md:w-2/3">
@@ -142,7 +159,20 @@ const CheckOut = () => {
               </div>{" "}
               <div className="flex justify-between">
                 <p className="text-gray-700">Discount</p>
-                <p className="text-gray-700">%{amount * 100}</p>
+                <p className="text-gray-700">
+                  {" "}
+                  {amount ? (
+                    <button
+                      onClick={setCode === null}
+                      className="text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-medium rounded-lg text-sm px-5 py-2 text-center mr-1 mb-2"
+                    >
+                      Cancel
+                    </button>
+                  ) : (
+                    ""
+                  )}
+                  %{amount * 100}
+                </p>
               </div>{" "}
               <div className="flex justify-between">
                 <p className="text-gray-700">SubTotal</p>
