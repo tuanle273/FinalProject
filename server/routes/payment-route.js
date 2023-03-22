@@ -1,11 +1,9 @@
 const express = require("express");
-const { response } = require("../index");
 const router = express.Router();
-const verifyToken = require("../middlewares/auth");
-const Brand = require("../models/Brand");
 const paypal = require("../utils/paypal.config");
+const stripe = require("../utils/stripe.config");
 
-router.post("/", verifyToken, paypal.createPayment);
-router.post("/excute", verifyToken, paypal.executePayment);
+router.post("/paypal", paypal.createPayment);
+router.post("/stripe", stripe.createPayment);
 
 module.exports = router;

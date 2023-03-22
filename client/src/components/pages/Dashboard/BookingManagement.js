@@ -32,13 +32,17 @@ const VehicleManagement = () => {
   };
 
   const [bookings, setBooking] = useState([]);
+  console.log(
+    "🚀 ~ file: BookingManagement.js:35 ~ VehicleManagement ~ bookings:",
+    bookings
+  );
 
   const [search, setSearch] = useState("");
   const [searchKeyword, setSearchKeyword] = useState("");
-  const { getAllBooking } = useContext(BookingContext);
+  const { loadBookings } = useContext(BookingContext);
 
   const loadBooking = async () => {
-    const response = await getAllBooking();
+    const response = await loadBookings();
     setBooking(response.data.bookings);
   };
 
@@ -48,18 +52,18 @@ const VehicleManagement = () => {
 
   const customFilter = (rows, keyword) => {
     return rows.filter((row) =>
-      row.userId.toLowerCase().includes(keyword.toLowerCase())
+      row.userId?.username.toLowerCase().includes(keyword.toLowerCase())
     );
   };
   const columns = [
     {
-      name: "VehicleId",
-      cell: (row) => row.vehicleId,
+      name: "Vehicle",
+      cell: (row) => row.vehicleId?.title,
       wrap: true,
     },
     {
-      name: "UserId",
-      selector: (row) => row.userId,
+      name: "User",
+      selector: (row) => row.userId?.username,
       wrap: true,
     },
     {

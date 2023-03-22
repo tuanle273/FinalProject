@@ -45,8 +45,9 @@ const DiscountManagement = () => {
   }, []);
 
   const customFilter = (rows, keyword) => {
-    return rows.filter((row) =>
-      row.name.toLowerCase().includes(keyword.toLowerCase())
+    return rows.filter(
+      (row) =>
+        row.name && row.name.toLowerCase().includes(keyword.toLowerCase())
     );
   };
   const columns = [

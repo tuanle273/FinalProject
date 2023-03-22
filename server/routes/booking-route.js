@@ -10,6 +10,7 @@ const BookingController = require("../controllers/BookingController");
 // @access Private
 
 router.get("/", verifyToken, BookingController.getBooking);
+router.get("/loadbookings", verifyToken, BookingController.loadBooking);
 
 //@route PUT api/Booking
 // @desc Update Booking
