@@ -21,10 +21,7 @@ const checkDiscountCode = async (req, res) => {
   const code = req.body;
   try {
     const discount = await Discount.findOne(code);
-    console.log(
-      "🚀 ~ file: discountController.js:23 ~ checkDiscountCode ~ discount:",
-      discount
-    );
+   
     if (!discount) {
       return res.json({
         success: false,

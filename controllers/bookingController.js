@@ -17,6 +17,20 @@ const getBooking = async (req, res) => {
     res.status(500).json({ success: false, message: "Internal Server Error" });
   }
 };
+const loadBooking = async (req, res) => {
+  try {
+    const bookings = await Booking.find()
+      .populate("vehicleId", "title")
+      .populate("userId", "username");
+
+    res.json({
+      bookings,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, message: "Internal Server Error" });
+  }
+};
 
 const updateBooking = async (req, res) => {
   Booking.findByIdAndUpdate(
@@ -69,4 +83,5 @@ module.exports = {
   updateBooking,
   createBooking,
   deleteBooking,
+  loadBooking,
 };
