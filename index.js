@@ -1,4 +1,3 @@
-const express = require("express");
 const dotenv = require("dotenv");
 dotenv.config();
 const bodyParser = require("body-parser");
@@ -14,6 +13,7 @@ const session = require("express-session");
 const passport = require("passport");
 
 const userRouter = require("./routes/user-route");
+const express = require("express");
 const app = express();
 const db = require("./config/db");
 app.use(express.json({ limit: "25mb" }));
@@ -21,10 +21,22 @@ app.use(express.urlencoded({ limit: "25mb" }));
 
 app.use(
   cors({
-    origin: ["http://localhost:3000"],
+    origin: "*",
     credentials: true,
   })
 );
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header(
+    "Access-Control-Allow-Methods",
+    "GET,HEAD,OPTIONS,POST,PUT,DELETE"
+  );
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept, X-Tableau-Auth"
+  );
+  next();
+});
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(
