@@ -1,11 +1,13 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Form from "react-bootstrap/Form";
 import { toast, Toaster } from "react-hot-toast";
+import { BrandContext } from "../../../../../contexts/BrandContext";
 import { UserContext } from "../../../../../contexts/UserContext";
 import { VehicleContext } from "../../../../../contexts/VehicleContext";
 const CreateVehicleModal = (props) => {
   const { createVehicle } = useContext(VehicleContext);
   const { cloudinaryUpload } = useContext(UserContext);
+  const { loadBrand } = useContext(BrandContext);
   const [formData, setFormData] = useState({
     title: "",
     model: "",
@@ -21,6 +23,19 @@ const CreateVehicleModal = (props) => {
     imageUrl: "",
   });
 
+  const [brands, setBrands] = useState([]);
+  console.log(
+    "🚀 ~ file: CreateVehicleModal.js:26 ~ CreateVehicleModal ~ brands:",
+    brands
+  );
+  useEffect(() => {
+    const loadVehicle = async () => {
+      const response = await loadBrand();
+
+      setBrands(response.data);
+    };
+    loadVehicle();
+  }, []);
   const handleFileUpload = async (e) => {
     try {
       const uploadData = new FormData();
@@ -28,19 +43,13 @@ const CreateVehicleModal = (props) => {
       const response = await cloudinaryUpload(uploadData);
       const secureUrl = response.data.secure_url;
       setFormData({ ...formData, imageUrl: secureUrl });
-    } catch (error) {
-      console.error("Error uploading file:", error);
-    }
+    } catch (error) {}
   };
   const handleChange = (event) => {
     setFormData({
       ...formData,
       [event.target.name]: event.target.value,
     });
-    console.log(
-      "🚀 ~ file: CreateVehicleModal.js:41 ~ handleChange ~ formData:",
-      formData
-    );
   };
 
   const handleSubmit = async (event) => {
@@ -66,7 +75,7 @@ const CreateVehicleModal = (props) => {
               <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                 {/*header*/}
                 <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
-                  <h3 className="text-3xl font-semibold">Modal Title</h3>
+                  <h3 className="text-3xl font-semibold">Create New Vehicle</h3>
                   <button
                     className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
                     onClick={props.handleClose}
@@ -87,14 +96,25 @@ const CreateVehicleModal = (props) => {
                       <Form.Label className="mb-3 block text-base font-medium text-[#07074D]">
                         Title
                       </Form.Label>
-                      <Form.Control
-                        type="text"
-                        name="title"
+                      <Form.Select
+                        as="select"
                         value={formData.title}
-                        onChange={handleChange}
+                        onChange={(e) =>
+                          setFormData({
+                            ...formData,
+                            title: e.target.value,
+                          })
+                        }
                         className="w-full px-3 sm:w-1/2 bg-white p-2 rounded mt-1 border-2 border-grey cursor-pointer hover:bg-grey-lighter"
                         required
-                      />
+                      >
+                        <option value="">Select a brand</option>
+                        {brands.map((brand) => (
+                          <option key={brand._id} value={brand.brand}>
+                            {brand.brand}
+                          </option>
+                        ))}
+                      </Form.Select>
                     </Form.Group>
                     <Form.Group controlId="model">
                       <Form.Label className="mb-3 block text-base font-medium text-[#07074D]">
@@ -152,6 +172,7 @@ const CreateVehicleModal = (props) => {
                       <Form.Label className="mb-3 block text-base font-medium text-[#07074D]">
                         Year
                       </Form.Label>
+                    
                     </Form.Group>
                     <Form.Group controlId="capacity">
                       <Form.Label className="mb-3 block text-base font-medium text-[#07074D]">
