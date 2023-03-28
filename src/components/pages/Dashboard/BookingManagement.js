@@ -62,10 +62,21 @@ const VehicleManagement = () => {
       wrap: true,
     },
     {
-      name: "User",
+      name: "Vehicle Plate",
+      cell: (row) => row.vehicleId?.platenumber,
+      wrap: true,
+    },
+    {
+      name: "Customer Name",
       selector: (row) => row.userId?.username,
       wrap: true,
     },
+    {
+      name: "Customer Email",
+      selector: (row) => row.userId?.email,
+      wrap: true,
+    },
+
     {
       name: "Start Date",
       selector: (row) => <FormattedDate date={row.startDate} />,

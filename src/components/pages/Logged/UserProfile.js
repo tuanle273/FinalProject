@@ -2,15 +2,16 @@ import React, { useContext, useState } from "react";
 import Form from "react-bootstrap/Form";
 import { toast, Toaster } from "react-hot-toast";
 import { AuthContext } from "../../../contexts/AuthContext";
+import { UserContext } from "../../../contexts/UserContext";
 import FormattedDate from "../../../utils/FormattedDate";
 
 const UserProfile = () => {
+  const { cloudinaryUpload } = useContext(UserContext);
   const {
     authState: { user },
   } = useContext(AuthContext);
 
   const { updateUserProfile } = useContext(AuthContext);
-
   const [userData, setUserData] = useState({
     imageUrl: "",
     age: "",
@@ -18,6 +19,21 @@ const UserProfile = () => {
     address: "",
     gender: "",
   });
+  const handleFileUpload = async (e) => {
+    try {
+      const uploadData = new FormData();
+      uploadData.append("file", e.target.files[0], "file");
+      const response = await cloudinaryUpload(uploadData);
+      const secureUrl = response.data.secure_url;
+      setUserData({ ...userData, imageUrl: secureUrl });
+    } catch (error) {}
+  };
+  const handleChange = (event) => {
+    setUserData({
+      ...userData,
+      [event.target.name]: event.target.value,
+    });
+  };
 
   const onChangeUpdateForm = (event) =>
     setUserData({ ...userData, [event.target.name]: event.target.value });
@@ -70,16 +86,25 @@ const UserProfile = () => {
             {user.accountType === "google" ? (
               <li className="flex border-b py-2"></li>
             ) : (
-              <li className="flex border-b py-2">
-                <span className="font-bold w-24">Image:</span>
-                <input
-                  type="text"
+              <Form.Group controlId="imageUrl">
+                <Form.Label className="mb-3 block text-base font-medium text-[#07074D]">
+                  Image
+                </Form.Label>
+                <Form.Control
                   name="imageUrl"
+                  value={userData.imageUrl}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  defaultValue={user.imageUrl}
-                  onChange={onChangeUpdateForm}
-                ></input>
-              </li>
+                  onChange={handleChange}
+                  required
+                />
+                <img src={userData.imageUrl} width="100" height="100"></img>
+                <input
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFileUpload}
+                />
+              </Form.Group>
             )}
             <li className="flex border-b py-2">
               <span className="font-bold w-24">Age:</span>

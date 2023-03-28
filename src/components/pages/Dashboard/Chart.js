@@ -1,41 +1,55 @@
 import { ArcElement, Chart as ChartJS, Legend, Tooltip } from "chart.js";
+import React, { useContext, useEffect, useState } from "react";
 import { Doughnut } from "react-chartjs-2";
+import { ChartContext } from "../../../contexts/ChartContext";
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const data = {
-  labels: ["Red", "Blue", "Yellow"],
-  datasets: [
-    {
-      label: "# of Votes",
-      data: [12, 19, 3],
-      backgroundColor: [
-        "rgba(255, 99, 132, 0.2)",
-        "rgba(54, 162, 235, 0.2)",
-        "rgba(255, 206, 86, 0.2)",
-      ],
-      borderColor: [
-        "rgba(255, 99, 132, 1)",
-        "rgba(54, 162, 235, 1)",
-        "rgba(255, 206, 86, 1)",
-      ],
-      borderWidth: 1,
-    },
-  ],
-};
+const Chart = () => {
+  const [userCount, setUser] = useState([]);
+  console.log("🚀 ~ file: Chart.js:9 ~ Chart ~ userCount:", userCount);
 
-const options = {
-  plugins: {
-    legend: {
-      position: "top",
-    },
-    title: {
-      display: true,
-      text: "Doughnut Chart",
-    },
-  },
-};
+  const { countAll } = useContext(ChartContext);
+  useEffect(() => {
+    const loadDiscountCode = async () => {
+      const response = await countAll();
 
-function Chart() {
+      setUser(response.data);
+    };
+    loadDiscountCode();
+  }, []);
+  const data = {
+    labels: ["Red", "Blue", "Yellow"],
+    datasets: [
+      {
+        label: "# of Votes",
+        data: [12, 19, 3],
+        backgroundColor: [
+          "rgba(255, 99, 132, 0.2)",
+          "rgba(54, 162, 235, 0.2)",
+          "rgba(255, 206, 86, 0.2)",
+        ],
+        borderColor: [
+          "rgba(255, 99, 132, 1)",
+          "rgba(54, 162, 235, 1)",
+          "rgba(255, 206, 86, 1)",
+        ],
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  const options = {
+    plugins: {
+      legend: {
+        position: "top",
+      },
+      title: {
+        display: true,
+        text: "Doughnut Chart",
+      },
+    },
+  };
+
   return (
     <div>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 p-4 gap-4">
@@ -58,7 +72,7 @@ function Chart() {
             </svg>
           </div>
           <div class="text-right">
-            <p class="text-2xl">1,257</p>
+            <p class="text-2xl">{userCount.user ? userCount.user : "N/A"}</p>
             <p>Visitors</p>
           </div>
         </div>
@@ -81,8 +95,10 @@ function Chart() {
             </svg>
           </div>
           <div class="text-right">
-            <p class="text-2xl">557</p>
-            <p>Orders</p>
+            <p class="text-2xl">
+              {userCount.bookings ? userCount.bookings : "N/A"}
+            </p>
+            <p>Booking</p>
           </div>
         </div>
         <div class="bg-blue-500 dark:bg-gray-800 shadow-lg rounded-md flex items-center justify-between p-3 border-b-4 border-blue-600 dark:border-gray-600 text-white font-medium group">
@@ -104,8 +120,10 @@ function Chart() {
             </svg>
           </div>
           <div class="text-right">
-            <p class="text-2xl">$11,257</p>
-            <p>Sales</p>
+            <p class="text-2xl">
+              {userCount.vehicle ? userCount.vehicle : "N/A"}
+            </p>
+            <p>Vehicle</p>
           </div>
         </div>
         <div class="bg-blue-500 dark:bg-gray-800 shadow-lg rounded-md flex items-center justify-between p-3 border-b-4 border-blue-600 dark:border-gray-600 text-white font-medium group">
@@ -141,6 +159,6 @@ function Chart() {
       </div>
     </div>
   );
-}
+};
 
 export default Chart;
