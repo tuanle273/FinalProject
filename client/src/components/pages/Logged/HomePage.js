@@ -9,7 +9,7 @@ export default function HomePage() {
     const loadVehicle = async () => {
       const response = await loadVehicles();
 
-      setVehicle(response.data);
+      setVehicle(response.data.vehicles);
     };
     loadVehicle();
   }, []);

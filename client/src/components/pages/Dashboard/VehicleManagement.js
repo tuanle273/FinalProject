@@ -44,7 +44,7 @@ const VehicleManagement = () => {
         response
       );
 
-      setVehicle(response.data);
+      setVehicle(response.data.vehicles);
     };
     loadVehicle();
   }, []);
@@ -96,11 +96,8 @@ const VehicleManagement = () => {
     },
     {
       name: "Plate number",
-      selector: (row) => (
-        <span className="bg-gray-100 text-dark-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-100 dark:text-gray-100">
-          {row.platenumber}
-        </span>
-      ),
+      selector: (row) => row.platenumber,
+
       width: "120px",
     },
 

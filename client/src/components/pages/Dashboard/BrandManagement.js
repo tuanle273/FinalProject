@@ -43,6 +43,11 @@ const BrandManagement = () => {
     };
     loadVehicle();
   }, []);
+  const customFilter = (rows, keyword) => {
+    return rows.filter((row) =>
+      row.brand.toLowerCase().includes(keyword.toLowerCase())
+    );
+  };
 
   const columns = [
     {
@@ -92,9 +97,9 @@ const BrandManagement = () => {
           }
           subHeaderAlign="left"
           pagination
-          title="Booking Management"
+          title="Brand Management"
           columns={columns}
-          data={brands}
+          data={customFilter(brands, searchKeyword)}
           selectableRows
           customStyles={customStyles}
           actions={

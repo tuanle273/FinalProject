@@ -6,7 +6,7 @@ const createPayment = async (req, res) => {
     payment_method_types: ["card"],
     line_items: [
       {
-        price: priceId,
+        price: "price_1MoSFSAIZ2hFgEmPTkvDcrcL",
         quantity: 1,
       },
     ],

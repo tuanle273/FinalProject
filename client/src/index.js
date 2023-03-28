@@ -4,6 +4,7 @@ import { ProSidebarProvider } from "react-pro-sidebar";
 import App from "./App";
 import { BookingProvider } from "./contexts/BookingContext";
 import { BrandProvider } from "./contexts/BrandContext";
+import { ChartProvider } from "./contexts/ChartContext";
 import { DiscountProvider } from "./contexts/DiscountContext";
 import { UserProvider } from "./contexts/UserContext";
 import { VehicleProvider } from "./contexts/VehicleContext";
@@ -16,9 +17,11 @@ root.render(
       <UserProvider>
         <DiscountProvider>
           <BrandProvider>
-            <ProSidebarProvider>
-              <App />
-            </ProSidebarProvider>
+            <ChartProvider>
+              <ProSidebarProvider>
+                <App />
+              </ProSidebarProvider>
+            </ChartProvider>
           </BrandProvider>
         </DiscountProvider>
       </UserProvider>

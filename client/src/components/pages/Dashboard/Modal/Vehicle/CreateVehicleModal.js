@@ -24,10 +24,6 @@ const CreateVehicleModal = (props) => {
   });
 
   const [brands, setBrands] = useState([]);
-  console.log(
-    "🚀 ~ file: CreateVehicleModal.js:26 ~ CreateVehicleModal ~ brands:",
-    brands
-  );
   useEffect(() => {
     const loadVehicle = async () => {
       const response = await loadBrand();

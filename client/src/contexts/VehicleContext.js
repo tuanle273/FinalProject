@@ -26,15 +26,16 @@ export function VehicleProvider({ children }) {
   const loadVehicles = async () => {
     try {
       const response = await axios.get(apiUrl + "/vehicle");
+      
       if (response.status >= 200 && response.status < 300) {
         dispatch({
           type: VEHICLE_FETCH_SUCCESS,
-          payload: response.data.vehicles,
+          payload: response.data,
         });
       }
       return {
         success: true,
-        data: response.data.vehicles,
+        data: response.data,
         message: "Vehicle List",
       };
     } catch (error) {
