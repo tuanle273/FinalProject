@@ -20,8 +20,8 @@ const getBooking = async (req, res) => {
 const loadBooking = async (req, res) => {
   try {
     const bookings = await Booking.find()
-      .populate("vehicleId", "title")
-      .populate("userId", "username");
+      .populate("vehicleId", ["title", "platenumber"])
+      .populate("userId", ["username", "email", "phonenumber", "address"]);
 
     res.json({
       bookings,

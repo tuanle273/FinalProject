@@ -17,9 +17,14 @@ const countBooking = async (req, res) => {
 const countUser = async (req, res) => {
   try {
     const user = await User.countDocuments();
-
+    const discount = await Discount.countDocuments();
+    const vehicle = await Vehicle.countDocuments();
+    const bookings = await Booking.countDocuments();
     res.json({
       user,
+      discount,
+      vehicle,
+      bookings,
     });
   } catch (error) {
     console.log(error);
