@@ -19,6 +19,7 @@ const CreateVehicleModal = (props) => {
     seat: "",
     transmission: "",
     price: "",
+    type: "",
     availability: "",
     imageUrl: "",
   });
@@ -167,8 +168,15 @@ const CreateVehicleModal = (props) => {
                     <Form.Group controlId="year">
                       <Form.Label className="mb-3 block text-base font-medium text-[#07074D]">
                         Year
-                      </Form.Label>
-                    
+                      </Form.Label>{" "}
+                      <Form.Control
+                        type="number"
+                        name="year"
+                        value={formData.year}
+                        className="bg-white p-2 rounded mt-1 border-2 border-grey cursor-pointer hover:bg-grey-lighter"
+                        onChange={handleChange}
+                        required
+                      />
                     </Form.Group>
                     <Form.Group controlId="capacity">
                       <Form.Label className="mb-3 block text-base font-medium text-[#07074D]">

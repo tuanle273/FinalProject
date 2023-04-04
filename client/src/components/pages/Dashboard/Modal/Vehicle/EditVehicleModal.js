@@ -1,10 +1,21 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Form from "react-bootstrap/Form";
 import { toast, Toaster } from "react-hot-toast";
 import { UserContext } from "../../../../../contexts/UserContext";
 import { VehicleContext } from "../../../../../contexts/VehicleContext";
 
 const EditVehicleModal = (props) => {
+  const { getDetailVehicle } = useContext(VehicleContext);
+
+  useEffect(() => {
+    const getVehicle = async () => {
+      const respone = await getDetailVehicle(props.itemId);
+     
+    };
+
+    getVehicle();
+  }, [props.itemId]);
+
   const { cloudinaryUpload } = useContext(UserContext);
   const { updateVehicle } = useContext(VehicleContext);
   const [formData, setFormData] = useState({

@@ -1,8 +1,7 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 
 import { toast, Toaster } from "react-hot-toast";
 import { VehicleContext } from "../../../../../contexts/VehicleContext";
-
 
 const DeleteVehicleModal = (props) => {
   const { deleteVehicle } = useContext(VehicleContext);
@@ -10,7 +9,7 @@ const DeleteVehicleModal = (props) => {
   const handleDelete = async (event) => {
     event.preventDefault();
     const response = await deleteVehicle(props.itemId);
- 
+
     if (response.success) {
       toast.success(response.message);
       props.handleClose();
@@ -19,10 +18,8 @@ const DeleteVehicleModal = (props) => {
     }
   };
   return (
-    <div>  
-      <Toaster/>
-      {" "}
-    
+    <div>
+      <Toaster />{" "}
       {props.show ? (
         <>
           <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
@@ -43,27 +40,26 @@ const DeleteVehicleModal = (props) => {
                 </div>
                 {/*body*/}
                 <div className="relative p-6 flex-auto">
-                <p className="my-4 text-slate-500 text-lg leading-relaxed">
-                   Are you sure?
+                  <p className="my-4 text-slate-500 text-lg leading-relaxed">
+                    Are you sure?
                   </p>
-                    {/*footer*/}
-                    <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
-                      <button
-                        className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                        type="button"
-                        onClick={props.handleClose}
-                      >
-                        Close
-                      </button>
-                      <button
-                        className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                        type="submit"
-                        onClick={handleDelete}
-                      >
-                        Save Changes
-                      </button>
-                    </div>
-              
+                  {/*footer*/}
+                  <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
+                    <button
+                      className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                      type="button"
+                      onClick={props.handleClose}
+                    >
+                      Close
+                    </button>
+                    <button
+                      className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                      type="submit"
+                      onClick={handleDelete}
+                    >
+                      Save Changes
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
