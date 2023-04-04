@@ -6,7 +6,13 @@ const createPayment = async (req, res) => {
     payment_method_types: ["card"],
     line_items: [
       {
-        price: "price_1MoSFSAIZ2hFgEmPTkvDcrcL",
+        price_data: {
+          currency: "USD",
+          product_data: {
+            name: "T-Shirt",
+          },
+          unit_amount: 2000,
+        },
         quantity: 1,
       },
     ],
