@@ -1,6 +1,13 @@
 import { useContext, useEffect, useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import { Toaster } from "react-hot-toast";
+import { FaTruckLoading } from "react-icons/fa";
+import { GrSettingsOption } from "react-icons/gr";
+import {
+  IoCalendarNumberOutline,
+  IoCarOutline,
+  IoColorPaletteOutline,
+} from "react-icons/io5";
 import { Link, useParams } from "react-router-dom";
 import { VehicleContext } from "../../../contexts/VehicleContext";
 const VehicleDetail = () => {
@@ -27,7 +34,7 @@ const VehicleDetail = () => {
       <div>
         <div className="container px-5 py-24 mx-auto">
           <Toaster />
-          <div className="lg:w-4/5 mx-auto flex flex-wrap">
+          <div className="lg:w-4/5 mx-auto flex flex-wrap bg-white shadow-2xl p-6 rounded-2xl border-2 border-gray-50">
             <img
               alt="ecommerce"
               className="lg:w-1/2 w-full object-cover object-center rounded border border-gray-200"
@@ -140,31 +147,47 @@ const VehicleDetail = () => {
               </div>
               <p className="leading-relaxed">{vehicles.description}</p>
               <div className="flex mt-6 items-center pb-5 border-b-2 border-gray-200 mb-5">
-                <div className="flex">
-                  <span className="mr-3">Color</span>
-                  {vehicles.color}
+                <div class="flex flex-row space-x-1">
+                  <div class="bg-gray-100 px-3 py-1 rounded-lg flex space-x-2 flex-row">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="h-4"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path d="M19 9V6a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v3"></path>
+                      <path d="M3 11v5a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-5a2 2 0 0 0-4 0v2H7v-2a2 2 0 0 0-4 0Z"></path>
+                      <path d="M5 18v2"></path>
+                      <path d="M19 18v2"></path>
+                    </svg>
+                    <p class="text-xxsm">{vehicles.seat}</p>
+                  </div>
+                  <div class="bg-gray-100 px-3 py-1 rounded-lg flex space-x-2 flex-row">
+                    <IoColorPaletteOutline />
+                    <p class="text-xxsm"> {vehicles.color}</p>
+                  </div>{" "}
+                  <div class="bg-gray-100 px-3 py-1 rounded-lg flex space-x-2 flex-row">
+                    <IoCarOutline />
+                    <p class="text-xxsm"> {vehicles.type}</p>
+                  </div>{" "}
+                  <div class="bg-gray-100 px-3 py-1 rounded-lg flex space-x-2 flex-row">
+                    <IoCalendarNumberOutline />
+                    <p class="text-xxsm"> {vehicles.year}</p>
+                  </div>{" "}
+                  <div class="bg-gray-100 px-3 py-1 rounded-lg flex space-x-2 flex-row">
+                    <FaTruckLoading />
+                    <p class="text-xxsm"> {vehicles.capacity}</p>
+                  </div>{" "}
+                  <div class="bg-gray-100 px-3 py-1 rounded-lg flex space-x-2 flex-row">
+                    <GrSettingsOption />
+                    <p class="text-xxsm"> {vehicles.transmission}</p>
+                  </div>
                 </div>
-                <div className="flex ml-3">
-                  <span className="mr-3">Type</span>
-                  {vehicles.type}
-                </div>
-                <div className="flex ml-6 items-center">
-                  <span className="mr-3">Year</span>
-                  {vehicles.year}
-                </div>
-                <div className="flex ml-6 items-center">
-                  <span className="mr-3">Capacity</span>
-                  {vehicles.capacity}
-                </div>
-                <div className="flex ml-6 items-center">
-                  <span className="mr-3">Seat</span>
-                  {vehicles.seat}
-                </div>
-                <div className="flex ml-6 items-center">
-                  <span className="mr-3">Transmission</span>
-                  {vehicles.transmission}
-                </div>
-              </div>
+              </div>{" "}
               <div className="flex">
                 <div>
                   <div className="rounded-lg bg-gray-100 flex py-2 px-3">
@@ -180,7 +203,7 @@ const VehicleDetail = () => {
                   to={`/checkout/${vehicles._id}`}
                   disabled={!vehicles.availability}
                   type="submit"
-                  className="h-14 px-6 py-2 font-semibold rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white"
+                  className="h-10 px-6 py-2 font-semibold rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white"
                 >
                   {" "}
                   {vehicles.availability ? "Rent" : "Not available"}

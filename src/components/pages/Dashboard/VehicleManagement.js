@@ -39,10 +39,7 @@ const VehicleManagement = () => {
   useEffect(() => {
     const loadVehicle = async () => {
       const response = await loadVehicles();
-      console.log(
-        "🚀 ~ file: VehicleManagement.js:40 ~ loadVehicle ~ response:",
-        response
-      );
+     
 
       setVehicle(response.data.vehicles);
     };

@@ -1,4 +1,13 @@
-import { VEHICLE_CREATE_FAIL, VEHICLE_CREATE_SUCCESS, VEHICLE_DELETE_SUCCESS, VEHICLE_FETCH_FAIL, VEHICLE_FETCH_SUCCESS, VEHICLE_UPDATE_FAIL, VEHICLE_UPDATE_REQUEST, VEHICLE_UPDATE_SUCCESS } from "../contexts/constants";
+import {
+  VEHICLE_CREATE_FAIL,
+  VEHICLE_CREATE_SUCCESS,
+  VEHICLE_DELETE_SUCCESS,
+  VEHICLE_FETCH_FAIL,
+  VEHICLE_FETCH_SUCCESS,
+  VEHICLE_UPDATE_FAIL,
+  VEHICLE_UPDATE_REQUEST,
+  VEHICLE_UPDATE_SUCCESS,
+} from "../contexts/constants";
 
 export const vehicleReducer = (state, action) => {
   switch (action.type) {
@@ -16,11 +25,7 @@ export const vehicleReducer = (state, action) => {
         vehicleError: true,
       };
 
-    case VEHICLE_CREATE_SUCCESS:
-      return {
-        ...state,
-        vehicles: [action.payload, ...state.vehicles],
-      };
+   
     case VEHICLE_CREATE_FAIL:
       return {
         ...state,
@@ -47,13 +52,6 @@ export const vehicleReducer = (state, action) => {
         error: action.payload,
       };
 
-    case VEHICLE_DELETE_SUCCESS:
-      return {
-        ...state,
-        vehicles: state.vehicles.filter(
-          (vehicle) => vehicle._id !== action.payload
-        ),
-      };
     default:
       return state;
   }
