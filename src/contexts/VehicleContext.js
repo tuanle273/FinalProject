@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { createContext, useReducer } from "react";
+import React, { createContext, useEffect, useReducer } from "react";
 import { vehicleReducer } from "../reducers/vehicleReducer";
 import {
   VEHICLE_CREATE_FAIL,
@@ -21,20 +21,11 @@ export function VehicleProvider({ children }) {
     vehicleLoading: true,
     vehicleError: false,
   });
-  console.log(
-    "🚀 ~ file: VehicleContext.js:24 ~ VehicleProvider ~ vehicleState:",
-    vehicleState
-  );
 
   // Load vehicles
   const loadVehicles = async () => {
     try {
       const response = await axios.get(apiUrl + "/vehicle");
-      console.log(
-        "🚀 ~ file: VehicleContext.js:33 ~ loadVehicles ~ response:",
-        response
-      );
-
       if (response.status >= 200 && response.status < 300) {
         dispatch({
           type: VEHICLE_FETCH_SUCCESS,
@@ -50,7 +41,10 @@ export function VehicleProvider({ children }) {
       dispatch({ type: VEHICLE_FETCH_FAIL });
     }
   };
-
+  useEffect(() => {
+    loadVehicles();
+    return () => {};
+  }, []);
   //get Detail vehicle
 
   const getDetailVehicle = async (_id) => {
@@ -76,11 +70,13 @@ export function VehicleProvider({ children }) {
   const createVehicle = async (newVehicle) => {
     try {
       const response = await axios.post(apiUrl + "/vehicle", newVehicle);
+ 
       if (response.status >= 200 && response.status < 300) {
         dispatch({
           type: VEHICLE_CREATE_SUCCESS,
           payload: response.data.vehicle,
         });
+        
         return { success: true, message: "Vehicle added successfully" };
       }
     } catch (error) {
@@ -116,6 +112,7 @@ export function VehicleProvider({ children }) {
       const response = await axios.delete(`${apiUrl}/vehicle/${id}`);
       if (response.status >= 200 && response.status < 300) {
         dispatch({ type: VEHICLE_DELETE_SUCCESS, payload: id });
+        loadVehicles();
         return { success: true, message: "Vehicle Delete successfully" };
       }
     } catch (error) {
