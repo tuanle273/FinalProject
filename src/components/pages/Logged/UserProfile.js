@@ -1,6 +1,6 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Form from "react-bootstrap/Form";
-import { toast, Toaster } from "react-hot-toast";
+import { Toaster, toast } from "react-hot-toast";
 import { AuthContext } from "../../../contexts/AuthContext";
 import { UserContext } from "../../../contexts/UserContext";
 import FormattedDate from "../../../utils/FormattedDate";
@@ -19,6 +19,10 @@ const UserProfile = () => {
     address: "",
     gender: "",
   });
+  useEffect(() => {
+    setUserData(user);
+  }, []);
+
   const handleFileUpload = async (e) => {
     try {
       const uploadData = new FormData();

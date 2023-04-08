@@ -15,14 +15,17 @@ const VehicleManagement = () => {
   } = useContext(AuthContext);
   const {
     vehicleState: { vehicles },
-  } = useContext(VehicleContext);
 
+    findVehicle,
+  } = useContext(VehicleContext);
+ 
   //Modal Edit
   const [itemIdToUpdate, setItemIdToUpdate] = useState(null);
 
   const [showEdit, setShowEdit] = useState(false);
   const handleCloseEdit = () => setShowEdit(false);
   const handleShowEdit = (itemId) => {
+    findVehicle(itemId);
     setItemIdToUpdate(itemId);
     setShowEdit(true);
   };
