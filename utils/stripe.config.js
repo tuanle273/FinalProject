@@ -1,21 +1,19 @@
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const createPayment = async (req, res) => {
-  const { priceId } = req.body;
-
+  const { amount } = req.body;
   const session = await stripe.checkout.sessions.create({
-    payment_method_types: ["card"],
     line_items: [
       {
-        price: "price_1MoSFSAIZ2hFgEmPTkvDcrcL",
+        price: "price_1MtwkwAIZ2hFgEmPwyKD5Vgp",
         quantity: 1,
       },
     ],
     mode: "payment",
-    success_url: "https://example.com/success",
-    cancel_url: "https://example.com/cancel",
+    success_url: `http://localhost:3000/login`,
+    cancel_url: `http://localhost:3000/login`,
   });
 
-  res.json({ sessionId: session.id });
+  res.redirect(303, session.url);
 };
 
 module.exports = {
