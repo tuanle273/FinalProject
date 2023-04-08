@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import DataTable from "react-data-table-component";
 import { AuthContext } from "../../../contexts/AuthContext";
 import { VehicleContext } from "../../../contexts/VehicleContext";
@@ -13,6 +13,10 @@ const VehicleManagement = () => {
   const {
     authState: { user },
   } = useContext(AuthContext);
+  const {
+    vehicleState: { vehicles },
+  } = useContext(VehicleContext);
+
   //Modal Edit
   const [itemIdToUpdate, setItemIdToUpdate] = useState(null);
 
@@ -32,24 +36,13 @@ const VehicleManagement = () => {
     setShowDelete(true);
   };
 
-  const [vehicles, setVehicle] = useState([]);
-
   const [searchKeyword, setSearchKeyword] = useState("");
-  const { loadVehicles } = useContext(VehicleContext);
-  useEffect(() => {
-    const loadVehicle = async () => {
-      const response = await loadVehicles();
-      console.log(
-        "🚀 ~ file: VehicleManagement.js:40 ~ loadVehicle ~ response:",
-        response
-      );
-
-      setVehicle(response.data.vehicles);
-    };
-    loadVehicle();
-  }, []);
 
   const customFilter = (rows, keyword) => {
+    if (!Array.isArray(rows)) {
+      return [];
+    }
+
     return rows.filter(
       (row) =>
         row.title.toLowerCase().includes(keyword.toLowerCase()) ||
@@ -242,7 +235,7 @@ const VehicleManagement = () => {
           pagination
           title="Vehicle"
           columns={columns}
-          data={customFilter(vehicles, searchKeyword)}
+          data={customFilter(vehicles.vehicles, searchKeyword)}
           selectableRows
           customStyles={customStyles}
           actions={

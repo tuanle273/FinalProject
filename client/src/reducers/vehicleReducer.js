@@ -10,6 +10,7 @@ import {
 } from "../contexts/constants";
 
 export const vehicleReducer = (state, action) => {
+ 
   switch (action.type) {
     case VEHICLE_FETCH_SUCCESS:
       return {
@@ -27,25 +28,26 @@ export const vehicleReducer = (state, action) => {
     case VEHICLE_CREATE_SUCCESS:
       return {
         ...state,
-        vehicles: [action.payload, ...state.vehicles],
+        vehicles: [action.payload, ...state.vehicles.vehicles],
       };
     case VEHICLE_CREATE_FAIL:
       return state;
     case VEHICLE_UPDATE_SUCCESS:
       return {
         ...state,
-        vehicles: state.vehicles.map((vehicle) =>
+        vehicles: state.vehicles.vehicles.map((vehicle) =>
           vehicle._id === action.payload._id ? action.payload : vehicle
         ),
       };
     case VEHICLE_UPDATE_FAIL:
       return state;
     case VEHICLE_DELETE_SUCCESS:
+      const newVehicles = state.vehicles.vehicles.filter(
+        (vehicle) => vehicle._id !== action.payload
+      );
       return {
         ...state,
-        vehicles: state.vehicles.filter(
-          (vehicle) => vehicle._id !== action.payload
-        ),
+        vehicles: newVehicles,
       };
     case VEHICLE_DELETE_FAIL:
       return state;
