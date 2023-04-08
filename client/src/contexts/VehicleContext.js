@@ -2,7 +2,6 @@ import axios from "axios";
 import React, { createContext, useReducer } from "react";
 import { vehicleReducer } from "../reducers/vehicleReducer";
 import {
-  apiUrl,
   VEHICLE_CREATE_FAIL,
   VEHICLE_CREATE_SUCCESS,
   VEHICLE_DELETE_FAIL,
@@ -11,6 +10,7 @@ import {
   VEHICLE_FETCH_SUCCESS,
   VEHICLE_UPDATE_FAIL,
   VEHICLE_UPDATE_SUCCESS,
+  apiUrl,
 } from "./constants";
 
 export const VehicleContext = createContext();
@@ -21,12 +21,20 @@ export function VehicleProvider({ children }) {
     vehicleLoading: true,
     vehicleError: false,
   });
+  console.log(
+    "🚀 ~ file: VehicleContext.js:24 ~ VehicleProvider ~ vehicleState:",
+    vehicleState
+  );
 
   // Load vehicles
   const loadVehicles = async () => {
     try {
       const response = await axios.get(apiUrl + "/vehicle");
-      
+      console.log(
+        "🚀 ~ file: VehicleContext.js:33 ~ loadVehicles ~ response:",
+        response
+      );
+
       if (response.status >= 200 && response.status < 300) {
         dispatch({
           type: VEHICLE_FETCH_SUCCESS,
@@ -106,7 +114,7 @@ export function VehicleProvider({ children }) {
   const deleteVehicle = async (id) => {
     try {
       const response = await axios.delete(`${apiUrl}/vehicle/${id}`);
-      if (response.data.success) {
+      if (response.status >= 200 && response.status < 300) {
         dispatch({ type: VEHICLE_DELETE_SUCCESS, payload: id });
         return { success: true, message: "Vehicle Delete successfully" };
       }
@@ -115,6 +123,7 @@ export function VehicleProvider({ children }) {
       return { success: false, message: error.message };
     }
   };
+
   const value = {
     vehicleState,
     loadVehicles,

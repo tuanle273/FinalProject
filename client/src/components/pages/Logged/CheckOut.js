@@ -1,18 +1,13 @@
-import { loadStripe } from "@stripe/stripe-js";
-import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { toast, Toaster } from "react-hot-toast";
+import { Toaster, toast } from "react-hot-toast";
 import { useParams } from "react-router-dom";
 import { AuthContext } from "../../../contexts/AuthContext";
 import { BookingContext } from "../../../contexts/BookingContext";
 import { DiscountContext } from "../../../contexts/DiscountContext";
 import { VehicleContext } from "../../../contexts/VehicleContext";
 const CheckOut = () => {
-  const stripePromise = loadStripe(
-    "sk_test_51MoGC4AIZ2hFgEmPgQ0vK32RniqFvGq06MjOJic2s6ObjhZyCbrE888nsDyHz3GEsNcjZRwafae5nmaJD6kUK5Rh0068PDvsr3"
-  );
   const {
     authState: { user },
   } = useContext(AuthContext);
@@ -26,24 +21,6 @@ const CheckOut = () => {
   const [discount, setDiscount] = useState(null);
   const [payment, setPayment] = useState("later_money");
 
-  const createPayment = async (priceId) => {
-    const response = await axios.post(
-      "http://localhost:5000/api/payment/stripe",
-      { priceId }
-    );
-    console.log(
-      "🚀 ~ file: CheckOut.js:35 ~ createPayment ~ response:",
-      response
-    );
-    const { sessionId } = response.data;
-    return sessionId;
-  };
-
-  // Sau đó bạn có thể gọi hàm createPayment từ các sự kiện trong ReactJS
-  const handleClick = async () => {
-    const sessionId = await createPayment("price_123");
-    // Sử dụng sessionId để chuyển hướng người dùng tới trang thanh toán của Stripe
-  };
   const handleApplyDiscount = async (event) => {
     event.preventDefault();
     try {
@@ -110,7 +87,7 @@ const CheckOut = () => {
         <div className="mx-auto max-w-5xl justify-center px-6 md:flex md:space-x-6 xl:px-0">
           <div className="rounded-lg md:w-3/3">
             <div className="justify-between mb-6 rounded-lg bg-white p-6 shadow-md sm:flex sm:justify-start">
-              <div class="overflow-hidden rounded-lg  bg-gray-50 border border-gray-200">
+              <div className="overflow-hidden rounded-lg  bg-gray-50 border border-gray-200">
                 <img
                   src={vehicles.imageUrl}
                   alt="product-image"
@@ -130,7 +107,7 @@ const CheckOut = () => {
                 <div className="mt-4 flex justify-between sm:space-y-6 sm:mt-0 sm:block sm:space-x-6"></div>
               </div>
               <div className="sm:ml-4 sm:flex sm:w-full sm:justify-between">
-                <div class="mb-6 pb-6 border-b border-gray-200">
+                <div className="mb-6 pb-6 border-b border-gray-200">
                   <label>Start date:</label>
                   <DatePicker
                     className="bg-white p-2 rounded mt-1 border-2 border-grey cursor-pointer hover:bg-grey-lighter"
@@ -177,6 +154,7 @@ const CheckOut = () => {
                         name="type"
                         id="type1"
                         value="later_money"
+                        defaultChecked
                       />
                       <span className="text-gray-600 font-semibold text-sm ml-4">
                         Pay when car delivery
@@ -184,7 +162,7 @@ const CheckOut = () => {
                     </label>
                   </div>
                 </div>
-                <div className="w-full p-3">
+                <div className="w-full p-3 border-b border-gray-200">
                   <label
                     htmlFor="type2"
                     className="flex items-center cursor-pointer"
@@ -199,6 +177,25 @@ const CheckOut = () => {
                     <img
                       src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg"
                       width="80"
+                      className="ml-3"
+                    />
+                  </label>
+                </div>
+                <div className="w-full p-3 border-b border-gray-200">
+                  <label
+                    htmlFor="type3"
+                    className="flex items-center cursor-pointer"
+                  >
+                    <input
+                      type="radio"
+                      className="form-radio h-5 w-5 text-indigo-500"
+                      name="type"
+                      id="type3"
+                      value="stripe"
+                    />
+                    <img
+                      src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Stripe_Logo%2C_revised_2016.svg/2560px-Stripe_Logo%2C_revised_2016.svg.png"
+                      width="60"
                       className="ml-3"
                     />
                   </label>
@@ -250,7 +247,7 @@ const CheckOut = () => {
                 placeholder="Note"
               ></textarea>
             </div>
-            <div class="-mx-2 right-2 flex items-end justify-end">
+            <div className="flex justify-between">
               {" "}
               <div>
                 <label htmlFor="discount-code">Discount code:</label>
@@ -263,15 +260,15 @@ const CheckOut = () => {
                   onChange={(event) => setCode(event.target.value)}
                 />
               </div>{" "}
-              <div class="px-1">
-                <button
-                  type="button"
-                  className="text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-medium rounded-lg text-sm px-5 py-2 text-center mr-1 mb-2"
-                  onClick={handleApplyDiscount}
-                >
-                  Apply
-                </button>{" "}
-              </div>
+            </div>{" "}
+            <div className="px-1">
+              <button
+                type="button"
+                className="text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-medium rounded-lg text-sm px-5 py-2 text-center mr-1 mb-2"
+                onClick={handleApplyDiscount}
+              >
+                Apply
+              </button>{" "}
             </div>
             <hr className="my-4" />
             <div className="flex justify-between">
@@ -281,17 +278,26 @@ const CheckOut = () => {
                 <p className="text-sm text-gray-700">including VAT</p>
               </div>
             </div>
-            <button
-              type="submit"
-              onClick={handleClick}
-              className="mt-6 w-full rounded-md bg-blue-500 py-1.5 font-medium text-blue-50 hover:bg-blue-600"
-            >
-              Check out
-            </button>
-            {payment === "paypal" ? (
-              <div style={{ width: "320px" }}>paypal</div>
+            {payment === "later_money" ? (
+              <button
+                type="submit"
+                className="mt-6 w-full rounded-md bg-blue-500 py-1.5 font-medium text-blue-50 hover:bg-blue-600"
+              >
+                Pay Later
+              </button>
             ) : (
-              <div></div>
+              <form
+                action="http://localhost:5000/api/payment/stripe"
+                method="POST"
+              >
+                <input type="hidden" name="amount" value="1000" />
+                <button
+                  type="submit"
+                  className="mt-6 w-full rounded-md bg-blue-500 py-1.5 font-medium text-blue-50 hover:bg-blue-600"
+                >
+                  Pay with Stripe
+                </button>
+              </form>
             )}
           </div>
         </div>{" "}
