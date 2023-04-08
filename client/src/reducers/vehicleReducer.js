@@ -1,4 +1,5 @@
 import {
+  FIND_VEHICLE,
   VEHICLE_CREATE_FAIL,
   VEHICLE_CREATE_SUCCESS,
   VEHICLE_DELETE_FAIL,
@@ -39,6 +40,8 @@ export const vehicleReducer = (state, action) => {
           vehicle._id === action.payload._id ? action.payload : vehicle
         ),
       };
+    case FIND_VEHICLE:
+      return { ...state, vehicle: action.payload };
     case VEHICLE_UPDATE_FAIL:
       return state;
     case VEHICLE_DELETE_SUCCESS:

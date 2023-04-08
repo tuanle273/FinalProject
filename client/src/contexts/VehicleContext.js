@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { createContext, useEffect, useReducer } from "react";
 import { vehicleReducer } from "../reducers/vehicleReducer";
 import {
+  FIND_VEHICLE,
   VEHICLE_CREATE_FAIL,
   VEHICLE_CREATE_SUCCESS,
   VEHICLE_DELETE_FAIL,
@@ -17,10 +18,15 @@ export const VehicleContext = createContext();
 
 export function VehicleProvider({ children }) {
   const [vehicleState, dispatch] = useReducer(vehicleReducer, {
+    vehicle: null,
     vehicles: [],
     vehicleLoading: true,
     vehicleError: false,
   });
+  console.log(
+    "🚀 ~ file: VehicleContext.js:26 ~ VehicleProvider ~ vehicleState:",
+    vehicleState
+  );
 
   // Load vehicles
   const loadVehicles = async () => {
@@ -70,19 +76,26 @@ export function VehicleProvider({ children }) {
   const createVehicle = async (newVehicle) => {
     try {
       const response = await axios.post(apiUrl + "/vehicle", newVehicle);
- 
+
       if (response.status >= 200 && response.status < 300) {
         dispatch({
           type: VEHICLE_CREATE_SUCCESS,
           payload: response.data.vehicle,
         });
-        
+
         return { success: true, message: "Vehicle added successfully" };
       }
     } catch (error) {
       dispatch({ type: VEHICLE_CREATE_FAIL });
       return { success: false, message: error.message };
     }
+  };
+  //find vehicle
+  const findVehicle = (vehicleId) => {
+    const vehicle = vehicleState.vehicles.vehicles.find((vehicle) => {
+      return vehicle._id === vehicleId;
+    });
+    dispatch({ type: FIND_VEHICLE, payload: vehicle });
   };
 
   //update vehicle
@@ -127,6 +140,7 @@ export function VehicleProvider({ children }) {
     createVehicle,
     updateVehicle,
     deleteVehicle,
+    findVehicle,
     getDetailVehicle,
   };
 
