@@ -13,16 +13,28 @@ const createPayment = (req, res) => {
       payment_method: "paypal",
     },
     redirect_urls: {
-      return_url: "http://localhost:3000/",
-      cancel_url: "http://localhost:3000/cancel",
+      return_url: "http://localhost:3000/paymentSuccess",
+      cancel_url: "http://localhost:3000/paymentFail",
     },
     transactions: [
       {
         amount: {
-          total: "10.00",
+          total: req.query.total,
           currency: "USD",
         },
-        description: "Example transaction",
+        description: req.query.description,
+        item_list: {
+          // Thêm item_list vào đây
+          items: [
+            {
+              name: req.query.description, // Tên mục hàng
+              quantity: 1, // Số lượng
+              price: req.query.total, // Giá tiền của mục hàng
+              currency: "USD", // Đơn vị tiền tệ
+            },
+            // Có thể thêm nhiều mục hàng khác vào đây
+          ],
+        },
       },
     ],
   };
@@ -42,20 +54,27 @@ const createPayment = (req, res) => {
 };
 
 const executePayment = (req, res) => {
-  const paymentId = req.query.paymentId;
-  const payerId = { payer_id: req.query.PayerID };
+  const paymentId = req.body.paymentId;
+  const payerId = req.body.PayerID;
 
-  paypal.payment.execute(paymentId, payerId, (error, payment) => {
+  const paymentExecution = {
+    payer_id: payerId,
+  };
+
+  paypal.payment.execute(paymentId, paymentExecution, (error, payment) => {
     if (error) {
-      console.log(error);
-      res.sendStatus(500);
+      console.error(error);
+      // Xử lý lỗi khi không thể lấy thông tin thanh toán
+      // ...
     } else {
-      console.log(payment);
-      res.sendStatus(200);
+      // Đã lấy được thông tin thanh toán thành công
+      console.log("Thông tin thanh toán: ", payment);
+      res.json(payment);
+      // Lấy thông tin chi tiết về quá trình thanh toán từ đối tượng `payment`
+      // ...
     }
   });
 };
-
 module.exports = {
   createPayment,
   executePayment,
