@@ -94,6 +94,7 @@ const unbanUser = async (req, res) => {
 const getHistory = async (req, res) => {
   try {
     const bookingDetail = await Booking.find({ userId: req.userId });
+
     res.json({ success: true, bookingDetail });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });

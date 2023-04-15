@@ -37,7 +37,7 @@ const VehicleManagement = () => {
     bookings
   );
 
-  const [search, setSearch] = useState("");
+
   const [searchKeyword, setSearchKeyword] = useState("");
   const { loadBookings } = useContext(BookingContext);
 

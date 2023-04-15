@@ -14,9 +14,12 @@ import ForgotPassword from "./components/pages/ForgotPassword";
 import Faq from "./components/pages/Landing/Faq";
 import About from "./components/pages/Logged/About";
 import AllCars from "./components/pages/Logged/AllCars";
+
 import CheckOut from "./components/pages/Logged/CheckOut";
 import History from "./components/pages/Logged/History";
 import UserProfile from "./components/pages/Logged/UserProfile";
+import paymentFail from "./components/pages/Logged/paymentFail";
+import paymentSuccess from "./components/pages/Logged/paymentSuccess";
 import vehicleDetail from "./components/pages/Logged/vehicleDetail";
 import PasswordReset from "./components/pages/PasswordReset";
 import AdminRoute from "./components/routing/AdminRoute";
@@ -123,7 +126,17 @@ function App() {
                           exact
                           path="/faq"
                           component={Faq}
+                        ></ProtectedRoute>
+                        <ProtectedRoute
+                          exact
+                          path="/paymentSuccess"
+                          component={paymentSuccess}
                         ></ProtectedRoute>{" "}
+                        <ProtectedRoute
+                          exact
+                          path="/paymentFail"
+                          component={paymentFail}
+                        ></ProtectedRoute>
                         <ProtectedRoute
                           exact
                           path="/allcar"
@@ -158,7 +171,7 @@ function App() {
               </BrandProvider>
             </DiscountProvider>
           </UserProvider>
-        </BookingProvider>{" "}
+        </BookingProvider>
       </VehicleProvider>
     </AuthContextProvider>
   );

@@ -23,10 +23,6 @@ export function VehicleProvider({ children }) {
     vehicleLoading: true,
     vehicleError: false,
   });
-  console.log(
-    "🚀 ~ file: VehicleContext.js:26 ~ VehicleProvider ~ vehicleState:",
-    vehicleState
-  );
 
   // Load vehicles
   const loadVehicles = async () => {

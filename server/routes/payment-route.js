@@ -4,6 +4,8 @@ const paypal = require("../utils/paypal.config");
 const stripe = require("../utils/stripe.config");
 
 app.post("/paypal", paypal.createPayment);
+app.post("/paypal/executePayment", paypal.executePayment);
+
 app.post("/stripe", stripe.createPayment);
 
 module.exports = app;
