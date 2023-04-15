@@ -287,15 +287,14 @@ const CheckOut = () => {
               </button>
             ) : (
               <form
-                action="http://localhost:5000/api/payment/stripe"
+                action={`http://localhost:5000/api/payment/paypal?total=${Total}&description=${vehicles.model}`}
                 method="POST"
               >
-                <input type="hidden" name="amount" value="1000" />
                 <button
                   type="submit"
                   className="mt-6 w-full rounded-md bg-blue-500 py-1.5 font-medium text-blue-50 hover:bg-blue-600"
                 >
-                  Pay with Stripe
+                  Pay with Paypal
                 </button>
               </form>
             )}

@@ -23,7 +23,7 @@ export const vehicleReducer = (state, action) => {
     case VEHICLE_FETCH_FAIL:
       return {
         ...state,
-        vehicleLoading: false,
+        vehicleLoading: false, 
         vehicleError: true,
       };
     case VEHICLE_CREATE_SUCCESS:

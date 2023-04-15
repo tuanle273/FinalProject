@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { toast, Toaster } from "react-hot-toast";
+import { Toaster, toast } from "react-hot-toast";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
 
@@ -180,7 +180,7 @@ const RegisterForm = () => {
               </button>
             </div>
             <span className="text-sm ml-2 hover:text-blue-500 cursor-pointer">
-              <Link to="/ForgotPass">Forget Password?</Link>
+              <Link to="/forgotpass">Forget Password?</Link>
             </span>
             <span className="text-sm ml-14 hover:text-blue-500 cursor-pointer">
               <Link to="/login">Sign In</Link>
