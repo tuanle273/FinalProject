@@ -1,10 +1,4 @@
-const express = require("express");
-const { response } = require("../index");
-const router = express.Router();
-const verifyToken = require("../middlewares/auth");
 const Vehicle = require("../models/Vehicle");
-const VehicleController = require("./VehicleController");
-const Brand = require("../models/Brand");
 
 const getVehicle = async (req, res) => {
   try {
