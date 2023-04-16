@@ -3,7 +3,7 @@ const { response } = require("../index");
 const router = express.Router();
 const verifyToken = require("../middlewares/auth");
 const Booking = require("../models/Booking");
-const BookingController = require("./BookingController");
+
 
 const getBooking = async (req, res) => {
   try {

@@ -1,6 +1,5 @@
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
-const { response } = require("../index");
 const Booking = require("../models/Booking");
 const fileUploader = require("../utils/cloudinary.config");
 const csvtojson = require("csvtojson");
