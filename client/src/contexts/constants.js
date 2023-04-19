@@ -1,7 +1,7 @@
 export const apiUrl =
   process.env.NODE_ENV !== "production"
     ? "https://tt-wdv1.onrender.com/api"
-    : "somedeployURL";
+    : "https://tt-wdv1.onrender.com/api";
 export const LOCAL_STORAGE_TOKEN_NAME = "connycar";
 export const SET_AUTH = "SET_AUTH";
 export const UPDATE_USER_PROFILE = "UPDATE_USER_PROFILE";
@@ -59,3 +59,4 @@ export const DISCOUNT_FETCH_REQUEST = "DISCOUNT_FETCH_REQUEST";
 
 export const BAN_USER_SUCCESS = "BAN_USER_SUCCESS";
 export const BAN_USER_FAIL = "BAN_USER_FAIL";
+export const FIND_VEHICLE = "FIND_VEHICLE";

@@ -1,6 +1,10 @@
 import {
   VEHICLE_CREATE_FAIL,
   VEHICLE_CREATE_SUCCESS,
+  FIND_VEHICLE,
+  VEHICLE_CREATE_FAIL,
+  VEHICLE_CREATE_SUCCESS,
+  VEHICLE_DELETE_FAIL,
   VEHICLE_DELETE_SUCCESS,
   VEHICLE_FETCH_FAIL,
   VEHICLE_FETCH_SUCCESS,
@@ -10,6 +14,7 @@ import {
 } from "../contexts/constants";
 
 export const vehicleReducer = (state, action) => {
+ 
   switch (action.type) {
     case VEHICLE_FETCH_SUCCESS:
       return {
@@ -21,30 +26,27 @@ export const vehicleReducer = (state, action) => {
     case VEHICLE_FETCH_FAIL:
       return {
         ...state,
-        vehicleLoading: false,
+        vehicleLoading: false, 
         vehicleError: true,
       };
 
    
+    case VEHICLE_CREATE_SUCCESS:
+      return {
+        ...state,
+        vehicles: [action.payload, ...state.vehicles.vehicles],
+      };
     case VEHICLE_CREATE_FAIL:
-      return {
-        ...state,
-        vehicleError: true,
-      };
-    case VEHICLE_UPDATE_REQUEST:
-      return {
-        ...state,
-        loading: true,
-      };
+      return state;
     case VEHICLE_UPDATE_SUCCESS:
-      const updatedVehicle = action.payload;
       return {
         ...state,
-        loading: false,
-        vehicles: state.vehicles.map((vehicle) =>
-          vehicle._id === updatedVehicle._id ? updatedVehicle : vehicle
+        vehicles: state.vehicles.vehicles.map((vehicle) =>
+          vehicle._id === action.payload._id ? action.payload : vehicle
         ),
       };
+    case FIND_VEHICLE:
+      return { ...state, vehicle: action.payload };
     case VEHICLE_UPDATE_FAIL:
       return {
         ...state,
@@ -52,6 +54,17 @@ export const vehicleReducer = (state, action) => {
         error: action.payload,
       };
 
+      return state;
+    case VEHICLE_DELETE_SUCCESS:
+      const newVehicles = state.vehicles.vehicles.filter(
+        (vehicle) => vehicle._id !== action.payload
+      );
+      return {
+        ...state,
+        vehicles: newVehicles,
+      };
+    case VEHICLE_DELETE_FAIL:
+      return state;
     default:
       return state;
   }

@@ -1,19 +1,22 @@
 import axios from "axios";
-import React, { createContext, useReducer } from "react";
+import React, { createContext, useEffect, useReducer } from "react";
 import { vehicleReducer } from "../reducers/vehicleReducer";
 import {
-  apiUrl,
+  FIND_VEHICLE,
   VEHICLE_CREATE_FAIL,
   VEHICLE_DELETE_FAIL,
   VEHICLE_FETCH_FAIL,
   VEHICLE_FETCH_SUCCESS,
   VEHICLE_UPDATE_FAIL,
+  VEHICLE_UPDATE_SUCCESS,
+  apiUrl,
 } from "./constants";
 
 export const VehicleContext = createContext();
 
 export function VehicleProvider({ children }) {
   const [vehicleState, dispatch] = useReducer(vehicleReducer, {
+    vehicle: null,
     vehicles: [],
     vehicleLoading: true,
     vehicleError: false,
@@ -23,7 +26,6 @@ export function VehicleProvider({ children }) {
   const loadVehicles = async () => {
     try {
       const response = await axios.get(apiUrl + "/vehicle");
-
       if (response.status >= 200 && response.status < 300) {
         dispatch({
           type: VEHICLE_FETCH_SUCCESS,
@@ -39,7 +41,10 @@ export function VehicleProvider({ children }) {
       dispatch({ type: VEHICLE_FETCH_FAIL });
     }
   };
-
+  useEffect(() => {
+    loadVehicles();
+    return () => {};
+  }, []);
   //get Detail vehicle
 
   const getDetailVehicle = async (_id) => {
@@ -72,16 +77,19 @@ export function VehicleProvider({ children }) {
           payload: response.data.vehicle,
         });
 
-        return {
-          success: true,
-          data: response.data.vehicle,
-          message: "Vehicle added successfully",
-        };
+        return { success: true, message: "Vehicle added successfully" };
       }
     } catch (error) {
       dispatch({ type: VEHICLE_CREATE_FAIL });
       return { success: false, message: error.message };
     }
+  };
+  //find vehicle
+  const findVehicle = (vehicleId) => {
+    const vehicle = vehicleState.vehicles.vehicles.find((vehicle) => {
+      return vehicle._id === vehicleId;
+    });
+    dispatch({ type: FIND_VEHICLE, payload: vehicle });
   };
 
   //update vehicle
@@ -110,11 +118,8 @@ export function VehicleProvider({ children }) {
     try {
       const response = await axios.delete(`${apiUrl}/vehicle/${id}`);
       if (response.status >= 200 && response.status < 300) {
-        dispatch({
-          type: "VEHICLE_DELETE_SUCCESS",
-          payload: response.data.vehicles,
-        });
-
+        dispatch({ type: VEHICLE_DELETE_SUCCESS, payload: id });
+        loadVehicles();
         return { success: true, message: "Vehicle Delete successfully" };
       }
     } catch (error) {
@@ -122,12 +127,14 @@ export function VehicleProvider({ children }) {
       return { success: false, message: error.message };
     }
   };
+
   const value = {
     vehicleState,
     loadVehicles,
     createVehicle,
     updateVehicle,
     deleteVehicle,
+    findVehicle,
     getDetailVehicle,
   };
 
