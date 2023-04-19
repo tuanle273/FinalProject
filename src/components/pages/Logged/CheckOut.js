@@ -1,4 +1,3 @@
-import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -21,25 +20,6 @@ const CheckOut = () => {
   const [code, setCode] = useState("");
   const [discount, setDiscount] = useState(null);
   const [payment, setPayment] = useState("later_money");
-
-  const handleStripe = async () => {
-    const sessionId = await createPayment();
-    console.log(
-      "🚀 ~ file: CheckOut.js:27 ~ handleStripe ~ sessionId:",
-      sessionId
-    );
-  };
-  const createPayment = async () => {
-    try {
-      const response = await axios.post(
-        "http://localhost:5000/api/payment/stripe"
-      );
-      const { sessionId } = response.data;
-      window.location.href = `https://checkout.stripe.com/pay/${sessionId}`;
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   const handleApplyDiscount = async (event) => {
     event.preventDefault();
@@ -306,13 +286,17 @@ const CheckOut = () => {
                 Pay Later
               </button>
             ) : (
-              <button
-                type="submit"
-                onClick={handleStripe}
-                className="mt-6 w-full rounded-md bg-blue-500 py-1.5 font-medium text-blue-50 hover:bg-blue-600"
+              <form
+                action={`http://localhost:5000/api/payment/paypal?total=${Total}&description=${vehicles.model}`}
+                method="POST"
               >
-                Pay with Stripe
-              </button>
+                <button
+                  type="submit"
+                  className="mt-6 w-full rounded-md bg-blue-500 py-1.5 font-medium text-blue-50 hover:bg-blue-600"
+                >
+                  Pay with Paypal
+                </button>
+              </form>
             )}
           </div>
         </div>{" "}

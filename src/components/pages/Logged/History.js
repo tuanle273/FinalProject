@@ -1,12 +1,18 @@
-import React, { Fragment, useContext } from "react";
+import React, { Fragment, useContext, useEffect } from "react";
 import PacmanLoader from "react-spinners/PacmanLoader";
 import { UserContext } from "../../../contexts/UserContext";
 import FormattedDate from "../../../utils/FormattedDate";
 const History = () => {
   const {
     userState: { users, userLoading, userError },
-  } = useContext(UserContext);
 
+    loadHistory,
+  } = useContext(UserContext);
+  console.log("🚀 ~ file: History.js:8 ~ History ~ users:", users);
+  useEffect(() => {
+    loadHistory();
+    return () => {};
+  }, []);
   if (userLoading)
     return (
       <div class="flex items-center h-screen">
@@ -16,7 +22,7 @@ const History = () => {
         </div>
       </div>
     );
-  else if (users && !userError)
+  else if (users.length > 0 && !userError)
     return (
       <div>
         <Fragment>
@@ -117,7 +123,7 @@ const History = () => {
       </div>
     );
   else {
-    return <h1>Something Went Wrong</h1>;
+    return <h1>Nodata</h1>;
   }
 };
 
