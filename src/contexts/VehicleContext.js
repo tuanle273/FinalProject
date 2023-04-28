@@ -2,12 +2,13 @@ import axios from "axios";
 import React, { createContext, useReducer } from "react";
 import { vehicleReducer } from "../reducers/vehicleReducer";
 import {
-  apiUrl,
   VEHICLE_CREATE_FAIL,
+  VEHICLE_CREATE_SUCCESS,
   VEHICLE_DELETE_FAIL,
   VEHICLE_FETCH_FAIL,
   VEHICLE_FETCH_SUCCESS,
   VEHICLE_UPDATE_FAIL,
+  apiUrl,
 } from "./constants";
 
 export const VehicleContext = createContext();
@@ -68,7 +69,7 @@ export function VehicleProvider({ children }) {
 
       if (response.status >= 200 && response.status < 300) {
         dispatch({
-          type: "VEHICLE_CREATE_SUCCESS",
+          type: VEHICLE_CREATE_SUCCESS,
           payload: response.data.vehicle,
         });
 

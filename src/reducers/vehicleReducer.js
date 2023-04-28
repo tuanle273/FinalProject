@@ -1,7 +1,6 @@
 import {
   VEHICLE_CREATE_FAIL,
   VEHICLE_CREATE_SUCCESS,
-  VEHICLE_DELETE_SUCCESS,
   VEHICLE_FETCH_FAIL,
   VEHICLE_FETCH_SUCCESS,
   VEHICLE_UPDATE_FAIL,
@@ -25,7 +24,13 @@ export const vehicleReducer = (state, action) => {
         vehicleError: true,
       };
 
-   
+    case VEHICLE_CREATE_SUCCESS:
+      return {
+        ...state,
+        vehicles: action.payload,
+        vehicleLoading: false,
+        vehicleError: null,
+      };
     case VEHICLE_CREATE_FAIL:
       return {
         ...state,
@@ -34,22 +39,19 @@ export const vehicleReducer = (state, action) => {
     case VEHICLE_UPDATE_REQUEST:
       return {
         ...state,
-        loading: true,
+        vehicleLoading: true,
       };
     case VEHICLE_UPDATE_SUCCESS:
-      const updatedVehicle = action.payload;
       return {
         ...state,
-        loading: false,
-        vehicles: state.vehicles.map((vehicle) =>
-          vehicle._id === updatedVehicle._id ? updatedVehicle : vehicle
-        ),
+        vehicleLoading: false,
+        vehicles: action.payload,
       };
     case VEHICLE_UPDATE_FAIL:
       return {
         ...state,
-        loading: false,
-        error: action.payload,
+        vehicleLoading: false,
+        vehicleError: action.payload,
       };
 
     default:

@@ -1,35 +1,104 @@
-import { shallow } from "enzyme";
 import React from "react";
-import EditVehicleModal from "./EditVehicleModal";
+import { render, fireEvent, waitFor, screen } from "@testing-library/react";
+import axios from "axios";
+import { UserProvider, UserContext } from "./UserProvider";
 
-describe("", () => {
-  const props = {
-    show: true,
-    handleClose: () => {},
-    itemId: 1,
-  };
-  const component = shallow(<EditVehicleModal {...props} />);
+// Mock axios for testing
+jest.mock("axios");
 
-  it("should render without errors", () => {
-    expect(component.find(".border-0")).toHaveLength(1);
+describe("UserProvider", () => {
+  // Mock userReducer function
+  const mockReducer = jest.fn((state, action) => {
+    switch (action.type) {
+      case "HISTORY_FETCH_SUCCESS":
+        return {
+          ...state,
+          users: action.payload,
+          userLoading: false,
+          userError: false,
+        };
+      case "HISTORY_FETCH_FAIL":
+      case "BAN_USER_SUCCESS":
+      case "BAN_USER_FAIL":
+      // add cases for other dispatch actions as needed
+      default:
+        return state;
+    }
   });
 
-  it("should call handleClose when close button is clicked", () => {
-    const handleClose = jest.fn();
-    component.setProps({ ...props, handleClose });
-    component.find(".text-black.opacity-5").simulate("click");
-    expect(handleClose).toHaveBeenCalledTimes(1);
+  beforeEach(() => {
+    // Reset mockReducer before each test
+    mockReducer.mockClear();
   });
 
-  it("should update 'formData' when input fields are changed", () => {
-    const event = {
-      target: {
-        name: "title",
-        value: "Test Title",
+  test("fetches history and updates state on success", async () => {
+    // Mock axios.get to resolve with mocked response
+    axios.get.mockResolvedValueOnce({
+      status: 200,
+      data: {
+        bookingDetail: [
+          // mocked response data
+        ],
       },
-    };
-    component.find('[name="title"]').simulate("change", event);
+    });
 
-    expect(component.state().formData.title).toEqual("Test Title");
+    // Render UserProvider with a test child component
+    render(
+      <UserProvider>
+        <UserContext.Consumer>
+          {(value) => (
+            <div data-testid="test-child">
+              {JSON.stringify(value.userState)}
+            </div>
+          )}
+        </UserContext.Consumer>
+      </UserProvider>
+    );
+
+    // Assert that the userReducer is called with the correct action type
+    await waitFor(() =>
+      expect(mockReducer).toHaveBeenCalledWith(
+        expect.any(Object),
+        expect.objectContaining({ type: "HISTORY_FETCH_SUCCESS" })
+      )
+    );
+
+    // Assert that the user state is updated with the mocked response data
+    expect(screen.getByTestId("test-child").textContent).toContain(
+      "bookingDetail"
+    );
   });
+
+  test("handles error during history fetch", async () => {
+    // Mock axios.get to reject with an error
+    axios.get.mockRejectedValueOnce(new Error("Fetch failed"));
+
+    // Render UserProvider with a test child component
+    render(
+      <UserProvider>
+        <UserContext.Consumer>
+          {(value) => (
+            <div data-testid="test-child">
+              {JSON.stringify(value.userState)}
+            </div>
+          )}
+        </UserContext.Consumer>
+      </UserProvider>
+    );
+
+    // Assert that the userReducer is called with the correct action type
+    await waitFor(() =>
+      expect(mockReducer).toHaveBeenCalledWith(
+        expect.any(Object),
+        expect.objectContaining({ type: "HISTORY_FETCH_FAIL" })
+      )
+    );
+
+    // Assert that the user state has the error flag set to true
+    expect(screen.getByTestId("test-child").textContent).toContain(
+      'userError":true'
+    );
+  });
+
+  // Write similar test cases for other functions, such as banUser, unbanUser, and cloudinaryUpload
 });

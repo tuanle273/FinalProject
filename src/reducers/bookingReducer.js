@@ -14,54 +14,51 @@ export const bookingReducer = (state, action) => {
     case BOOKING_FETCH_SUCCESS:
       return {
         ...state,
-        bookings: action.payload,
-        bookingLoading: false,
-        bookingError: false,
+        Bookings: action.payload,
+        BookingLoading: false,
+        BookingError: false,
       };
     case BOOKING_FETCH_FAIL:
       return {
         ...state,
-        bookingLoading: false,
-        bookingError: true,
+        BookingLoading: false,
+        BookingError: true,
       };
 
     case BOOKING_CREATE_SUCCESS:
       return {
         ...state,
-        bookings: [action.payload, ...state.bookings],
+        Bookings: action.payload,
+        BookingLoading: false,
+        BookingError: null,
       };
     case BOOKING_CREATE_FAIL:
       return {
         ...state,
-        bookingError: true,
+        BookingError: true,
       };
     case BOOKING_UPDATE_REQUEST:
       return {
         ...state,
-        loading: true,
+        BookingLoading: true,
       };
     case BOOKING_UPDATE_SUCCESS:
-      const updatedBooking = action.payload;
       return {
         ...state,
-        loading: false,
-        bookings: state.bookings.map((booking) =>
-          booking._id === updatedBooking._id ? updatedBooking : booking
-        ),
+        BookingLoading: false,
+        Bookings: action.payload,
       };
     case BOOKING_UPDATE_FAIL:
       return {
         ...state,
-        loading: false,
-        error: action.payload,
+        BookingLoading: false,
+        BookingError: action.payload,
       };
 
     case BOOKING_DELETE_SUCCESS:
       return {
         ...state,
-        bookings: state.bookings.filter(
-          (booking) => booking._id !== action.payload
-        ),
+        Bookings: action.payload,
       };
     default:
       return state;

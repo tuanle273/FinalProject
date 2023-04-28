@@ -41,13 +41,10 @@ export const discountReducer = (state, action) => {
         loading: true,
       };
     case DISCOUNT_UPDATE_SUCCESS:
-      const updatedDiscount = action.payload;
       return {
         ...state,
         loading: false,
-        discounts: state.discounts.map((discount) =>
-          discount._id === updatedDiscount._id ? updatedDiscount : discount
-        ),
+        discounts: action.payload,
       };
     case DISCOUNT_UPDATE_FAIL:
       return {
@@ -59,9 +56,7 @@ export const discountReducer = (state, action) => {
     case DISCOUNT_DELETE_SUCCESS:
       return {
         ...state,
-        discounts: state.discounts.filter(
-          (discount) => discount._id !== action.payload
-        ),
+        discounts: action.payload,
       };
     default:
       return state;

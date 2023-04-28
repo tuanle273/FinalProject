@@ -1,43 +1,93 @@
 import { ArcElement, Chart as ChartJS, Legend, Tooltip } from "chart.js";
+import "chart.js/auto";
 import React, { useContext, useEffect, useState } from "react";
-import { Doughnut } from "react-chartjs-2";
+import { Doughnut, Line } from "react-chartjs-2";
+
+import DataTable from "react-data-table-component";
+import Stripe from "stripe";
 import { ChartContext } from "../../../contexts/ChartContext";
+
 ChartJS.register(ArcElement, Tooltip, Legend);
 
+const stripe = new Stripe(
+  "sk_test_51MoGC4AIZ2hFgEmPgQ0vK32RniqFvGq06MjOJic2s6ObjhZyCbrE888nsDyHz3GEsNcjZRwafae5nmaJD6kUK5Rh0068PDvsr3"
+);
 const Chart = () => {
-  const [userCount, setUser] = useState([]);
-  console.log("🚀 ~ file: Chart.js:9 ~ Chart ~ userCount:", userCount);
+  const [balance, setBalance] = useState(null);
 
-  const { countAll } = useContext(ChartContext);
+  useEffect(() => {
+    const getBalance = async () => {
+      const balanceObj = await stripe.balance.retrieve();
+
+      setBalance(balanceObj);
+    };
+
+    getBalance();
+  }, []);
+  const [userCount, setUser] = useState([]);
+  const [alltransaction, setTransaction] = useState([]);
+  const dailyTransactions = alltransaction.reduce((totals, transaction) => {
+    const date = new Date(transaction.created * 1000).toDateString();
+    if (totals[date]) {
+      totals[date] += transaction.amount;
+    } else {
+      totals[date] = transaction.amount;
+    }
+    return totals;
+  }, {});
+  const { countAll, checkTransaction } = useContext(ChartContext);
   useEffect(() => {
     const loadDiscountCode = async () => {
       const response = await countAll();
-
+      const response2 = await checkTransaction();
+      console.log(
+        "🚀 ~ file: Chart.js:32 ~ loadDiscountCode ~ response2:",
+        response2
+      );
+      setTransaction(response2.data.data);
       setUser(response.data);
     };
     loadDiscountCode();
   }, []);
-  const data = {
-    labels: ["Red", "Blue", "Yellow"],
+  const successTransactions = alltransaction.filter(
+    (transaction) => transaction.status === "succeeded"
+  );
+  const failTransactions = alltransaction.filter(
+    (transaction) => transaction.status === "requires_payment_method"
+  );
+
+  const successAmount = successTransactions.reduce(
+    (total, transaction) => total + transaction.amount,
+    0
+  );
+  const failAmount = failTransactions.reduce(
+    (total, transaction) => total + transaction.amount,
+    0
+  );
+
+  const dataPie = {
+    labels: ["Success", "Fail"],
     datasets: [
       {
-        label: "# of Votes",
-        data: [12, 19, 3],
-        backgroundColor: [
-          "rgba(255, 99, 132, 0.2)",
-          "rgba(54, 162, 235, 0.2)",
-          "rgba(255, 206, 86, 0.2)",
-        ],
-        borderColor: [
-          "rgba(255, 99, 132, 1)",
-          "rgba(54, 162, 235, 1)",
-          "rgba(255, 206, 86, 1)",
-        ],
+        data: [successAmount, failAmount],
+        backgroundColor: ["rgba(54, 162, 235, 0.2)", "rgba(255, 99, 132, 0.2)"],
+        borderColor: ["rgba(54, 162, 235, 1)", "rgba(255, 99, 132, 1)"],
         borderWidth: 1,
       },
     ],
   };
-
+  const dataBar = {
+    labels: Object.keys(dailyTransactions),
+    datasets: [
+      {
+        label: "Total Amount",
+        data: Object.values(dailyTransactions),
+        fill: false,
+        borderColor: "rgba(75,192,192,1)",
+        pointBackgroundColor: "rgba(75,192,192,1)",
+      },
+    ],
+  };
   const options = {
     plugins: {
       legend: {
@@ -49,7 +99,69 @@ const Chart = () => {
       },
     },
   };
+  const columns = [
+    {
+      name: "ID",
+      selector: (row) => row.id,
+    },
+    {
+      name: "Customer",
+      selector: (row) => row.customer,
+    },
+    {
+      name: "Description",
+      selector: (row) => row.description,
+    },
 
+    {
+      name: "Status",
+      selector: (row) => row.status,
+    },
+    {
+      name: "Amount",
+      selector: (row) => row.amount,
+    },
+    {
+      name: "Currency",
+      selector: (row) => row.currency,
+    },
+    {
+      name: "Payment Method",
+      selector: (row) => row.payment_method_types,
+    },
+    {
+      name: "Created Date",
+      selector: (row) => {
+        const createdTimestamp = row.created;
+        const createdDate = new Date(createdTimestamp * 1000);
+        return createdDate.toLocaleString();
+      },
+    },
+  ];
+
+  const customStyles = {
+    rows: {
+      style: {
+        minHeight: "50px", // override the row height
+      },
+    },
+    headCells: {
+      style: {
+        paddingLeft: "10px", // override the cell padding for head cells
+        paddingRight: "8px",
+      },
+    },
+    headRow: {
+      fontSize: "20px",
+      fontWeight: "bold",
+    },
+    cells: {
+      style: {
+        paddingLeft: "10px", // override the cell padding for data cells
+        paddingRight: "8px",
+      },
+    },
+  };
   return (
     <div>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 p-4 gap-4">
@@ -145,17 +257,56 @@ const Chart = () => {
             </svg>
           </div>
           <div class="text-right">
-            <p class="text-2xl">$75,257</p>
-            <p>Balances</p>
+            <p>
+              {balance ? (
+                <>
+                  <h5>
+                    Available Balance: {balance.available[0].amount / 100}$
+                  </h5>
+                  <h5>Pending Balance: {balance.pending[0].amount / 100}</h5>
+                </>
+              ) : (
+                <p>Loading balance...</p>
+              )}
+            </p>
+            <p>Stripe Account</p>
           </div>
         </div>
       </div>
       <div class="grid grid-cols-1 lg:grid-cols-2 p-4 gap-4"></div>{" "}
-      <div>
-        <Doughnut
-          data={data}
-          options={{ maintainAspectRatio: false, aspectRatio: 1 }}
-        />
+      <div style={{ display: "flex" }}>
+        <div style={{ width: "50%", height: "400px" }}>
+          <Line
+            data={dataBar}
+            options={{
+              responsive: true,
+            }}
+          />
+        </div>
+        <div style={{ width: "50%", height: "400px" }}>
+          <Doughnut
+            data={dataPie}
+            options={{ maintainAspectRatio: false, aspectRatio: 1 }}
+          />
+        </div>
+      </div>
+      <div className="shadow-xl mt-8 mr-0 mb-0 ml-0 pt-4 pr-10 pb-4 pl-10 flow-root rounded-lg sm:py-2">
+        {alltransaction !== null && (
+          <DataTable
+            fixedHeader
+            fixedHeaderScrollHeight="450px"
+            subHeaderAlign="left"
+            pagination
+            title="All Transactions Stripe"
+            columns={columns}
+            data={alltransaction}
+            selectableRows
+            customStyles={customStyles}
+            highlightOnHover
+            pointerOnHover
+            responsive
+          />
+        )}
       </div>
     </div>
   );
