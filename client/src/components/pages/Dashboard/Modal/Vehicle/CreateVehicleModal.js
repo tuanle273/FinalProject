@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import Form from "react-bootstrap/Form";
-import { toast, Toaster } from "react-hot-toast";
+import { Toaster, toast } from "react-hot-toast";
 import { BrandContext } from "../../../../../contexts/BrandContext";
 import { UserContext } from "../../../../../contexts/UserContext";
 import { VehicleContext } from "../../../../../contexts/VehicleContext";
@@ -168,9 +168,9 @@ const CreateVehicleModal = (props) => {
                     <Form.Group controlId="year">
                       <Form.Label className="mb-3 block text-base font-medium text-[#07074D]">
                         Year
-                      </Form.Label>{" "}
+                      </Form.Label>
                       <Form.Control
-                        type="number"
+                        type="text"
                         name="year"
                         value={formData.year}
                         className="bg-white p-2 rounded mt-1 border-2 border-grey cursor-pointer hover:bg-grey-lighter"

@@ -1,6 +1,4 @@
-const express = require("express");
-const { response } = require("../index");
-const router = express.Router();
+
 
 const Discount = require("../models/Discount");
 

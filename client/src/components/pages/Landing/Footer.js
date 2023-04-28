@@ -84,7 +84,7 @@ const Footer = () => {
             </div>
             <div>
               <h3 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">
-                Company
+                CRABCAR
               </h3>
               <ul className="text-gray-500 dark:text-gray-400">
                 <li className="mb-4">
@@ -151,13 +151,13 @@ const Footer = () => {
               Landwind
             </a>
             <span className="block text-sm text-center text-gray-500 dark:text-gray-400">
-              © 2021-2022 Landwind™. All Rights Reserved. Built with{" "}
+              © 2023 CRABCAR™. All Rights Reserved. Built with{" "}
               <a
                 href="#"
                 target="_blank"
                 className="text-purple-600 hover:underline dark:text-purple-500"
               >
-                Flowbite
+                CRABCAR
               </a>{" "}
               and{" "}
               <a
@@ -165,7 +165,7 @@ const Footer = () => {
                 target="_blank"
                 className="text-purple-600 hover:underline dark:text-purple-500"
               >
-                Tailwind CSS
+                CRABCAR
               </a>
               .
             </span>

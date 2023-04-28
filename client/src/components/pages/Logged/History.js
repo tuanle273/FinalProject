@@ -7,6 +7,8 @@ const History = () => {
   const {
     userState: { users, userLoading, userError },
     loadHistory,
+
+
   } = useContext(UserContext);
 
   useEffect(() => {
@@ -21,7 +23,7 @@ const History = () => {
         </div>
       </div>
     );
-  else if (users && !userError)
+  else if (users.length > 0 && !userError)
     return (
       <div>
         <Fragment>
@@ -122,7 +124,7 @@ const History = () => {
       </div>
     );
   else {
-    return <h1>Something Went Wrong</h1>;
+    return <h1>Nodata</h1>;
   }
 };
 

@@ -26,3 +26,5 @@ const paymentFail = () => {
 };
 
 export default paymentFail;
+
+export default paymentFail
