@@ -23,7 +23,21 @@ const createPayment = async (req, res) => {
 
   res.json({ sessionId: session.id });
 };
+const getAllTransactions = async (req, res) => {
+  try {
+    const paymentIntents = await stripe.paymentIntents.list();
+
+    // Log the payment intents to the console
+    console.log(paymentIntents);
+
+    res.status(200).json(paymentIntents);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error getting payment intents" });
+  }
+};
 
 module.exports = {
   createPayment,
+  getAllTransactions,
 };
