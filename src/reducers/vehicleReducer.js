@@ -1,6 +1,9 @@
 import {
+  FIND_VEHICLE,
   VEHICLE_CREATE_FAIL,
   VEHICLE_CREATE_SUCCESS,
+  VEHICLE_DELETE_FAIL,
+  VEHICLE_DELETE_SUCCESS,
   VEHICLE_FETCH_FAIL,
   VEHICLE_FETCH_SUCCESS,
   VEHICLE_UPDATE_FAIL,
@@ -9,6 +12,7 @@ import {
 } from "../contexts/constants";
 
 export const vehicleReducer = (state, action) => {
+ 
   switch (action.type) {
     case VEHICLE_FETCH_SUCCESS:
       return {
@@ -20,7 +24,7 @@ export const vehicleReducer = (state, action) => {
     case VEHICLE_FETCH_FAIL:
       return {
         ...state,
-        vehicleLoading: false,
+        vehicleLoading: false, 
         vehicleError: true,
       };
 
@@ -34,7 +38,7 @@ export const vehicleReducer = (state, action) => {
     case VEHICLE_CREATE_FAIL:
       return {
         ...state,
-        vehicleError: true,
+        vehicles: [action.payload, ...state.vehicles.vehicles],
       };
     case VEHICLE_UPDATE_REQUEST:
       return {
@@ -47,6 +51,8 @@ export const vehicleReducer = (state, action) => {
         vehicleLoading: false,
         vehicles: action.payload,
       };
+    case FIND_VEHICLE:
+      return { ...state, vehicle: action.payload };
     case VEHICLE_UPDATE_FAIL:
       return {
         ...state,
@@ -54,6 +60,17 @@ export const vehicleReducer = (state, action) => {
         vehicleError: action.payload,
       };
 
+    
+    case VEHICLE_DELETE_SUCCESS:
+      const newVehicles = state.vehicles.vehicles.filter(
+        (vehicle) => vehicle._id !== action.payload
+      );
+      return {
+        ...state,
+        vehicles: newVehicles,
+      };
+    case VEHICLE_DELETE_FAIL:
+      return state;
     default:
       return state;
   }

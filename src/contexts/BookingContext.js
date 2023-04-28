@@ -31,14 +31,26 @@ export function BookingProvider({ children }) {
       return { success: true, data: response.data, message: "Booking List" };
     } catch (error) {}
   };
+  const checkBookingStatus = async (paymentId, PayerID) => {
+    try {
+      const response = await axios.post(
+        apiUrl + "/payment/paypal/executePayment",
+        { paymentId, PayerID }
+      );
+    
 
+      if (response.status >= 200 && response.status < 300) {
+      }
+      return {
+        success: true,
+        data: response.data,
+        message: "Status List",
+      };
+    } catch (error) {}
+  };
   const getAllBooking = async () => {
     try {
       const response = await axios.get(apiUrl + "/booking");
-      console.log(
-        "🚀 ~ file: BookingContext.js:29 ~ getAllBooking ~ response:",
-        response
-      );
 
       if (response.status >= 200 && response.status < 300) {
       }
@@ -105,6 +117,7 @@ export function BookingProvider({ children }) {
     updateBooking,
     deleteBooking,
     loadBookings,
+    checkBookingStatus,
   };
 
   return (
