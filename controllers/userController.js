@@ -1,6 +1,5 @@
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
-const { response } = require("../index");
 const Booking = require("../models/Booking");
 const fileUploader = require("../utils/cloudinary.config");
 const csvtojson = require("csvtojson");
@@ -94,6 +93,7 @@ const unbanUser = async (req, res) => {
 const getHistory = async (req, res) => {
   try {
     const bookingDetail = await Booking.find({ userId: req.userId });
+
     res.json({ success: true, bookingDetail });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
