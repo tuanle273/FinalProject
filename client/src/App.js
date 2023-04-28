@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
 import "./App.css";
 import Landing from "./components/layout/Landing";
 import NotFound from "./components/pages/404/NotFound";
@@ -17,6 +17,8 @@ import AllCars from "./components/pages/Logged/AllCars";
 import CheckOut from "./components/pages/Logged/CheckOut";
 import History from "./components/pages/Logged/History";
 import UserProfile from "./components/pages/Logged/UserProfile";
+import paymentFail from "./components/pages/Logged/paymentFail";
+import paymentSuccess from "./components/pages/Logged/paymentSuccess";
 import vehicleDetail from "./components/pages/Logged/vehicleDetail";
 import PasswordReset from "./components/pages/PasswordReset";
 import AdminRoute from "./components/routing/AdminRoute";
@@ -111,6 +113,16 @@ function App() {
             exact
             path="/allcar"
             component={AllCars}
+          ></ProtectedRoute>{" "}
+          <ProtectedRoute
+            exact
+            path="/paymentSuccess"
+            component={paymentSuccess}
+          ></ProtectedRoute>{" "}
+          <ProtectedRoute
+            exact
+            path="/paymentFail"
+            component={paymentFail}
           ></ProtectedRoute>
           <ProtectedRoute exact path="/" component={Landing}></ProtectedRoute>
           <Route

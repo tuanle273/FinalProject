@@ -1,4 +1,4 @@
-import { LOGIN_BY_GOOGLE_REQUEST, SET_AUTH, UPDATE_USER_PROFILE } from "../contexts/constants";
+import { SET_AUTH, UPDATE_USER_PROFILE } from "../contexts/constants";
 
 export const authReducer = (state, action) => {
   const {
@@ -18,8 +18,7 @@ export const authReducer = (state, action) => {
         ...state,
         user: { ...state.user, ...action.payload },
       };
-    
-  
+
     default:
       return state;
   }

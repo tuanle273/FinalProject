@@ -25,10 +25,6 @@ export function BookingProvider({ children }) {
   const loadBookings = async () => {
     try {
       const response = await axios.get(apiUrl + "/booking/loadbookings");
-      console.log(
-        "🚀 ~ file: BookingContext.js:29 ~ getAllBooking ~ response:",
-        response
-      );
 
       if (response.status >= 200 && response.status < 300) {
       }

@@ -31,9 +31,29 @@ export function ChartProvider({ children }) {
       dispatch({ type: "COUNT USER FAIL" });
     }
   };
+  const checkTransaction = async () => {
+    try {
+      const response = await axios.get(apiUrl + "/payment/gettransaction");
+
+      if (response.status >= 200 && response.status < 300) {
+        dispatch({
+          type: "check transaction",
+          payload: response.data,
+        });
+      }
+      return {
+        success: true,
+        data: response.data,
+        message: "List",
+      };
+    } catch (error) {
+      dispatch({ type: "fail" });
+    }
+  };
 
   const value = {
     countAll,
+    checkTransaction,
   };
 
   return (

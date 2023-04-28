@@ -1,4 +1,3 @@
-import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -22,25 +21,6 @@ const CheckOut = () => {
   const [discount, setDiscount] = useState(null);
   const [payment, setPayment] = useState("later_money");
 
-  const handleStripe = async () => {
-    const sessionId = await createPayment();
-    console.log(
-      "🚀 ~ file: CheckOut.js:27 ~ handleStripe ~ sessionId:",
-      sessionId
-    );
-  };
-  const createPayment = async () => {
-    try {
-      const response = await axios.post(
-        "http://localhost:5000/api/payment/stripe"
-      );
-      const { sessionId } = response.data;
-      window.location.href = `https://checkout.stripe.com/pay/${sessionId}`;
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   const handleApplyDiscount = async (event) => {
     event.preventDefault();
     try {
@@ -57,12 +37,19 @@ const CheckOut = () => {
   };
   const { vehicleId } = useParams();
   const today = new Date();
+
+  const start = new Date(startDate);
+  const end = new Date(endDate);
+  const formattedStartDate = start.toISOString();
+  const formattedEndDate = end.toISOString();
   const [formData, setFormData] = useState({
     userId: user._id,
     vehicleId: vehicleId,
-    totalCost: "10000",
+    paymentMethod: "pay on receipt",
+    paymentStatus: "unpaid",
+    startDate: formattedStartDate,
+    endDate: formattedEndDate,
   });
-
   useEffect(() => {
     const getVehicle = async () => {
       const respone = await getDetailVehicle(vehicleId);
@@ -76,15 +63,14 @@ const CheckOut = () => {
     return <div>Loading...</div>;
   }
 
-  const start = new Date(startDate);
-  const end = new Date(endDate);
   const timeDiff = Math.abs(end.getTime() - start.getTime());
   const diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
   const amount = discount;
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const response = await createBooking(formData);
+    const updatedFormData = { ...formData, totalCost: Total };
+    const response = await createBooking(updatedFormData);
 
     if (response.success) {
       toast.success(response.message);
@@ -234,7 +220,7 @@ const CheckOut = () => {
             </div>
             <div className="mb-2 flex justify-between">
               <p className="text-gray-700">Time</p>
-              <p className="text-gray-700">{diffDays}</p>
+              <p className="text-gray-700">{diffDays} day</p>
             </div>{" "}
             <div className="flex justify-between">
               <p className="text-gray-700">Discount</p>
@@ -298,21 +284,62 @@ const CheckOut = () => {
                 <p className="text-sm text-gray-700">including VAT</p>
               </div>
             </div>
-            {payment === "later_money" ? (
+            {Total === 0 ? (
+              <div
+                class="flex bg-red-100 rounded-lg p-4 mb-4 text-sm text-red-700"
+                role="alert"
+              >
+                <svg
+                  class="w-5 h-5 inline mr-3"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                    clip-rule="evenodd"
+                  ></path>
+                </svg>
+                <div>
+                  <span class="font-medium">Danger alert!</span> Please select
+                  start and end dates to calculate total cost
+                </div>
+              </div>
+            ) : payment === "later_money" ? (
               <button
                 type="submit"
-                className="mt-6 w-full rounded-md bg-blue-500 py-1.5 font-medium text-blue-50 hover:bg-blue-600"
+                onClick={handleSubmit}
+                className="mt-6 w-full rounded-md bg-yellow-500 py-1.5 font-medium text-blue-50 hover:bg-yellow-600"
               >
-                Pay Later
+                Pay Later ({Total}$)
               </button>
+            ) : payment === "paypal" ? (
+              <form
+                action={`http://localhost:5000/api/payment/paypal?total=${Total}&description=${vehicles.model}`}
+                method="POST"
+              >
+                <button
+                  type="submit"
+                  className="mt-6 w-full rounded-md bg-blue-500 py-1.5 font-medium text-blue-50 hover:bg-blue-600"
+                >
+                  Pay with Paypal ({Total}$)
+                </button>
+              </form>
+            ) : payment === "stripe" ? (
+              <form
+                action={`http://localhost:5000/api/payment/stripe?total=${Total}&description=${vehicles.model}&imgUrl=${vehicles.imageUrl}`}
+                method="POST"
+              >
+                <button
+                  type="submit"
+                  className="mt-6 w-full rounded-md bg-purple-500 py-1.5 font-medium text-blue-50 hover:bg-purple-800"
+                >
+                  Pay with Stripe ({Total}$)
+                </button>
+              </form>
             ) : (
-              <button
-                type="submit"
-                onClick={handleStripe}
-                className="mt-6 w-full rounded-md bg-blue-500 py-1.5 font-medium text-blue-50 hover:bg-blue-600"
-              >
-                Pay with Stripe
-              </button>
+              <div>Invalid payment method</div>
             )}
           </div>
         </div>{" "}

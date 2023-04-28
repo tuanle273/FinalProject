@@ -1,12 +1,17 @@
-import React, { Fragment, useContext } from "react";
+import React, { Fragment, useContext, useEffect } from "react";
 import PacmanLoader from "react-spinners/PacmanLoader";
 import { UserContext } from "../../../contexts/UserContext";
 import FormattedDate from "../../../utils/FormattedDate";
+
 const History = () => {
   const {
     userState: { users, userLoading, userError },
+    loadHistory,
   } = useContext(UserContext);
 
+  useEffect(() => {
+    loadHistory();
+  }, []);
   if (userLoading)
     return (
       <div class="flex items-center h-screen">
