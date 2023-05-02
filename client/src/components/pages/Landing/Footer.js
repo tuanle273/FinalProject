@@ -148,7 +148,7 @@ const Footer = () => {
                 className="h-6 mr-3 sm:h-9"
                 alt="Landwind Logo"
               />
-              Landwind
+              Crab Cars
             </a>
             <span className="block text-sm text-center text-gray-500 dark:text-gray-400">
               © 2023 CRABCAR™. All Rights Reserved. Built with{" "}
@@ -157,7 +157,7 @@ const Footer = () => {
                 target="_blank"
                 className="text-purple-600 hover:underline dark:text-purple-500"
               >
-                CRABCAR
+                ReactJS
               </a>{" "}
               and{" "}
               <a
@@ -165,7 +165,7 @@ const Footer = () => {
                 target="_blank"
                 className="text-purple-600 hover:underline dark:text-purple-500"
               >
-                CRABCAR
+                NodeJS
               </a>
               .
             </span>
