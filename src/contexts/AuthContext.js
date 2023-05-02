@@ -17,6 +17,7 @@
       isAuthenticated: false,
       user: null,
     });
+    
     const getAllUser = async () => {
       try {
         const response = await axios.get(apiUrl + "/user/alluser");
