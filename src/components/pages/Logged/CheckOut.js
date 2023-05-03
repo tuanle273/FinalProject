@@ -318,7 +318,7 @@ const CheckOut = () => {
               </button>
             ) : payment === "paypal" ? (
               <form
-                action={`http://localhost:5000/api/payment/paypal?total=${Total}&description=${vehicles.model}`}
+                action={`https://server2-vxcz.onrender.com/api/payment/paypal?total=${Total}&description=${vehicles.model}`}
                 method="POST"
               >
                 <button
@@ -330,7 +330,7 @@ const CheckOut = () => {
               </form>
             ) : payment === "stripe" ? (
               <form
-                action={`http://localhost:5000/api/payment/stripe?total=${Total}&description=${vehicles.model}&imgUrl=${vehicles.imageUrl}`}
+                action={`https://server2-vxcz.onrender.com/api/payment/stripe?total=${Total}&description=${vehicles.model}&imgUrl=${vehicles.imageUrl}`}
                 method="POST"
               >
                 <button
