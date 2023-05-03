@@ -121,7 +121,7 @@ const loginByGoogle = async (req, res) => {
       {
         clientID: keys.googleClientID,
         clientSecret: keys.googleClientSecret,
-        callbackURL: "http://localhost:5000/api/auth/auth/google/callback",
+        callbackURL: "https://server2-vxcz.onrender.com/api/auth/auth/google/callback",
         scope: ["email"],
       },
       (accessToken, refreshToken, email, profile, done) => {
@@ -194,7 +194,7 @@ const loginCallback = async (req, res) => {
       // { expiresIn: "1h" }
     );
 
-    res.redirect(`http://localhost:3000/login?accessToken=${accessToken}`);
+    res.redirect(`https://client-oxbf.onrender.com/login?accessToken=${accessToken}`);
   } catch (error) {
     console.log(error);
     res.status(500).json({ success: false, message: "Internal Server Error" });
