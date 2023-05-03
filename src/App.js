@@ -15,6 +15,8 @@ import Faq from "./components/pages/Landing/Faq";
 import About from "./components/pages/Logged/About";
 import AllCars from "./components/pages/Logged/AllCars";
 
+import EditDiscountModal from "./components/pages/Dashboard/Modal/Discount/EditDiscountModal";
+import EditVehicleModal from "./components/pages/Dashboard/Modal/Vehicle/EditVehicleModal";
 import CheckOut from "./components/pages/Logged/CheckOut";
 import History from "./components/pages/Logged/History";
 import UserProfile from "./components/pages/Logged/UserProfile";
@@ -85,7 +87,7 @@ function App() {
                         <AdminRoute
                           exact
                           path="/admin"
-                          component={UserManagement}
+                          component={Chart}
                         ></AdminRoute>
                         <AdminRoute
                           exact
@@ -104,6 +106,11 @@ function App() {
                         ></AdminRoute>
                         <AdminRoute
                           exact
+                          path="/admin/vehiclemanagement/edit/:id"
+                          component={EditVehicleModal}
+                        ></AdminRoute>
+                        <AdminRoute
+                          exact
                           path="/admin/brandmanagement"
                           component={BrandManagement}
                         ></AdminRoute>
@@ -117,6 +124,11 @@ function App() {
                           path="/admin/discountmanagement"
                           component={DiscountManagement}
                         ></AdminRoute>
+                        <AdminRoute
+                          exact
+                          path="/admin/discountmanagement/edit/:id"
+                          component={EditDiscountModal}
+                        ></AdminRoute>{" "}
                         <ProtectedRoute
                           exact
                           path="/checkout"

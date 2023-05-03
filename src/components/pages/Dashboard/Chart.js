@@ -5,6 +5,7 @@ import { Doughnut, Line } from "react-chartjs-2";
 
 import DataTable from "react-data-table-component";
 import Stripe from "stripe";
+import { BookingContext } from "../../../contexts/BookingContext";
 import { ChartContext } from "../../../contexts/ChartContext";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
@@ -14,18 +15,47 @@ const stripe = new Stripe(
 );
 const Chart = () => {
   const [balance, setBalance] = useState(null);
+  const {
+    BookingState: { Bookings },
+    getAllBooking,
+  } = useContext(BookingContext);
 
   useEffect(() => {
     const getBalance = async () => {
       const balanceObj = await stripe.balance.retrieve();
-
       setBalance(balanceObj);
     };
-
+    getAllBooking();
     getBalance();
   }, []);
+
   const [userCount, setUser] = useState([]);
   const [alltransaction, setTransaction] = useState([]);
+
+  // Extract daily transactions data
+  const dailyBooking = {};
+  if (Bookings && Bookings.length) {
+  Bookings.forEach((booking) => {
+    const createdDate = new Date(booking.created_at);
+
+    // Extract year, month, and day components from the created date
+    const year = createdDate.getFullYear();
+    const month = createdDate.getMonth();
+    const day = createdDate.getDate();
+
+    // Create a new date object with the year, month, and day components
+    const date = new Date(year, month, day);
+
+    // Convert the date to an ISO string without the time component
+    const dateString = date.toISOString().substring(0, 10);
+
+    // Increment the booking count for each day
+    dailyBooking[dateString] = (dailyBooking[dateString] || 0) + 1;
+  });
+
+}
+ 
+
   const dailyTransactions = alltransaction.reduce((totals, transaction) => {
     const date = new Date(transaction.created * 1000).toDateString();
     if (totals[date]) {
@@ -40,10 +70,7 @@ const Chart = () => {
     const loadDiscountCode = async () => {
       const response = await countAll();
       const response2 = await checkTransaction();
-      console.log(
-        "🚀 ~ file: Chart.js:32 ~ loadDiscountCode ~ response2:",
-        response2
-      );
+
       setTransaction(response2.data.data);
       setUser(response.data);
     };
@@ -64,6 +91,18 @@ const Chart = () => {
     (total, transaction) => total + transaction.amount,
     0
   );
+  const dataLine = {
+    labels: Object.keys(dailyBooking),
+    datasets: [
+      {
+        label: "Total Bookings by Day",
+        data: Object.values(dailyBooking),
+        fill: false,
+        borderColor: "rgba(75,192,192,1)",
+        pointBackgroundColor: "rgba(75,192,192,1)",
+      },
+    ],
+  };
 
   const dataPie = {
     labels: ["Success", "Fail"],
@@ -80,7 +119,7 @@ const Chart = () => {
     labels: Object.keys(dailyTransactions),
     datasets: [
       {
-        label: "Total Amount",
+        label: "Total Balance Stripe by Day",
         data: Object.values(dailyTransactions),
         fill: false,
         borderColor: "rgba(75,192,192,1)",
@@ -164,99 +203,99 @@ const Chart = () => {
   };
   return (
     <div>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 p-4 gap-4">
-        <div class="bg-blue-500 dark:bg-gray-800 shadow-lg rounded-md flex items-center justify-between p-3 border-b-4 border-blue-600 dark:border-gray-600 text-white font-medium group">
-          <div class="flex justify-center items-center w-14 h-14 bg-white rounded-full transition-all duration-300 transform group-hover:rotate-12">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 p-4 gap-4">
+        <div className="bg-blue-500 dark:bg-gray-800 shadow-lg rounded-md flex items-center justify-between p-3 border-b-4 border-blue-600 dark:border-gray-600 text-white font-medium group">
+          <div className="flex justify-center items-center w-14 h-14 bg-white rounded-full transition-all duration-300 transform group-hover:rotate-12">
             <svg
               width="30"
               height="30"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
-              class="stroke-current text-blue-800 dark:text-gray-800 transform transition-transform duration-500 ease-in-out"
+              className="stroke-current text-blue-800 dark:text-gray-800 transform transition-transform duration-500 ease-in-out"
             >
               <path
-                stroke-linecap="round"
+                strokeLinecap="round"
                 stroke-linejoin="round"
-                stroke-width="2"
+                strokeWidth="2"
                 d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
               ></path>
             </svg>
           </div>
-          <div class="text-right">
-            <p class="text-2xl">{userCount.user ? userCount.user : "N/A"}</p>
+          <div className="text-right">
+            <p className="text-2xl">{userCount.user ? userCount.user : "N/A"}</p>
             <p>Visitors</p>
           </div>
         </div>
-        <div class="bg-blue-500 dark:bg-gray-800 shadow-lg rounded-md flex items-center justify-between p-3 border-b-4 border-blue-600 dark:border-gray-600 text-white font-medium group">
-          <div class="flex justify-center items-center w-14 h-14 bg-white rounded-full transition-all duration-300 transform group-hover:rotate-12">
+        <div className="bg-blue-500 dark:bg-gray-800 shadow-lg rounded-md flex items-center justify-between p-3 border-b-4 border-blue-600 dark:border-gray-600 text-white font-medium group">
+          <div className="flex justify-center items-center w-14 h-14 bg-white rounded-full transition-all duration-300 transform group-hover:rotate-12">
             <svg
               width="30"
               height="30"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
-              class="stroke-current text-blue-800 dark:text-gray-800 transform transition-transform duration-500 ease-in-out"
+              className="stroke-current text-blue-800 dark:text-gray-800 transform transition-transform duration-500 ease-in-out"
             >
               <path
-                stroke-linecap="round"
+                strokeLinecap="round"
                 stroke-linejoin="round"
-                stroke-width="2"
+                strokeWidth="2"
                 d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
               ></path>
             </svg>
           </div>
-          <div class="text-right">
-            <p class="text-2xl">
+          <div className="text-right">
+            <p className="text-2xl">
               {userCount.bookings ? userCount.bookings : "N/A"}
             </p>
             <p>Booking</p>
           </div>
         </div>
-        <div class="bg-blue-500 dark:bg-gray-800 shadow-lg rounded-md flex items-center justify-between p-3 border-b-4 border-blue-600 dark:border-gray-600 text-white font-medium group">
-          <div class="flex justify-center items-center w-14 h-14 bg-white rounded-full transition-all duration-300 transform group-hover:rotate-12">
+        <div className="bg-blue-500 dark:bg-gray-800 shadow-lg rounded-md flex items-center justify-between p-3 border-b-4 border-blue-600 dark:border-gray-600 text-white font-medium group">
+          <div className="flex justify-center items-center w-14 h-14 bg-white rounded-full transition-all duration-300 transform group-hover:rotate-12">
             <svg
               width="30"
               height="30"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
-              class="stroke-current text-blue-800 dark:text-gray-800 transform transition-transform duration-500 ease-in-out"
+              className="stroke-current text-blue-800 dark:text-gray-800 transform transition-transform duration-500 ease-in-out"
             >
               <path
-                stroke-linecap="round"
+                strokeLinecap="round"
                 stroke-linejoin="round"
-                stroke-width="2"
+                strokeWidth="2"
                 d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
               ></path>
             </svg>
           </div>
-          <div class="text-right">
-            <p class="text-2xl">
+          <div className="text-right">
+            <p className="text-2xl">
               {userCount.vehicle ? userCount.vehicle : "N/A"}
             </p>
             <p>Vehicle</p>
           </div>
         </div>
-        <div class="bg-blue-500 dark:bg-gray-800 shadow-lg rounded-md flex items-center justify-between p-3 border-b-4 border-blue-600 dark:border-gray-600 text-white font-medium group">
-          <div class="flex justify-center items-center w-14 h-14 bg-white rounded-full transition-all duration-300 transform group-hover:rotate-12">
+        <div className="bg-blue-500 dark:bg-gray-800 shadow-lg rounded-md flex items-center justify-between p-3 border-b-4 border-blue-600 dark:border-gray-600 text-white font-medium group">
+          <div className="flex justify-center items-center w-14 h-14 bg-white rounded-full transition-all duration-300 transform group-hover:rotate-12">
             <svg
               width="30"
               height="30"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
-              class="stroke-current text-blue-800 dark:text-gray-800 transform transition-transform duration-500 ease-in-out"
+              className="stroke-current text-blue-800 dark:text-gray-800 transform transition-transform duration-500 ease-in-out"
             >
               <path
-                stroke-linecap="round"
+                strokeLinecap="round"
                 stroke-linejoin="round"
-                stroke-width="2"
+                strokeWidth="2"
                 d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
               ></path>
             </svg>
           </div>
-          <div class="text-right">
+          <div className="text-right">
             <p>
               {balance ? (
                 <>
@@ -273,8 +312,17 @@ const Chart = () => {
           </div>
         </div>
       </div>
-      <div class="grid grid-cols-1 lg:grid-cols-2 p-4 gap-4"></div>{" "}
+      <div className="grid grid-cols-1 lg:grid-cols-2 p-4 gap-4"></div>{" "}
       <div style={{ display: "flex" }}>
+        {" "}
+        <div style={{ width: "50%", height: "400px" }}>
+          <Line
+            data={dataLine}
+            options={{
+              responsive: true,
+            }}
+          />
+        </div>
         <div style={{ width: "50%", height: "400px" }}>
           <Line
             data={dataBar}
@@ -286,7 +334,10 @@ const Chart = () => {
         <div style={{ width: "50%", height: "400px" }}>
           <Doughnut
             data={dataPie}
-            options={{ maintainAspectRatio: false, aspectRatio: 1 }}
+            options={{
+              maintainAspectRatio: false,
+              aspectRatio: 1,
+            }}
           />
         </div>
       </div>

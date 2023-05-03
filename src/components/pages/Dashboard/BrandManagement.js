@@ -1,9 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
 import { BrandContext } from "../../../contexts/BrandContext";
-import CreateVehicleModal from "./Modal/Vehicle/CreateVehicleModal";
-import DeleteVehicleModal from "./Modal/Vehicle/DeleteVehicleModal";
-import EditVehicleModal from "./Modal/Vehicle/EditVehicleModal";
+import CreateBrandModal from "./Modal/Brand/CreateBrandModal";
+import DeleteBrandModal from "./Modal/Brand/DeleteBrandModal";
 
 const BrandManagement = () => {
   //Modal Create
@@ -30,19 +29,20 @@ const BrandManagement = () => {
     setShowDelete(true);
   };
 
-  const [brands, setBrand] = useState([]);
-
-  const [search, setSearch] = useState("");
   const [searchKeyword, setSearchKeyword] = useState("");
-  const { loadBrand } = useContext(BrandContext);
-  useEffect(() => {
-    const loadVehicle = async () => {
-      const response = await loadBrand();
+  const {
+    brandState: { brands },
+    loadBrand,
+  } = useContext(BrandContext);
 
-      setBrand(response.data);
-    };
-    loadVehicle();
+  useEffect(() => {
+    loadBrand();
   }, []);
+  
+  console.log(
+    "🚀 ~ file: BrandManagement.js:35 ~ BrandManagement ~ brands:",
+    brands
+  );
   const customFilter = (rows, keyword) => {
     return rows.filter((row) =>
       row.brand.toLowerCase().includes(keyword.toLowerCase())
@@ -53,6 +53,36 @@ const BrandManagement = () => {
     {
       name: "Brand",
       cell: (row) => row.brand,
+    },
+    {
+      name: "Action",
+      cell: (row) => (
+        <>
+          <button
+            className="bg-red-500 hover:bg-red-400 text-white font-bold flex py-2 px-3 border-b-4 border-red-700 hover:border-red-500 rounded"
+            type="primary"
+            onClick={() => handleShowDelete(row._id)}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth="1.5"
+              stroke="currentColor"
+              className="w-6 h-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
+              />
+            </svg>
+          </button>
+        </>
+      ),
+      ignoreRowClick: true,
+      allowOverflow: true,
+      button: true,
     },
   ];
 
@@ -108,7 +138,7 @@ const BrandManagement = () => {
               onClick={handleShowCreate}
               className="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             >
-              Add new vehicle
+              Add new Brand
             </button>
           }
           highlightOnHover
@@ -116,13 +146,9 @@ const BrandManagement = () => {
           responsive
         />
       )}
-      <CreateVehicleModal show={showCreate} handleClose={handleCloseCreate} />
-      <EditVehicleModal
-        show={showEdit}
-        handleClose={handleCloseEdit}
-        itemId={itemIdToUpdate}
-      />
-      <DeleteVehicleModal
+      <CreateBrandModal show={showCreate} handleClose={handleCloseCreate} />
+
+      <DeleteBrandModal
         show={showDelete}
         handleClose={handleCloseDelete}
         itemId={itemIdToDelete}

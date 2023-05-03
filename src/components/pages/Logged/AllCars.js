@@ -4,20 +4,17 @@ import { Link } from "react-router-dom";
 import { VehicleContext } from "../../../contexts/VehicleContext";
 
 const Vehicles = () => {
-  const [vehicles, setVehicles] = useState(null);
   const [pageNumber, setPageNumber] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const { loadVehicles } = useContext(VehicleContext);
+  const {
+    vehicleState: { vehicles },
+
+    loadVehicles,
+  } = useContext(VehicleContext);
 
   useEffect(() => {
-    const loadVehicle = async () => {
-      const response = await loadVehicles();
-
-      setVehicles(response.data.vehicles);
-    };
-
-    loadVehicle();
+    loadVehicles();
   }, []);
 
   const vehiclesPerPage = 6;
@@ -26,13 +23,14 @@ const Vehicles = () => {
   const pageCount = Math.ceil(vehicles && vehicles.length / vehiclesPerPage);
 
   const displayVehicles = () => {
-    const filteredVehicles =
-      vehicles &&
-      vehicles.filter(
+    let filteredVehicles = [];
+    if (Array.isArray(vehicles)) {
+      filteredVehicles = vehicles.filter(
         (vehicle) =>
           vehicle.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
           vehicle.type.toLowerCase().includes(searchQuery.toLowerCase())
       );
+    }
     return (
       filteredVehicles &&
       filteredVehicles

@@ -147,44 +147,44 @@ const VehicleDetail = () => {
               </div>
               <p className="leading-relaxed">{vehicles.description}</p>
               <div className="flex mt-6 items-center pb-5 border-b-2 border-gray-200 mb-5">
-                <div class="flex flex-row space-x-1">
-                  <div class="bg-gray-100 px-3 py-1 rounded-lg flex space-x-2 flex-row">
+                <div className="flex flex-row space-x-1">
+                  <div className="bg-gray-100 px-3 py-1 rounded-lg flex space-x-2 flex-row">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      class="h-4"
+                      className="h-4"
                       viewBox="0 0 24 24"
                       fill="none"
                       stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                     >
                       <path d="M19 9V6a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v3"></path>
                       <path d="M3 11v5a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-5a2 2 0 0 0-4 0v2H7v-2a2 2 0 0 0-4 0Z"></path>
                       <path d="M5 18v2"></path>
                       <path d="M19 18v2"></path>
                     </svg>
-                    <p class="text-xxsm">{vehicles.seat}</p>
+                    <p className="text-xxsm">{vehicles.seat}</p>
                   </div>
-                  <div class="bg-gray-100 px-3 py-1 rounded-lg flex space-x-2 flex-row">
+                  <div className="bg-gray-100 px-3 py-1 rounded-lg flex space-x-2 flex-row">
                     <IoColorPaletteOutline />
-                    <p class="text-xxsm"> {vehicles.color}</p>
+                    <p className="text-xxsm"> {vehicles.color}</p>
                   </div>{" "}
-                  <div class="bg-gray-100 px-3 py-1 rounded-lg flex space-x-2 flex-row">
+                  <div className="bg-gray-100 px-3 py-1 rounded-lg flex space-x-2 flex-row">
                     <IoCarOutline />
-                    <p class="text-xxsm"> {vehicles.type}</p>
+                    <p className="text-xxsm"> {vehicles.type}</p>
                   </div>{" "}
-                  <div class="bg-gray-100 px-3 py-1 rounded-lg flex space-x-2 flex-row">
+                  <div className="bg-gray-100 px-3 py-1 rounded-lg flex space-x-2 flex-row">
                     <IoCalendarNumberOutline />
-                    <p class="text-xxsm"> {vehicles.year}</p>
+                    <p className="text-xxsm"> {vehicles.year}</p>
                   </div>{" "}
-                  <div class="bg-gray-100 px-3 py-1 rounded-lg flex space-x-2 flex-row">
+                  <div className="bg-gray-100 px-3 py-1 rounded-lg flex space-x-2 flex-row">
                     <FaTruckLoading />
-                    <p class="text-xxsm"> {vehicles.capacity}</p>
+                    <p className="text-xxsm"> {vehicles.capacity}</p>
                   </div>{" "}
-                  <div class="bg-gray-100 px-3 py-1 rounded-lg flex space-x-2 flex-row">
+                  <div className="bg-gray-100 px-3 py-1 rounded-lg flex space-x-2 flex-row">
                     <GrSettingsOption />
-                    <p class="text-xxsm"> {vehicles.transmission}</p>
+                    <p className="text-xxsm"> {vehicles.transmission}</p>
                   </div>
                 </div>
               </div>{" "}

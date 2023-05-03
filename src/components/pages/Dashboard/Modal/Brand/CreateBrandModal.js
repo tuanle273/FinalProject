@@ -1,15 +1,14 @@
 import React, { useContext, useState } from "react";
 import Form from "react-bootstrap/Form";
 import { Toaster, toast } from "react-hot-toast";
-import { DiscountContext } from "../../../../../contexts/DiscountContext";
+import { BrandContext } from "../../../../../contexts/BrandContext";
 
 const CreateDiscountModal = (props) => {
-  const { createDiscount } = useContext(DiscountContext);
+  const { createBrand } = useContext(BrandContext);
 
   const [formData, setFormData] = useState({
-    code: "",
-    name: "",
-    amount: "",
+    brand: "",
+    category: "",
   });
 
   const handleChange = (event) => {
@@ -21,11 +20,7 @@ const CreateDiscountModal = (props) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const response = await createDiscount(formData);
-    console.log(
-      "🚀 ~ file: CreateDiscountModal.js:25 ~ handleSubmit ~ response:",
-      response
-    );
+    const response = await createBrand(formData);
 
     if (response.success) {
       toast.success(response.message);
@@ -46,9 +41,7 @@ const CreateDiscountModal = (props) => {
               <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                 {/*header*/}
                 <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
-                  <h3 className="text-3xl font-semibold">
-                    Create new Discount
-                  </h3>
+                  <h3 className="text-3xl font-semibold">Create new Brand</h3>
                   <button
                     className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
                     onClick={props.handleClose}
@@ -65,56 +58,31 @@ const CreateDiscountModal = (props) => {
                     className="-mx-3 flex flex-wrap"
                   >
                     {" "}
-                    <Form.Group controlId="code">
+                    <Form.Group controlId="brand">
                       <Form.Label className="mb-3 block text-base font-medium text-[#07074D]">
-                        code
+                        Brand
                       </Form.Label>
                       <Form.Control
                         type="text"
-                        name="code"
-                        value={formData.code}
+                        name="brand"
+                        value={formData.brand}
                         onChange={handleChange}
                         className="w-full px-3 sm:w-1/2 bg-white p-2 rounded mt-1 border-2 border-grey cursor-pointer hover:bg-grey-lighter"
                         required
                       />
                     </Form.Group>
-                    <Form.Group controlId="name">
+                    <Form.Group controlId="category">
                       <Form.Label className="mb-3 block text-base font-medium text-[#07074D]">
-                        name
+                        Category
                       </Form.Label>
                       <Form.Control
                         type="text"
-                        name="name"
-                        value={formData.name}
+                        name="category"
+                        value={formData.category}
                         onChange={handleChange}
                         className="w-full px-3 sm:w-1/2 bg-white p-2 rounded mt-1 border-2 border-grey cursor-pointer hover:bg-grey-lighter"
                         required
                       />
-                    </Form.Group>
-                    <Form.Group controlId="amount">
-                      <Form.Label className="mb-3 block text-base font-medium text-[#07074D]">
-                        amount
-                      </Form.Label>
-                      <Form.Control
-                        as="select"
-                        name="amount"
-                        value={formData.amount}
-                        onChange={handleChange}
-                        className="bg-white p-2 rounded mt-1 border-2 border-grey cursor-pointer hover:bg-grey-lighter"
-                        required
-                      >
-                        <option value="">Choose amount</option>
-                        <option value="0.1">10%</option>
-                        <option value="0.2">20%</option>
-                        <option value="0.3">30%</option>
-                        <option value="0.4">40%</option>
-                        <option value="0.5">50%</option>
-                        <option value="0.6">60%</option>
-                        <option value="0.7">70%</option>
-                        <option value="0.8">80%</option>
-                        <option value="0.9">90%</option>
-                        <option value="1">100%</option>
-                      </Form.Control>
                     </Form.Group>
                     {/*footer*/}
                     <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">

@@ -1,33 +1,32 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import DataTable from "react-data-table-component";
 import { AuthContext } from "../../../contexts/AuthContext";
 import { VehicleContext } from "../../../contexts/VehicleContext";
 import CreateVehicleModal from "./Modal/Vehicle/CreateVehicleModal";
 import DeleteVehicleModal from "./Modal/Vehicle/DeleteVehicleModal";
-import EditVehicleModal from "./Modal/Vehicle/EditVehicleModal";
+
+import { useHistory } from "react-router-dom";
 const VehicleManagement = () => {
-  //Modal Create
-  const [showCreate, setShowCreate] = useState(false);
-  const handleCloseCreate = () => setShowCreate(false);
-  const handleShowCreate = () => setShowCreate(true);
+  const history = useHistory();
   const {
     authState: { user },
   } = useContext(AuthContext);
   const {
     vehicleState: { vehicles },
 
-    findVehicle,
+    loadVehicles,
   } = useContext(VehicleContext);
- 
-  //Modal Edit
-  const [itemIdToUpdate, setItemIdToUpdate] = useState(null);
 
-  const [showEdit, setShowEdit] = useState(false);
-  const handleCloseEdit = () => setShowEdit(false);
-  const handleShowEdit = (itemId) => {
-    findVehicle(itemId);
-    setItemIdToUpdate(itemId);
-    setShowEdit(true);
+  useEffect(() => {
+    loadVehicles();
+  }, []);
+  //Modal Create
+  const [showCreate, setShowCreate] = useState(false);
+  const handleCloseCreate = () => setShowCreate(false);
+  const handleShowCreate = () => setShowCreate(true);
+
+  const handleShowEdit = (id) => {
+    history.push(`/admin/vehiclemanagement/edit/${id}`);
   };
 
   //Modal Delete
@@ -40,18 +39,22 @@ const VehicleManagement = () => {
   };
 
   const [searchKeyword, setSearchKeyword] = useState("");
-
-  const customFilter = (rows, keyword) => {
-    if (!Array.isArray(rows)) {
+  const filteredVehicles = useMemo(() => {
+    if (!vehicles || !Array.isArray(vehicles)) {
       return [];
     }
 
-    return rows.filter(
-      (row) =>
-        row.title.toLowerCase().includes(keyword.toLowerCase()) ||
-        row.model.toLowerCase().includes(keyword.toLowerCase())
-    );
-  };
+    return vehicles.filter((vehicle) => {
+      const titleMatch = vehicle.title
+        .toLowerCase()
+        .includes(searchKeyword.toLowerCase());
+      const modelMatch = vehicle.model
+        .toLowerCase()
+        .includes(searchKeyword.toLowerCase());
+
+      return titleMatch || modelMatch;
+    });
+  }, [vehicles, searchKeyword]);
 
   const columns = [
     user.role === "admin" && {
@@ -234,11 +237,11 @@ const VehicleManagement = () => {
               className="w-25 form-control border-1"
             ></input>
           }
+          data={filteredVehicles}
           subHeaderAlign="left"
           pagination
           title="Vehicle"
           columns={columns}
-          data={customFilter(vehicles.vehicles, searchKeyword)}
           selectableRows
           customStyles={customStyles}
           actions={
@@ -256,11 +259,7 @@ const VehicleManagement = () => {
         />
       )}
       <CreateVehicleModal show={showCreate} handleClose={handleCloseCreate} />
-      <EditVehicleModal
-        show={showEdit}
-        handleClose={handleCloseEdit}
-        itemId={itemIdToUpdate}
-      />
+
       <DeleteVehicleModal
         show={showDelete}
         handleClose={handleCloseDelete}

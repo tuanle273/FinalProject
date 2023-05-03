@@ -2,7 +2,6 @@ import axios from "axios";
 import React, { createContext, useEffect, useReducer } from "react";
 import { vehicleReducer } from "../reducers/vehicleReducer";
 import {
-  FIND_VEHICLE,
   VEHICLE_CREATE_FAIL,
   VEHICLE_CREATE_SUCCESS,
   VEHICLE_DELETE_FAIL,
@@ -17,7 +16,6 @@ export const VehicleContext = createContext();
 
 export function VehicleProvider({ children }) {
   const [vehicleState, dispatch] = useReducer(vehicleReducer, {
-    vehicle: null,
     vehicles: [],
     vehicleLoading: true,
     vehicleError: false,
@@ -30,12 +28,12 @@ export function VehicleProvider({ children }) {
       if (response.status >= 200 && response.status < 300) {
         dispatch({
           type: VEHICLE_FETCH_SUCCESS,
-          payload: response.data,
+          payload: response.data.vehicle,
         });
       }
       return {
         success: true,
-        data: response.data,
+        data: response.data.vehicle,
         message: "Vehicle List",
       };
     } catch (error) {
@@ -48,10 +46,11 @@ export function VehicleProvider({ children }) {
   }, []);
   //get Detail vehicle
 
-  const getDetailVehicle = async (_id) => {
+  const getDetailVehicle = async (id) => {
     try {
-      const response = await axios.get(`${apiUrl}/vehicle/${_id}`);
+      const response = await axios.get(`${apiUrl}/vehicle/${id}`);
       if (response.status >= 200 && response.status < 300) {
+  
         dispatch({
           type: VEHICLE_FETCH_SUCCESS,
           payload: response.data.vehicles,
@@ -87,10 +86,14 @@ export function VehicleProvider({ children }) {
   };
   //find vehicle
   const findVehicle = (vehicleId) => {
-    const vehicle = vehicleState.vehicles.vehicles.find((vehicle) => {
+    const vehicle = vehicleState.vehicles.find((vehicle) => {
       return vehicle._id === vehicleId;
     });
-    dispatch({ type: FIND_VEHICLE, payload: vehicle });
+    return {
+      success: true,
+      data: vehicle,
+      message: "Vehicle added successfully",
+    };
   };
 
   //update vehicle

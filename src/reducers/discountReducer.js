@@ -56,7 +56,10 @@ export const discountReducer = (state, action) => {
     case DISCOUNT_DELETE_SUCCESS:
       return {
         ...state,
-        discounts: action.payload,
+        discounts: state.discounts.filter(
+          (discount) => discount._id !== action.payload
+        ),
+      
       };
     default:
       return state;
