@@ -20,8 +20,8 @@ const createPayment = async (req, res) => {
       ],
       mode: "payment",
 
-      success_url: `http://localhost:3000/paymentSuccess`,
-      cancel_url: `http://localhost:3000/paymentFail`,
+      success_url: `https://client-oxbf.onrender.com/paymentSuccess`,
+      cancel_url: `https://client-oxbf.onrender.com/paymentFail`,
     });
 
     // Redirect the user to the checkout page

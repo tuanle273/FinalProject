@@ -23,6 +23,8 @@ const allowedOrigins = [
   "http://127.0.0.1:3000",
   "http://localhost:4000",
   "http://127.0.0.1:4000",
+  "https://client-oxbf.onrender.com",
+  "https://client2-c512.onrender.com",
 ];
 app.use(
   cors({

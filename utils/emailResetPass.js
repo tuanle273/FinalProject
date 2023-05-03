@@ -31,7 +31,7 @@ const emailPass = async (req, res) => {
         from: "tuanle2731@gmail.com",
         to: email,
         subject: "Forgot Password",
-        text: `Please click on the following link to reset your password: http://localhost:3000/passwordreset/${resetToken}`,
+        text: `Please click on the following link to reset your password: https://client-oxbf.onrender.com/passwordreset/${resetToken}`,
       };
 
       // Send the email

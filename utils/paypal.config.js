@@ -13,8 +13,8 @@ const createPayment = (req, res) => {
       payment_method: "paypal",
     },
     redirect_urls: {
-      return_url: "http://localhost:3000/paymentSuccess",
-      cancel_url: "http://localhost:3000/paymentFail",
+      return_url: "https://client-oxbf.onrender.com/paymentSuccess",
+      cancel_url: "https://client-oxbf.onrender.com/paymentFail",
     },
     transactions: [
       {

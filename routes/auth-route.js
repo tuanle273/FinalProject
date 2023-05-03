@@ -41,7 +41,8 @@ router.get(
 );
 
 router.get(
-  "/auth/google/callback",passport.authenticate("google", { session: false }),
+  "/auth/google/callback",
+  passport.authenticate("google", { session: false }),
   authController.loginCallback
 );
 

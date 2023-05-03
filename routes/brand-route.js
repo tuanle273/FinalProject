@@ -1,9 +1,9 @@
 const express = require("express");
-const { response } = require("../index");
+
 const router = express.Router();
 const verifyToken = require("../middlewares/auth");
-const Brand = require("../models/Brand");
-const BrandController = require("../controllers/BrandController");
+
+const BrandController = require("../controllers/brandController");
 
 router.get("/", verifyToken, BrandController.getVehicleBrand);
 

@@ -2,9 +2,9 @@ const express = require("express");
 const { response } = require("../index");
 const router = express.Router();
 const verifyToken = require("../middlewares/auth");
-const Vehicle = require("../models/Vehicle");
-const vehicleController = require("../controllers/VehicleController");
-const brandController = require("../controllers/VehicleController");
+
+const vehicleController = require("../controllers/vehicleController");
+
 //@route GET api/Vehicle
 // @desc get Vehicle
 // @access Private

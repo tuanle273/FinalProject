@@ -1,6 +1,5 @@
 const Vehicle = require("../models/Vehicle");
 
-const Brand = require("../models/Brand");
 
 const getVehicle = async (req, res) => {
   try {
