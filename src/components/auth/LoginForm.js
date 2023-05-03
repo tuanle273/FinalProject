@@ -19,9 +19,9 @@ const LoginForm = () => {
     if (accessToken) {
       localStorage.setItem(LOCAL_STORAGE_TOKEN_NAME, accessToken);
       toast.loading("Waiting...");
-      window.location.href = "http://localhost:3000/";
+      window.location.href = "https://client-oxbf.onrender.com/";
     } else if (localStorage.getItem(LOCAL_STORAGE_TOKEN_NAME)) {
-      window.location.href = "http://localhost:3000/";
+      window.location.href = "https://client-oxbf.onrender.com/";
     }
   }, []);
 
