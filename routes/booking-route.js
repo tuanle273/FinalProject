@@ -3,7 +3,7 @@ const { response } = require("../index");
 const router = express.Router();
 const verifyToken = require("../middlewares/auth");
 const Booking = require("../models/Booking");
-const BookingController = require("../controllers/BookingController");
+const BookingController = require("../controllers/bookingController");
 
 //@route GET api/Booking
 // @desc get Booking
