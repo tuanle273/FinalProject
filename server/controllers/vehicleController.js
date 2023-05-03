@@ -7,7 +7,7 @@ const getVehicle = async (req, res) => {
     const vehicles = await Vehicle.find({ Vehicle });
     const vehicleTypes = await Vehicle.distinct("type");
     res.json({
-      vehicles,
+      vehicle: vehicles,
       vehicleTypes,
     });
   } catch (error) {

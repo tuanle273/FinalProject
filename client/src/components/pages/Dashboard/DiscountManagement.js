@@ -1,11 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
+import { useHistory } from "react-router-dom";
 import { DiscountContext } from "../../../contexts/DiscountContext";
-import FormattedDate from "../../../utils/FormattedDate";
 import CreateDiscountModal from "./Modal/Discount/CreateDiscountModal";
-import DeleteVehicleModal from "./Modal/Vehicle/DeleteVehicleModal";
-import EditVehicleModal from "./Modal/Vehicle/EditVehicleModal";
+import DeleteDiscountModal from "./Modal/Discount/DeleteDiscountModal";
+
 const DiscountManagement = () => {
+  const history = useHistory();
   //Modal Create
   const [showCreate, setShowCreate] = useState(false);
   const handleCloseCreate = () => setShowCreate(false);
@@ -17,8 +18,7 @@ const DiscountManagement = () => {
   const [showEdit, setShowEdit] = useState(false);
   const handleCloseEdit = () => setShowEdit(false);
   const handleShowEdit = (itemId) => {
-    setItemIdToUpdate(itemId);
-    setShowEdit(true);
+    history.push(`/admin/discountmanagement/edit/${itemId}`);
   };
 
   //Modal Delete
@@ -30,26 +30,15 @@ const DiscountManagement = () => {
     setShowDelete(true);
   };
 
-  const [discounts, setDiscount] = useState([]);
+  const {
+    discountState: { discounts },
+    loadDiscount,
+  } = useContext(DiscountContext);
 
-  const [search, setSearch] = useState("");
-  const [searchKeyword, setSearchKeyword] = useState("");
-  const { loadDiscount } = useContext(DiscountContext);
   useEffect(() => {
-    const loadDiscountCode = async () => {
-      const response = await loadDiscount();
-
-      setDiscount(response.data);
-    };
-    loadDiscountCode();
+    loadDiscount();
   }, []);
 
-  const customFilter = (rows, keyword) => {
-    return rows.filter(
-      (row) =>
-        row.name && row.name.toLowerCase().includes(keyword.toLowerCase())
-    );
-  };
   const columns = [
     {
       name: "Name",
@@ -62,18 +51,59 @@ const DiscountManagement = () => {
 
     {
       name: "Amount",
-      selector: (row) => row.amount,
+      selector: (row) => `${row.amount * 100}%`,
       sortable: true,
     },
+
     {
-      name: "Start Date",
-      selector: (row) => <FormattedDate date={row.startDate} />,
-      sortable: true,
-    },
-    {
-      name: "End Date",
-      selector: (row) => <FormattedDate date={row.endDate} />,
-      sortable: true,
+      name: "Action",
+      cell: (row) => (
+        <>
+          <button
+            className="bg-blue-500  hover:bg-blue-400 text-white font-bold flex py-2 px-3 border-b-4 border-blue-700 hover:border-blue-500 rounded"
+            type="primary"
+            onClick={() => handleShowEdit(row._id)}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-6 h-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"
+              />
+            </svg>
+          </button>
+          <button
+            className="bg-red-500 hover:bg-red-400 text-white font-bold flex py-2 px-3 border-b-4 border-red-700 hover:border-red-500 rounded"
+            type="primary"
+            onClick={() => handleShowDelete(row._id)}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth="1.5"
+              stroke="currentColor"
+              className="w-6 h-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
+              />
+            </svg>
+          </button>
+        </>
+      ),
+      ignoreRowClick: true,
+      allowOverflow: true,
+      button: true,
     },
   ];
 
@@ -106,21 +136,10 @@ const DiscountManagement = () => {
         <DataTable
           fixedHeader
           fixedHeaderScrollHeight="450px"
-          subHeader
-          subHeaderComponent={
-            <input
-              type="text"
-              placeholder="Search by title or model"
-              value={searchKeyword}
-              onChange={(e) => setSearchKeyword(e.target.value)}
-              className="w-25 form-control border-1"
-            ></input>
-          }
-          subHeaderAlign="left"
           pagination
           title="Discount Management"
           columns={columns}
-          data={customFilter(discounts, searchKeyword)}
+          data={discounts}
           selectableRows
           customStyles={customStyles}
           actions={
@@ -138,12 +157,8 @@ const DiscountManagement = () => {
         />
       )}
       <CreateDiscountModal show={showCreate} handleClose={handleCloseCreate} />
-      <EditVehicleModal
-        show={showEdit}
-        handleClose={handleCloseEdit}
-        itemId={itemIdToUpdate}
-      />
-      <DeleteVehicleModal
+
+      <DeleteDiscountModal
         show={showDelete}
         handleClose={handleCloseDelete}
         itemId={itemIdToDelete}

@@ -2,14 +2,14 @@ import React, { useContext } from "react";
 
 import { toast, Toaster } from "react-hot-toast";
 import { DiscountContext } from "../../../../../contexts/DiscountContext";
+import { BrandContext } from "../../../../../contexts/BrandContext";
 
 const DeleteDiscountModal = (props) => {
-  const { deleteDiscount } = useContext(DiscountContext);
+  const { deleteBrand } = useContext(BrandContext);
 
   const handleDelete = async (event) => {
     event.preventDefault();
-    const response = await deleteDiscount(props.itemId);
-    
+    const response = await deleteBrand(props.itemId);
 
     if (response.success) {
       toast.success(response.message);

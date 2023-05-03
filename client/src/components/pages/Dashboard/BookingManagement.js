@@ -1,26 +1,17 @@
 import React, { useContext, useEffect, useState } from "react";
 import { CSVLink } from "react-csv";
 import DataTable from "react-data-table-component";
+import { useHistory } from "react-router-dom";
 import { BookingContext } from "../../../contexts/BookingContext";
 import FormattedDate from "../../../utils/FormattedDate";
-import CreateVehicleModal from "./Modal/Vehicle/CreateVehicleModal";
-import DeleteVehicleModal from "./Modal/Vehicle/DeleteVehicleModal";
-import EditVehicleModal from "./Modal/Vehicle/EditVehicleModal";
+import DeleteBookingModal from "./Modal/Booking/DeleteBookingModal";
+
 const VehicleManagement = () => {
+  const history = useHistory();
   //Modal Create
   const [showCreate, setShowCreate] = useState(false);
   const handleCloseCreate = () => setShowCreate(false);
   const handleShowCreate = () => setShowCreate(true);
-
-  //Modal Edit
-  const [itemIdToUpdate, setItemIdToUpdate] = useState(null);
-
-  const [showEdit, setShowEdit] = useState(false);
-  const handleCloseEdit = () => setShowEdit(false);
-  const handleShowEdit = (itemId) => {
-    setItemIdToUpdate(itemId);
-    setShowEdit(true);
-  };
 
   //Modal Delete
   const [itemIdToDelete, setItemIdToDelete] = useState(null);
@@ -31,30 +22,29 @@ const VehicleManagement = () => {
     setShowDelete(true);
   };
 
-  const [bookings, setBooking] = useState([]);
-  console.log(
-    "🚀 ~ file: BookingManagement.js:35 ~ VehicleManagement ~ bookings:",
-    bookings
-  );
-
-
   const [searchKeyword, setSearchKeyword] = useState("");
-  const { loadBookings } = useContext(BookingContext);
+  const {
+    BookingState: { Bookings },
 
-  const loadBooking = async () => {
-    const response = await loadBookings();
-    setBooking(response.data.bookings);
-  };
+    loadBookings,
+  } = useContext(BookingContext);
 
   useEffect(() => {
-    loadBooking();
+    loadBookings();
   }, []);
-
   const customFilter = (rows, keyword) => {
-    return rows.filter((row) =>
-      row.userId?.username.toLowerCase().includes(keyword.toLowerCase())
-    );
+    if (!Array.isArray(rows)) {
+      return [];
+    }
+    return rows.filter((row) => {
+      const { userId } = row;
+      if (!userId || !userId.username) {
+        return false;
+      }
+      return userId.username.toLowerCase().includes(keyword.toLowerCase());
+    });
   };
+
   const columns = [
     {
       name: "Vehicle",
@@ -76,7 +66,16 @@ const VehicleManagement = () => {
       selector: (row) => row.userId?.email,
       wrap: true,
     },
-
+    {
+      name: "Customer Address",
+      selector: (row) => row.userId?.address,
+      wrap: true,
+    },
+    {
+      name: "Customer Phone Number",
+      selector: (row) => row.userId?.phone,
+      wrap: true,
+    },
     {
       name: "Start Date",
       selector: (row) => <FormattedDate date={row.startDate} />,
@@ -110,20 +109,6 @@ const VehicleManagement = () => {
       selector: (row) => row.paymentStatus,
       sortable: true,
     },
-    {
-      name: "Booking Status",
-      selector: (row) => (
-        <span className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
-          <span
-            aria-hidden
-            className="absolute inset-0 bg-green-200 opacity-50 rounded-full"
-          ></span>
-          <span className="relative">{row.status}</span>
-        </span>
-      ),
-      width: "150px",
-      sortable: true,
-    },
 
     {
       name: "Note",
@@ -133,26 +118,6 @@ const VehicleManagement = () => {
       name: "Action",
       cell: (row) => (
         <>
-          <button
-            className="bg-blue-500  hover:bg-blue-400 text-white font-bold flex py-2 px-3 border-b-4 border-blue-700 hover:border-blue-500 rounded"
-            type="primary"
-            onClick={() => handleShowEdit(row._id)}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="w-6 h-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"
-              />
-            </svg>
-          </button>
           <button
             className="bg-red-500 hover:bg-red-400 text-white font-bold flex py-2 px-3 border-b-4 border-red-700 hover:border-red-500 rounded"
             type="primary"
@@ -206,7 +171,7 @@ const VehicleManagement = () => {
   };
   return (
     <div className="shadow-xl mt-8 mr-0 mb-0 ml-0 pt-4 pr-10 pb-4 pl-10 flow-root rounded-lg sm:py-2">
-      {bookings !== null && (
+      {Bookings !== null && (
         <DataTable
           fixedHeader
           fixedHeaderScrollHeight="450px"
@@ -224,21 +189,13 @@ const VehicleManagement = () => {
           pagination
           title="Booking Management"
           columns={columns}
-          data={customFilter(bookings, searchKeyword)}
+          data={customFilter(Bookings, searchKeyword)}
           selectableRows
           customStyles={customStyles}
           actions={
             <>
-              {" "}
-              <button
-                type="button"
-                onClick={handleShowCreate}
-                className="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-              >
-                Add new Booking
-              </button>
               <CSVLink
-                data={bookings}
+                data={Bookings}
                 filename={"bookings_data.csv"}
                 className="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                 target="_blank"
@@ -252,13 +209,8 @@ const VehicleManagement = () => {
           responsive
         />
       )}
-      <CreateVehicleModal show={showCreate} handleClose={handleCloseCreate} />
-      <EditVehicleModal
-        show={showEdit}
-        handleClose={handleCloseEdit}
-        itemId={itemIdToUpdate}
-      />
-      <DeleteVehicleModal
+
+      <DeleteBookingModal
         show={showDelete}
         handleClose={handleCloseDelete}
         itemId={itemIdToDelete}

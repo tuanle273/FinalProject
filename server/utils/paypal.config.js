@@ -67,11 +67,7 @@ const executePayment = (req, res) => {
       // Xử lý lỗi khi không thể lấy thông tin thanh toán
       // ...
     } else {
-      // Đã lấy được thông tin thanh toán thành công
-      console.log("Thông tin thanh toán: ", payment);
       res.json(payment);
-      // Lấy thông tin chi tiết về quá trình thanh toán từ đối tượng `payment`
-      // ...
     }
   });
 };
@@ -79,5 +75,4 @@ const executePayment = (req, res) => {
 module.exports = {
   createPayment,
   executePayment,
-
 };

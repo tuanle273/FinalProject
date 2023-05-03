@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { createContext, useReducer } from "react";
+import React, { createContext, useEffect, useReducer } from "react";
 import { bookingReducer } from "../reducers/bookingReducer";
 
 import {
@@ -8,6 +8,10 @@ import {
   BOOKING_CREATE_SUCCESS,
   BOOKING_DELETE_FAIL,
   BOOKING_DELETE_SUCCESS,
+  BOOKING_FETCH_FAIL,
+  BOOKING_FETCH_SUCCESS,
+  BOOKING_LOAD_FAIL,
+  BOOKING_LOAD_SUCCESS,
   BOOKING_UPDATE_FAIL,
   BOOKING_UPDATE_SUCCESS,
 } from "./constants";
@@ -27,23 +31,37 @@ export function BookingProvider({ children }) {
       const response = await axios.get(apiUrl + "/booking/loadbookings");
 
       if (response.status >= 200 && response.status < 300) {
+        dispatch({
+          type: BOOKING_LOAD_SUCCESS,
+          payload: response.data.bookings,
+        });
       }
-      return { success: true, data: response.data, message: "Booking List" };
-    } catch (error) {}
+      return {
+        success: true,
+        data: response.data.bookings,
+        message: "Booking List",
+      };
+    } catch (error) {
+      dispatch({ type: BOOKING_LOAD_FAIL });
+      return { success: false, message: error.message };
+    }
   };
+  useEffect(() => {
+    loadBookings();
+    return () => {};
+  }, []);
   const checkBookingStatus = async (paymentId, PayerID) => {
     try {
       const response = await axios.post(
         apiUrl + "/payment/paypal/executePayment",
         { paymentId, PayerID }
       );
-    
 
       if (response.status >= 200 && response.status < 300) {
       }
       return {
         success: true,
-        data: response.data,
+        data: response.data.bookings,
         message: "Status List",
       };
     } catch (error) {}
@@ -53,11 +71,25 @@ export function BookingProvider({ children }) {
       const response = await axios.get(apiUrl + "/booking");
 
       if (response.status >= 200 && response.status < 300) {
+        dispatch({
+          type: BOOKING_FETCH_SUCCESS,
+          payload: response.data.bookings,
+        });
       }
-      return { success: true, data: response.data, message: "Booking List" };
-    } catch (error) {}
+      return {
+        success: true,
+        data: response.data.bookings,
+        message: "Booking List",
+      };
+    } catch (error) {
+      dispatch({ type: BOOKING_FETCH_FAIL });
+      return { success: false, message: error.message };
+    }
   };
-
+  useEffect(() => {
+    getAllBooking();
+    return () => {};
+  }, []);
   // Create Booking
   const createBooking = async (newBooking) => {
     try {
@@ -65,7 +97,7 @@ export function BookingProvider({ children }) {
       if (response.status >= 200 && response.status < 300) {
         dispatch({
           type: BOOKING_CREATE_SUCCESS,
-          payload: response.data.Booking,
+          payload: response.data.bookings,
         });
         return { success: true, message: "Booking added successfully" };
       }
@@ -100,8 +132,10 @@ export function BookingProvider({ children }) {
   const deleteBooking = async (id) => {
     try {
       const response = await axios.delete(`${apiUrl}/Booking/${id}`);
-      if (response.data.success) {
+     
+      if (response.status >= 200 && response.status < 300) {
         dispatch({ type: BOOKING_DELETE_SUCCESS, payload: id });
+        loadBookings();
         return { success: true, message: "Booking Delete successfully" };
       }
     } catch (error) {

@@ -4,7 +4,6 @@ const router = express.Router();
 const verifyToken = require("../middlewares/auth");
 const Booking = require("../models/Booking");
 
-
 const getBooking = async (req, res) => {
   try {
     const bookings = await Booking.find({ Booking });
@@ -21,7 +20,7 @@ const loadBooking = async (req, res) => {
   try {
     const bookings = await Booking.find()
       .populate("vehicleId", ["title", "platenumber"])
-      .populate("userId", ["username", "email", "phonenumber", "address"]);
+      .populate("userId", ["username", "email", "phone", "address"]);
 
     res.json({
       bookings,

@@ -74,7 +74,7 @@ const SideBarMain = () => {
                 icon={<RiBillFill />}
                 component={<Link to="/admin/brandmanagement" />}
               >
-                Category
+                Brand Management
               </MenuItem>
             </SubMenu>
             <SubMenu

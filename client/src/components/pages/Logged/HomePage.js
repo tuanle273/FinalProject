@@ -1,17 +1,14 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { VehicleContext } from "../../../contexts/VehicleContext";
 export default function HomePage() {
-  const [vehicles, setVehicle] = useState(null);
+  const {
+    vehicleState: { vehicles },
 
-  const { loadVehicles } = useContext(VehicleContext);
+    loadVehicles,
+  } = useContext(VehicleContext);
   useEffect(() => {
-    const loadVehicle = async () => {
-      const response = await loadVehicles();
-
-      setVehicle(response.data.vehicles);
-    };
-    loadVehicle();
+    loadVehicles();
   }, []);
 
   return (
@@ -28,7 +25,7 @@ export default function HomePage() {
           </p>
         </div>
         <div className="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8 ">
-          {vehicles &&
+          {Array.isArray(vehicles) &&
             vehicles.slice(0, 6).map((item) => (
               <div key={item._id}>
                 <div className="shadow-md rounded p-5">

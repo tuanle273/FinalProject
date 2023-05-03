@@ -13,12 +13,7 @@ const DiscountSchema = new Schema({
     min: 0,
     max: 1,
   },
-  startDate: {
-    type: Date,
-  },
-  endDate: {
-    type: Date,
-  },
+
 });
 
 module.exports = mongoose.model("Discount", DiscountSchema);

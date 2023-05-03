@@ -1,14 +1,12 @@
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const createPayment = async (req, res) => {
-  const { amount, description, imgUrl } = req.query;
-
   try {
     // Create a price with the given amount and description
     const price = await stripe.prices.create({
-      unit_amount: amount, // the price amount in cents
+      unit_amount: req.query.total, // the price amount in cents
       currency: "usd", // the currency of the price
       product_data: {
-        name: description,
+        name: req.query.description,
       },
     });
 
@@ -21,8 +19,9 @@ const createPayment = async (req, res) => {
         },
       ],
       mode: "payment",
-      success_url: `http://localhost:3000/login`,
-      cancel_url: `http://localhost:3000/login`,
+
+      success_url: `http://localhost:3000/paymentSuccess`,
+      cancel_url: `http://localhost:3000/paymentFail`,
     });
 
     // Redirect the user to the checkout page
@@ -35,9 +34,6 @@ const createPayment = async (req, res) => {
 const getAllTransactions = async (req, res) => {
   try {
     const paymentIntents = await stripe.paymentIntents.list();
-
-    // Log the payment intents to the console
-    console.log(paymentIntents);
 
     res.status(200).json(paymentIntents);
   } catch (error) {
